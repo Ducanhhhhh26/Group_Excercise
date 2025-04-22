@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin page</title>
+    <link rel="stylesheet" href="/CSS/Admin-page-style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-container">
+            <div class="logo">
+                <img src="/assets/open_logo.png.png" alt="Miraculous">
+            </div>
+            <div class="sidebar-menu">
+                <div class="input-group p-3">
+                    <input type="text" class="form-control" placeholder="Tìm kiếm" aria-label="Search">
+                </div>
+                <a href="#" class="sidebar-item active">
+                    <i class="bi bi-person-fill"></i> Users
+                </a>
+                <a href="#" class="sidebar-item">
+                    <i class="bi bi-music-note-list"></i> Albums
+                </a>
+                <a href="#" class="sidebar-item">
+                    <i class="bi bi-mic"></i> Artists
+                </a>
+                <a href="#" class="sidebar-item">
+                    <i class="bi bi-music-note-beamed"></i> Genres
+                </a>
+                <a href="#" class="sidebar-item">
+                    <i class="bi bi-gem"></i> Top tracks
+                </a>
+                
+            </div>
+            <div class="user-profile">
+                <div class="user-avatar">TN</div>
+                <div class="profile-info">
+                    <p class="profile-name">Trần Hữu Nam</p>
+                    <p class="profile-email">namtran94@phenikaa.com</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <nav aria-label="breadcrumb" class="mb-3">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#"><i class="bi bi-house"></i></a></li>
+                <li class="breadcrumb-item"><a href="#">Tài khoản</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Danh sách tài khoản</li>
+            </ol>
+        </nav>
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0">Danh sách tài khoản</h2>
+            <div class="d-flex">
+                <button class="btn btn-primary">
+                    <i class="bi bi-plus-lg me-1"></i> Thêm tài khoản
+                </button>
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <div class="d-flex flex-wrap">
+                <div class="filter-pill active">
+                    Tất cả <span class="filter-count">1300</span>
+                </div>
+                <div class="filter-pill">
+                    Users <span class="filter-count">1100</span>
+                </div>
+                <div class="filter-pill">
+                    Albums <span class="filter-count">50</span>
+                </div>
+                <div class="filter-pill">
+                    Artists <span class="filter-count">50</span>
+                </div>
+                <div class="filter-pill">
+                    Genres <span class="filter-count">12</span>
+                </div>
+                <div class="filter-pill">
+                    Top tracks <span class="filter-count">25</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toolbar -->
+        <div class="d-flex justify-content-between mb-3">
+            <button class="btn btn-outline-secondary">
+                <i class="bi bi-funnel me-1"></i> Bộ lọc
+            </button>
+            <div class="input-group" style="max-width: 300px;">
+                <span class="input-group-text bg-white border-end-0">
+                    <i class="bi bi-search"></i>
+                </span>
+                <input type="text" class="form-control border-start-0" placeholder="Tìm kiếm" aria-label="Search">
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="card">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th width="40">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="selectAll">
+                                </div>
+                            </th>
+                            <th>Mã tài khoản</th>
+                            <th>Họ và tên</th>
+                            <th>Email</th>
+                            <th>Năm sinh</th>
+                            <th>Số điện thoại</th>
+                            <th>Quê quán</th>
+                            <th>Loại</th>
+                            <th width="80"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="">
+                                </div>
+                            </td>
+                            <td>TK002341</td>
+                            <td>Nguyễn Văn Nam</td>
+                            <td>namnguyen2@gmail.com</td>
+                            <td>30/08/2000</td>
+                            <td>0369852147</td>
+                            <td>Hà Nội</td>
+                            <td><span class="tag">Users</span></td>
+                            <td>
+                                <div class="d-flex">
+                                    <button class="btn btn-sm btn-link text-danger p-0 me-2"><i class="bi bi-trash"></i></button>
+                                    <button class="btn btn-sm btn-link text-primary p-0"><i class="bi bi-pencil"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="">
+                                </div>
+                            </td>
+                            <td>TK002341</td>
+                            <td>Nguyễn Kiều Anh</td>
+                            <td>kanguyen92@gmail.com</td>
+                            <td>30/08/2000</td>
+                            <td>0369852147</td>
+                            <td>Hà Nội</td>
+                            <td><span class="tag">Users</span></td>
+                            <td>
+                                <div class="d-flex">
+                                    <button class="btn btn-sm btn-link text-danger p-0 me-2"><i class="bi bi-trash"></i></button>
+                                    <button class="btn btn-sm btn-link text-primary p-0"><i class="bi bi-pencil"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="">
+                                </div>
+                            </td>
+                            <td>TK002341</td>
+                            <td>Nguyễn Văn Nam</td>
+                            <td>namnguyen94@gmail.com</td>
+                            <td>30/08/2000</td>
+                            <td>0369852147</td>
+                            <td>Nam Định</td>
+                            <td><span class="tag">Artists</span></td>
+                            <td>
+                                <div class="d-flex">
+                                    <button class="btn btn-sm btn-link text-danger p-0 me-2"><i class="bi bi-trash"></i></button>
+                                    <button class="btn btn-sm btn-link text-primary p-0"><i class="bi bi-pencil"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="">
+                                </div>
+                            </td>
+                            <td>TK002341</td>
+                            <td>Trần Thu Hà</td>
+                            <td>hatran242@gmail.com</td>
+                            <td>30/08/2000</td>
+                            <td>0369852147</td>
+                            <td>Thanh Hóa</td>
+                            <td><span class="tag">Users</span></td>
+                            <td>
+                                <div class="d-flex">
+                                    <button class="btn btn-sm btn-link text-danger p-0 me-2"><i class="bi bi-trash"></i></button>
+                                    <button class="btn btn-sm btn-link text-primary p-0"><i class="bi bi-pencil"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="">
+                                </div>
+                            </td>
+                            <td>TK002341</td>
+                            <td>Hồ Lâm</td>
+                            <td>lamho@gmail.com</td>
+                            <td>30/08/2000</td>
+                            <td>0369852147</td>
+                            <td>Hưng Yên</td>
+                            <td><span class="tag">Artists</span></td>
+                            <td>
+                                <div class="d-flex">
+                                    <button class="btn btn-sm btn-link text-danger p-0 me-2"><i class="bi bi-trash"></i></button>
+                                    <button class="btn btn-sm btn-link text-primary p-0"><i class="bi bi-pencil"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="">
+                                </div>
+                            </td>
+                            <td>TK002341</td>
+                            <td>Nguyễn Trần Trung Quân</td>
+                            <td>quannguyen09@gmail.com</td>
+                            <td>30/08/2000</td>
+                            <td>0369852147</td>
+                            <td>Phú Yên</td>
+                            <td><span class="tag">Users</span></td>
+                            <td>
+                                <div class="d-flex">
+                                    <button class="btn btn-sm btn-link text-danger p-0 me-2"><i class="bi bi-trash"></i></button>
+                                    <button class="btn btn-sm btn-link text-primary p-0"><i class="bi bi-pencil"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="">
+                                </div>
+                            </td>
+                            <td>TK002341</td>
+                            <td>Phương Linh</td>
+                            <td>linhphuong19@gmail.com</td>
+                            <td>30/08/2000</td>
+                            <td>0369852147</td>
+                            <td>Hà Nam</td>
+                            <td><span class="tag">Users</span></td>
+                            <td>
+                                <div class="d-flex">
+                                    <button class="btn btn-sm btn-link text-danger p-0 me-2"><i class="bi bi-trash"></i></button>
+                                    <button class="btn btn-sm btn-link text-primary p-0"><i class="bi bi-pencil"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination-container">
+            <div>
+                <button class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-chevron-left"></i> Trang trước
+                </button>
+            </div>
+            <div class="text-muted">
+                Trang 1 trong 152
+            </div>
+            <div>
+                <button class="btn btn-outline-secondary btn-sm">
+                    Trang sau <i class="bi bi-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
