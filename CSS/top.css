@@ -226,8 +226,7 @@ header {
     overflow-x: auto;
     scroll-behavior: smooth;
     scrollbar-width: none;
-    padding: 0 50px;
-    margin-left: 20px;
+    padding: 0 10px;
 }
 
 .topAllTimesRow::-webkit-scrollbar {
@@ -475,60 +474,4 @@ header {
     border-top: 1px solid #2e3b4e;
     font-size: 12px;
     color: #cccccc;
-}
-
-@media (max-width: 768px) {
-    body {
-        padding-left: 0;
-        /* Remove padding for sidebar on mobile */
-    }
-
-    .sidebar {
-        width: 100%;
-        height: auto;
-        flex-direction: row;
-        justify-content: space-around;
-        padding: 10px 0;
-        position: static;
-    }
-
-    #topContainer {
-        margin: 15px;
-        /* Reduced for smaller screens */
-    }
-
-    #allTop15 {
-        flex-direction: column;
-        margin-left: 0;
-        /* Remove margin for better centering */
-    }
-
-    #top15Row {
-        width: 100%;
-        /* Full width on mobile */
-    }
-
-    .weeklyTop15 {
-        margin-left: 0;
-        /* Center the title on mobile */
-    }
-
-    .topAllTimesRow {
-        margin-left: 0;
-        /* Remove margin for better centering */
-        padding: 0 40px;
-        /* Adjust padding for buttons */
-    }
-
-    .trendingRow {
-        margin-left: 0;
-        /* Remove margin for better centering */
-        flex-wrap: wrap;
-        /* Allow items to wrap on smaller screens */
-    }
-
-    .trendingItem {
-        min-width: 100%;
-        /* Full width on mobile */
-    }
 }
