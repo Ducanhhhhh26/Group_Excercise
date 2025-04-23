@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Featured Artists</title>
+    <style>
+        .artists-section {
+            margin-bottom: 20px;
+        }
+        .artists-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .artist-card {
+            width: 150px;
+            text-align: center;
+        }
+        .artist-card img {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="artists-section">
+        <p class="text">Featured Artists</p>
+        <div class="artists-grid"></div>
+    </div>
+
+    <div class="artists-section">
+        <p class="text">Featured Artists</p>
+        <div class="artists-grid"></div>
+    </div>
+
+    <script>
+        // Dữ liệu nghệ sĩ
+        const artistsData = [
+            [
+                { image: "../assets/song1.jpg.png", title: "Best Of Ava Cornish" },
+                { image: "../assets/song2.jpg.png", title: "Until I Met You" },
+                { image: "../assets/song3.jpg.png", title: "Gimme Some Courage" },
+                { image: "../assets/song4.jpg.png", title: "Dark Alley Acoustic" },
+                { image: "../assets/song5.jpg.png", title: "Walking Promises" },
+                { image: "../assets/song6.jpg.png", title: "Desired Games" }
+            ],
+            [
+                { image: "../assets/r_music1.jpg.png", title: "Claire Hudson" },
+                { image: "../assets/artist1.jpg.png", title: "Carl Brown" },
+                { image: "../assets/artist2.jpg.png", title: "Virginia Harris" },
+                { image: "../assets/artist3.jpg.png", title: "Max Glover" },
+                { image: "../assets/artist4.jpg.png", title: "Jennifer Kelly" },
+                { image: "../assets/artist5.jpg.png", title: "Harry Jackson" },
+                { image: "../assets/artist6.jpg.png", title: "Kevin Buckland" },
+                { image: "../assets/artist7.jpg.png", title: "Anna Ellison" },
+                { image: "../assets/artist8.jpg.png", title: "Kylie Greene" },
+                { image: "../assets/song6.jpg (1).png", title: "Sean Wilson" },
+                { image: "../assets/album4.jpg.png", title: "Jennifer Kelly" },
+                { image: "../assets/song2.jpg (1).png", title: "Steven Walker" },
+                { image: "../assets/artist9.jpg.png", title: "Olivia Paige" },
+                { image: "../assets/artist10.jpg.png", title: "Nicole Miller" },
+                { image: "../assets/artist11.jpg.png", title: "Edward Clark" },
+                { image: "../assets/artist12.jpg.png", title: "Adam Glover" },
+                { image: "../assets/artist13.jpg.png", title: "Leah Knox" },
+                { image: "../assets/song4.jpg (1).png", title: "Charles Davidson" },
+                { image: "../assets/album2.jpg.png", title: "Vanessa Hunter" },
+                { image: "../assets/album3.jpg.png", title: "Sophie Hudson" }
+            ]
+        ];
+
+        // Hàm để render danh sách nghệ sĩ
+        const renderArtistsSections = () => {
+            const artistSections = document.querySelectorAll('.artists-grid');
+            
+            artistSections.forEach((grid, index) => {
+                grid.innerHTML = ""; // Xóa nội dung cũ
+
+                artistsData[index].forEach(artist => {
+                    const artistCard = document.createElement('div');
+                    artistCard.classList.add('artist-card');
+
+                    const img = document.createElement('img');
+                    img.src = artist.image;
+                    img.alt = artist.title;
+
+                    const title = document.createElement('p');
+                    title.textContent = artist.title;
+
+                    artistCard.appendChild(img);
+                    artistCard.appendChild(title);
+                    grid.appendChild(artistCard);
+                });
+            });
+        };
+
+        // Gọi hàm để render danh sách nghệ sĩ
+        renderArtistsSections();
+    </script>
+
+</body>
+</html>
