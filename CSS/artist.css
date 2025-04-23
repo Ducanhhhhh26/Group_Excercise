@@ -1,0 +1,358 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Header */
+header{
+    background-color:#1B2039;
+   margin-left: 30px;
+
+}
+  .search-container {
+    position: relative;
+    width: 250px;
+    margin-left: 3rem;
+  }
+
+  .search-input {
+    background-color: white;
+    border: 1px solid;
+    padding-right: 40px;
+  }
+
+  .search-btn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    border: none;
+  }
+  .search-btn:hover{
+    color: white;
+    background-color: #3BC8E7;
+
+  }
+
+  .trending-songs {
+    margin-left: 2rem;
+    font-size: 14px;
+  }
+  .trending-songs{
+    color: #3BC8E7;
+    font-size: 14px;
+  }
+  .trending-title {
+    color: white;
+  }
+
+  .language-selector {
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .register-btn {
+    background-color: #3BC8E7;
+    color: white;
+    border-radius: 20px;
+    padding: 5px 15px;
+    height: 3rem;
+  }
+
+  .login-btn {
+    background-color: #3BC8E7;
+    color: white;
+    border-radius: 20px;
+    padding: 5px 15px;
+    height: 3rem;
+  }
+  .huge{
+    height: 100%;
+    width: 100%;
+    background-color: #14182a;
+}
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 80px;
+    height: 100vh;
+    background-color: #1B2039;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    z-index: 110;
+}
+
+.sidebar .logo {
+    width: 45px;
+    height: 45px;
+    background-color: #3BC8E7;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 50px;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(59, 200, 231, 0.5);
+}
+
+.sidebar a {
+    color: #ffffff;
+    font-size: 18px;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    margin-bottom: 15px;
+    transition: background-color 0.3s;
+    position: relative;
+}
+
+.sidebar a::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background-color: transparent;
+    transition: all 0.3s ease;
+}
+
+.sidebar a:hover {
+    background-color: #2e3b4e;
+}
+
+.sidebar a:hover::before {
+    background-color: #3BC8E7;
+}
+
+.sidebar a.active {
+    background-color: #28304d;
+}
+
+.sidebar a.active::before {
+    background-color: #3BC8E7;
+}
+main{
+    padding-left: 50px;
+    margin-left: 30px;
+}
+.artists-section {
+    margin-bottom: 0;
+}
+img{
+    transition: transform 0.5s ease;
+}
+img:hover{
+    transform: scale(1.1);
+}
+.artists-section p {
+    font-family: "Roboto", sans-serif;
+    font-size: 18px !important; 
+    margin-bottom: 20px;
+    color: #00c4ff;
+    /* padding-left: 30px; */
+    /* margin-left: 30px; */
+    margin-top: 48px;
+}
+.text{
+    width: 132px;
+    border-bottom: 1px solid #3BC8E7;
+
+}
+.artists-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 20px;
+    padding: 0 20px;
+}
+
+/* Artists Section 1 - 6 items per row */
+
+
+.artist-card {
+    text-align: center;
+}
+
+.artist-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    object-position: top;
+    border-radius: 10px;
+    /* margin-right: 10px; */
+}
+
+.artist-card p {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #ffffff;
+}
+.footer {
+    background-color: #1a252f;
+    padding: 0 20px 40px; /* Remove top padding to connect with section above */
+    border-top: 1px solid #2e3b4e;
+    padding-top: 40px;
+    background-image: url(../ASSEST/Gradient+Overlay.png);
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.footer-logo {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.footer-logo .logo {
+    width: 50px;
+    height: 50px;
+    background-color: #00c4ff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    margin: 0 auto 10px;
+}
+
+.footer-logo h1 {
+    font-size: 24px;
+    color: #ffffff;
+}
+
+.footer-column {
+    flex: 1;
+    min-width: 200px;
+    margin-bottom: 20px;
+}
+
+.footer-column h3 {
+    font-size: 18px;
+    color: #00c4ff;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+.footer-column p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #cccccc;
+}
+
+.footer-column a {
+    color: #00c4ff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.footer-column a:hover {
+    text-decoration: underline;
+}
+
+.footer-column .app-links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.footer-column .app-links img {
+    width: 120px;
+    height: auto;
+}
+
+.footer-column .subscribe-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer-column .subscribe-form input {
+    padding: 10px;
+    border: 1px solid #2e3b4e;
+    border-radius: 5px;
+    background-color: #2e3b4e;
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.footer-column .subscribe-form button {
+    padding: 10px;
+    background-color: #00c4ff;
+    border: none;
+    border-radius: 20px;
+    color: #ffffff;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.footer-column .subscribe-form button:hover {
+    background-color: #00aaff;
+}
+
+.footer-column .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer-column .contact-info p {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.footer-column .contact-info i {
+    color: #00c4ff;
+}
+
+.footer-column .social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.footer-column .social-links a {
+    color: #00c4ff;
+    font-size: 18px;
+    border: 1px solid grey;
+    /* width: 30px !important; */
+    /* height: 30px !important; */
+    margin: 3px;
+    padding: 5px;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #2e3b4e;
+    font-size: 12px;
+    color: #cccccc;
+}
