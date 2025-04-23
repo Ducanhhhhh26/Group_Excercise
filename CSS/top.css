@@ -121,7 +121,7 @@ header {
 #topContainer {
     margin: 20px 30px;
     /* Reduced margin for better balance */
-    font-family: 'Josefin Sans';
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 #top15,
@@ -137,6 +137,8 @@ header {
     margin-bottom: 20px;
     font-size: 24px;
     margin-left: 20px;
+    display: inline-block;
+    border-bottom: 1px solid;
     /* Reduced to align better with content */
 }
 
@@ -157,7 +159,7 @@ header {
 #top15Small {
     display: inline-block;
     color: white;
-    font-family: 'Josefin Sans';
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 24px;
     margin-right: 10px;
     /* Reduced for tighter spacing */
