@@ -1,0 +1,477 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+}
+
+body {
+    background-color: #14182a;
+    padding-left: 65px;
+    /* Account for the fixed sidebar width */
+}
+
+header {
+    background-color: #14182a;
+    padding: 15px 20px;
+    /* Reduced padding for a tighter header */
+}
+
+.search-container {
+    position: relative;
+    width: 250px;
+    margin-left: 1.5rem;
+    /* Reduced margin for better alignment */
+}
+
+.search-input {
+    background-color: white;
+    border: 1px solid;
+    padding-right: 40px;
+}
+
+.search-btn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    border: none;
+}
+
+.search-btn:hover {
+    color: white;
+    background-color: #3BC8E7;
+}
+
+.trending-songs {
+    margin-left: 1.5rem;
+    /* Reduced margin */
+    font-size: 14px;
+    color: #3BC8E7;
+}
+
+.trending-title {
+    color: white;
+}
+
+.language-selector {
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.register-btn,
+.login-btn {
+    background-color: #3BC8E7;
+    color: white;
+    border-radius: 20px;
+    padding: 5px 15px;
+    height: 3rem;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 65px;
+    height: 100vh;
+    /* Full height to match the page */
+    background-color: #1a252f;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.sidebar .logo {
+    width: 30px;
+    height: 30px;
+    background-color: #00c4ff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 40px;
+}
+
+.sidebar a {
+    color: #ffffff;
+    font-size: 20px;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    transition: background-color 0.3s;
+}
+
+.sidebar a:hover {
+    background-color: #2e3b4e;
+}
+
+.sidebar a.active {
+    background-color: #00c4ff;
+    color: #ffffff;
+}
+
+#topContainer {
+    margin: 20px 30px;
+    /* Reduced margin for better balance */
+    font-family: 'Josefin Sans';
+}
+
+#top15,
+#topAllTimes,
+#trending {
+    color: white;
+    margin-bottom: 30px;
+    /* Slightly reduced for tighter layout */
+}
+
+.weeklyTop15 {
+    color: #3BC8E7;
+    margin-bottom: 20px;
+    font-size: 24px;
+    margin-left: 20px;
+    /* Reduced to align better with content */
+}
+
+#allTop15 {
+    display: flex;
+    margin-left: 20px;
+    /* Reduced to align with the title */
+    gap: 20px;
+    /* Added gap for better spacing between columns */
+}
+
+#top15Row {
+    display: flex;
+    flex-direction: column;
+    width: 33%;
+}
+
+#top15Small {
+    display: inline-block;
+    color: white;
+    font-family: 'Josefin Sans';
+    font-size: 24px;
+    margin-right: 10px;
+    /* Reduced for tighter spacing */
+    width: 30px;
+}
+
+#top15Row>div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    /* Reduced for tighter spacing */
+}
+
+#top15Row img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    /* Reduced for better alignment */
+}
+
+.songTitle {
+    color: white;
+    font-size: 16px;
+    line-height: 1.5;
+    font-weight: bold;
+    background-color: transparent;
+    /* Ensure background matches parent */
+}
+
+.artistName {
+    color: white;
+    font-size: 16px;
+    line-height: 1.5;
+    background-color: transparent;
+}
+
+.songDuration {
+    color: white;
+    font-size: 16px;
+    margin-left: auto;
+    margin-bottom: 0;
+    /* Removed unnecessary margin */
+}
+
+.moreOptions {
+    color: white;
+    font-size: 16px;
+    margin: 0 15px;
+    /* Reduced for better alignment */
+    cursor: pointer;
+}#topAllTimes {
+    position: relative;
+}
+
+.topAllTimesContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.topAllTimesRow {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    padding: 0 10px;
+}
+
+.topAllTimesRow::-webkit-scrollbar {
+    display: none;
+}
+
+.topAllTimesItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 235px;
+    flex-shrink: 0;
+    box-sizing: border-box;
+}
+
+.topAllTimesItem img {
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.scrollBtn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.leftBtn {
+    left: 0;
+}
+
+.rightBtn {
+    right: 0;
+}
+.trendingRow {
+    display: flex;
+    gap: 25px;
+    /* Reduced for better balance */
+    margin-left: 20px;
+    /* Reduced to align with other sections */
+}
+
+.trendingItem {
+    display: flex;
+    align-items: center;
+    width: 25%;
+    /* Reduced for better fit */
+    background-color: #1e2235;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.trendingItem img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    /* Reduced for better alignment */
+}
+
+.trackInfo {
+    display: flex;
+    flex-direction: column;
+    background-color: #1e2235;
+}
+
+.trendingItem .songTitle {
+    background-color: #1e2235;
+    margin-bottom: 2px;
+}
+
+.trendingItem .artistName {
+    background-color: #1e2235;
+    color: #a0a0a0;
+}
+
+.trendingItem .songDuration {
+    background-color: #1e2235;
+    margin-left: auto;
+}
+
+.footer {
+    background-color: #1a252f;
+    padding: 0 20px 40px;
+    /* Remove top padding to connect with section above */
+    border-top: 1px solid #2e3b4e;
+    padding-top: 40px;
+    background-image: url(../assets/Gradient+Overlay.png);
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.footer-logo {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.footer-logo .logo {
+    width: 50px;
+    height: 50px;
+    background-color: #00c4ff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    margin: 0 auto 10px;
+}
+
+.footer-logo h1 {
+    font-size: 24px;
+    color: #ffffff;
+}
+
+.footer-column {
+    flex: 1;
+    min-width: 200px;
+    margin-bottom: 20px;
+}
+
+.footer-column h3 {
+    font-size: 18px;
+    color: #00c4ff;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+.footer-column p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #cccccc;
+}
+
+.footer-column a {
+    color: #00c4ff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.footer-column a:hover {
+    text-decoration: underline;
+}
+
+.footer-column .app-links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.footer-column .app-links img {
+    width: 120px;
+    height: auto;
+}
+
+.footer-column .subscribe-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer-column .subscribe-form input {
+    padding: 10px;
+    border: 1px solid #2e3b4e;
+    border-radius: 5px;
+    background-color: #2e3b4e;
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.footer-column .subscribe-form button {
+    padding: 10px;
+    background-color: #00c4ff;
+    border: none;
+    border-radius: 20px;
+    color: #ffffff;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.footer-column .subscribe-form button:hover {
+    background-color: #00aaff;
+}
+
+.footer-column .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer-column .contact-info p {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.footer-column .contact-info i {
+    color: #00c4ff;
+}
+
+.footer-column .social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.footer-column .social-links a {
+    color: #00c4ff;
+    font-size: 18px;
+    border: 1px solid grey;
+    /* width: 30px !important; */
+    /* height: 30px !important; */
+    margin: 3px;
+    padding: 5px;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #2e3b4e;
+    font-size: 12px;
+    color: #cccccc;
+}
