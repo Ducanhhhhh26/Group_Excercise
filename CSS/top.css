@@ -2,7 +2,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    background-color: #14182a;
+
 }
 
 body {
@@ -323,9 +323,11 @@ header {
 }
 
 .footer {
-    background-color: #14182a;
-    padding: 40px 20px;
+    background-color: #1a252f;
+    padding: 0 20px 40px;
+    /* Remove top padding to connect with section above */
     border-top: 1px solid #2e3b4e;
+    padding-top: 40px;
     background-image: url(../assets/Gradient+Overlay.png);
 }
 
@@ -340,8 +342,26 @@ header {
 
 .footer-logo {
     text-align: center;
-    margin-bottom: 30px;
-    /* Reduced for tighter layout */
+    margin-bottom: 40px;
+}
+
+.footer-logo .logo {
+    width: 50px;
+    height: 50px;
+    background-color: #00c4ff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    margin: 0 auto 10px;
+}
+
+.footer-logo h1 {
+    font-size: 24px;
+    color: #ffffff;
 }
 
 .footer-column {
@@ -380,6 +400,11 @@ header {
     margin-top: 10px;
 }
 
+.footer-column .app-links img {
+    width: 120px;
+    height: auto;
+}
+
 .footer-column .subscribe-form {
     display: flex;
     flex-direction: column;
@@ -404,6 +429,10 @@ header {
     font-size: 14px;
     cursor: pointer;
     transition: background-color 0.3s;
+}
+
+.footer-column .subscribe-form button:hover {
+    background-color: #00aaff;
 }
 
 .footer-column .contact-info {
@@ -433,6 +462,8 @@ header {
     color: #00c4ff;
     font-size: 18px;
     border: 1px solid grey;
+    /* width: 30px !important; */
+    /* height: 30px !important; */
     margin: 3px;
     padding: 5px;
 }
