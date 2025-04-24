@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Top tracks</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="../CSS/top.css">
 </head>
 
@@ -37,27 +37,26 @@
             </div>
         </div>
     </header>
-        <div class="sidebar">
-            <div class="logo">M</div>
-            <a href="/html/index.html"><i class="fas fa-home"></i></a>
-            <a href="/html/album.html"><i class="fas fa-headphones"></i></a>
-            <a href="/html/artist.html"><i class="fas fa-music"></i></a>
-            <a href="/html/top.html" class="active"><i class="fas fa-gem"></i></a>
-            <a href="#"><i class="fas fa-chevron-right"></i></a>
-            <a href="#"><i class="fas fa-download"></i></a>
-            <a href="#"><i class="fas fa-heart"></i></a>
-            <a href="/html/Admin-page.html"><i class="fas fa-user"></i></a>
-        </div>
-        
+    <div class="sidebar">
+        <div class="logo"><img src="../assets/images/logo.png.png" alt=""></div>
+        <a href="../html/index.html"><i class="fas fa-home"></i><span class="sidebar-label">Home</span></a>
+        <a href="./album.html"><i class="fas fa-headphones"></i><span class="sidebar-label">Albums</span></a>
+        <a href="./artist.html"><i class="bi bi-mic-fill"></i></i><span class="sidebar-label">Artists</span></a>
+        <a href="./genres.html"><i class="fas fa-list"></i><span class="sidebar-label">Genres</span></a>
+        <a href="#" class="active"><i class="fas fa-gem"></i><span class="sidebar-label">Top Tracks</span></a>
+        <a href="./downloads.html"><i class="fas fa-download"></i><span class="sidebar-label">Downloads</span></a>
+        <a href="./favorites.html"><i class="fas fa-heart"></i><span class="sidebar-label">Favourites</span></a>
+        <a href="./history.html"><i class="fas fa-clock"></i><span class="sidebar-label">History</span></a>
+        <div class="sidebar-chevorn"><a href="#"><i class="fas fa-chevron-right"></i></a></div>
+    </div>
+
     <div id="topContainer">
-
-
-                <!-- Top 15 Weeekly -->
+        <!-- Top 15 Weeekly -->
         <div id="top15">
             <h2 class="weeklyTop15">Weekly Top 15</h2>
             <div id="allTop15">
                 <div id="top15Row">
-                    <div style="display: flex;">
+                    <div style="display: flex;" onclick="playSong(0, 'top_music')">
                         <h2 id="top15Small">01</h2>
                         <div>
                             <img src="../assets/1.png" alt="">
@@ -69,7 +68,7 @@
                         <div class="songDuration">5:10</div>
                         <div class="moreOptions">...</div>
                     </div>
-                    <div style="display: flex;">
+                    <div style="display: flex;" onclick="playSong(1, 'top_music')">
                         <h2 id="top15Small">02</h2>
                         <div>
                             <img src="../assets/2.png" alt="">
@@ -81,7 +80,7 @@
                         <div class="songDuration">0:0</div>
                         <div class="moreOptions">...</div>
                     </div>
-                    <div style="display: flex;">
+                    <div style="display: flex;" onclick="playSong(2, 'top_music')">
                         <h2 id="top15Small">03</h2>
                         <div>
                             <img src="../assets/3.png" alt="">
@@ -93,7 +92,7 @@
                         <div class="songDuration">5:10</div>
                         <div class="moreOptions">...</div>
                     </div>
-                    <div style="display: flex;">
+                    <div style="display: flex;" onclick="playSong(3, 'top_music')">
                         <h2 id="top15Small">04</h2>
                         <div>
                             <img src="../assets/4.png" alt="">
@@ -105,7 +104,7 @@
                         <div class="songDuration">5:10</div>
                         <div class="moreOptions">...</div>
                     </div>
-                    <div style="display: flex;">
+                    <div style="display: flex;" onclick="playSong(4, 'top_music')">
                         <h2 id="top15Small">05</h2>
                         <div>
                             <img src="../assets/5.png" alt="">
@@ -119,7 +118,7 @@
                     </div>
                 </div>
                 <div id="top15Row">
-                    <div style="display: flex;">
+                    <div style="display: flex;" onclick="playSong(5, 'top_music')">
                         <h2 id="top15Small">06</h2>
                         <div>
                             <img src="../assets/6.png" alt="">
@@ -131,7 +130,7 @@
                         <div class="songDuration">5:10</div>
                         <div class="moreOptions">...</div>
                     </div>
-                    <div style="display: flex;">
+                    <div style="display: flex;" onclick="playSong(6, 'top_music')">
                         <h2 id="top15Small">07</h2>
                         <div>
                             <img src="../assets/7.png" alt="">
@@ -143,7 +142,7 @@
                         <div class="songDuration">5:10</div>
                         <div class="moreOptions">...</div>
                     </div>
-                    <div style="display: flex;">
+                    <div style="display: flex;" onclick="playSong(7, 'top_music')">
                         <h2 id="top15Small">08</h2>
                         <div>
                             <img src="../assets/8.png" alt="">
@@ -155,7 +154,7 @@
                         <div class="songDuration">5:10</div>
                         <div class="moreOptions">...</div>
                     </div>
-                    <div style="display: flex;">
+                    <div style="display: flex;" onclick="playSong(8, 'top_music')">
                         <h2 id="top15Small">09</h2>
                         <div>
                             <img src="../assets/9.png" alt="">
@@ -167,7 +166,7 @@
                         <div class="songDuration">5:10</div>
                         <div class="moreOptions">...</div>
                     </div>
-                    <div style="display: flex;">
+                    <div style="display: flex;" onclick="playSong(9, 'top_music')">
                         <h2 id="top15Small">10</h2>
                         <div>
                             <img src="../assets/10.png" alt="">
@@ -181,7 +180,7 @@
                     </div>
                 </div>
                 <div id="top15Row">
-                    <div style="display: flex;">
+                    <div style="display: flex;" onclick="playSong(10, 'top_music')">
                         <h2 id="top15Small">11</h2>
                         <div>
                             <img src="../assets/11.png" alt="">
@@ -193,7 +192,7 @@
                         <div class="songDuration">5:10</div>
                         <div class="moreOptions">...</div>
                     </div>
-                    <div style="display: flex;">
+                    <div style="display: flex;" onclick="playSong(11, 'top_music')">
                         <h2 id="top15Small">12</h2>
                         <div>
                             <img src="../assets/12.png" alt="">
@@ -205,7 +204,7 @@
                         <div class="songDuration">5:10</div>
                         <div class="moreOptions">...</div>
                     </div>
-                    <div style="display: flex;">
+                    <div style="display: flex;" onclick="playSong(12, 'top_music')">
                         <h2 id="top15Small">13</h2>
                         <div>
                             <img src="../assets/13.png" alt="">
@@ -217,7 +216,7 @@
                         <div class="songDuration">5:10</div>
                         <div class="moreOptions">...</div>
                     </div>
-                    <div style="display: flex;">
+                    <div style="display: flex;" onclick="playSong(13, 'top_music')">
                         <h2 id="top15Small">14</h2>
                         <div>
                             <img src="../assets/14.png" alt="">
@@ -229,7 +228,7 @@
                         <div class="songDuration">5:10</div>
                         <div class="moreOptions">...</div>
                     </div>
-                    <div style="display: flex;">
+                    <div style="display: flex;" onclick="playSong(14, 'top_music')">
                         <h2 id="top15Small">15</h2>
                         <div>
                             <img src="../assets/15.png" alt="">
@@ -250,32 +249,32 @@
             <div class="topAllTimesContainer">
                 <button class="scrollBtn leftBtn">❮</button>
                 <div class="topAllTimesRow" id="topAllTimesRow">
-                    <div class="topAllTimesItem">
+                    <div class="topAllTimesItem" onclick="playSong(0, 'top_all_times')">
                         <img src="../assets/album1.jpg.png" alt="">
                         <div class="songTitle">Bloodlust</div>
                         <div class="artistName">Ava Cornish & Brian Hill</div>
                     </div>
-                    <div class="topAllTimesItem">
+                    <div class="topAllTimesItem" onclick="playSong(1, 'top_all_times')">
                         <img src="../assets/album2.jpg.png" alt="">
                         <div class="songTitle">Time flies</div>
                         <div class="artistName">Ava Cornish & Brian Hill</div>
                     </div>
-                    <div class="topAllTimesItem">
+                    <div class="topAllTimesItem" onclick="playSong(2, 'top_all_times')">
                         <img src="../assets/album3.jpg.png" alt="">
                         <div class="songTitle">Dark matters</div>
                         <div class="artistName">Ava Cornish & Brian Hill</div>
                     </div>
-                    <div class="topAllTimesItem">
+                    <div class="topAllTimesItem" onclick="playSong(3, 'top_all_times')">
                         <img src="../assets/album4.jpg.png" alt="">
                         <div class="songTitle">Eye to eye</div>
                         <div class="artistName">Ava Cornish & Brian Hill</div>
                     </div>
-                    <div class="topAllTimesItem">
+                    <div class="topAllTimesItem" onclick="playSong(4, 'top_all_times')">
                         <img src="../assets/album5.jpg.png" alt="">
                         <div class="songTitle">Cloud nine</div>
                         <div class="artistName">Ava Cornish & Brian Hill</div>
                     </div>
-                    <div class="topAllTimesItem">
+                    <div class="topAllTimesItem" onclick="playSong(5, 'top_all_times')">
                         <img src="../assets/album6.jpg.png" alt="">
                         <div class="songTitle">Cobweb of lies</div>
                         <div class="artistName">Ava Cornish & Brian Hill</div>
@@ -288,7 +287,7 @@
         <div id="trending">
             <h2 class="weeklyTop15">Trending Tracks</h2>
             <div class="trendingRow">
-                <div class="trendingItem">
+                <div class="trendingItem" onclick="playSong(0, 'trending')">
                     <img src="../assets/1.png" alt="">
                     <div class="trackInfo">
                         <div class="songTitle">Dark Alley Acoustic</div>
@@ -296,7 +295,7 @@
                     </div>
                     <div class="songDuration">5:10</div>
                 </div>
-                <div class="trendingItem">
+                <div class="trendingItem" onclick="playSong(1, 'trending')">
                     <img src="../assets/2.png" alt="">
                     <div class="trackInfo">
                         <div class="songTitle">Dark Alley Acoustic</div>
@@ -304,7 +303,7 @@
                     </div>
                     <div class="songDuration">5:10</div>
                 </div>
-                <div class="trendingItem">
+                <div class="trendingItem" onclick="playSong(2, 'trending')">
                     <img src="../assets/3.png" alt="">
                     <div class="trackInfo">
                         <div class="songTitle">Dark Alley Acoustic</div>
@@ -312,7 +311,7 @@
                     </div>
                     <div class="songDuration">5:10</div>
                 </div>
-                <div class="trendingItem">
+                <div class="trendingItem" onclick="playSong(3, 'trending')">
                     <img src="../assets/4.png" alt="">
                     <div class="trackInfo">
                         <div class="songTitle">Dark Alley Acoustic</div>
@@ -324,48 +323,47 @@
         </div>
     </div>
 
-        <!-- Music Player -->
-        <div class="music-player">
-            <div class="container-fluid">
-                <div class="row align-items-center">
-                    <div class="col-md-3">
-                        <div class="d-flex align-items-center">
-                            <div class="player-album-img">
-                                <img class="small-img" src="../assets/1.png" alt="Current Song" class="img-fluid">
-                            </div>
-                            <div class="player-song-info ms-3">
-                                <h6>Cro Magnon Man</h6>
-                                <p>Mushroom Records</p>
-                            </div>
+    <!-- Music Player -->
+    <div class="music-player">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-md-3">
+                    <div class="d-flex align-items-center">
+                        <div class="player-album-img">
+                            <img class="small-img" src="../assets/images/1.png" alt="Current Song">
+                        </div>
+                        <div class="player-song-info ms-3">
+                            <h6>Cro Magnon Man</h6>
+                            <p>Mushroom Records</p>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="player-controls text-center">
-                            <div class="d-flex justify-content-center align-items-center">
-                                <button class="player-btn me-3"><i class="bi bi-skip-start-fill"></i></button>
-                                <button class="player-btn play-btn me-3"><i class="bi bi-play-fill"></i></button>
-                                <button class="player-btn me-3"><i class="bi bi-skip-end-fill"></i></button>
+                </div>
+                <div class="col-md-6">
+                    <div class="player-controls text-center">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <button class="player-btn me-3"><i class="bi bi-skip-start-fill"></i></button>
+                            <button class="player-btn play-btn me-3"><i class="bi bi-play-fill"></i></button>
+                            <button class="player-btn me-3"><i class="bi bi-skip-end-fill"></i></button>
+                        </div>
+                        <div class="progress-container mt-2 d-flex align-items-center">
+                            <span class="current-time me-2">0:00</span>
+                            <div class="progress w-100">
+                                <div class="progress-bar" role="progressbar" style="width: 0px"></div>
                             </div>
-                            <div class="progress-container mt-2 d-flex align-items-center">
-                                <span class="current-time me-2">0:00</span>
-                                <div class="progress w-100">
-                                    <div class="progress-bar" role="progressbar" style="width: 0px"></div>
-                                </div>
-                                <span class="total-time ms-2">0:00</span>
-                            </div>
+                            <span class="total-time ms-2">0:00</span>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="player-options d-flex justify-content-end align-items-center">
-                            <button class="player-option-btn me-3"><i class="bi bi-volume-up"></i></button>
-                            <button class="player-option-btn me-3"><i class="bi bi-heart"></i></button>
-                            <button class="player-option-btn"><i class="bi bi-arrow-down-circle"></i></button>
-                        </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="player-options d-flex justify-content-end align-items-center">
+                        <button class="player-option-btn me-3"><i class="bi bi-volume-up"></i></button>
+                        <button class="player-option-btn me-3"><i class="bi bi-heart"></i></button>
+                        <button class="player-option-btn"><i class="bi bi-arrow-down-circle"></i></button>
                     </div>
                 </div>
             </div>
         </div>
-
+    </div>
 
     <!-- Footer -->
     <footer class="footer">
@@ -373,19 +371,21 @@
         <div class="footer-logo">
             <img src="../assets/open_logo.png.png" alt="">
         </div>
-    
+
         <!-- Footer Columns -->
         <div class="footer-container">
             <!-- Column 1: Miraculous Music Station -->
             <div class="footer-column">
                 <h3>Miraculous Music Station</h3>
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                    et
+                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip
                     ex ea commodo consequat Duis aute irure dolor.
                 </p>
             </div>
-    
+
             <!-- Column 2: Download Our App -->
             <div class="footer-column">
                 <h3>Download Our App</h3>
@@ -396,7 +396,7 @@
                     <a href="#"><i class="fa-solid fa-window-restore"></i> Windown Store</a>
                 </div>
             </div>
-    
+
             <!-- Column 3: Subscribe -->
             <div class="footer-column">
                 <h3>Subscribe</h3>
@@ -407,13 +407,17 @@
                     <button type="submit">Sign Me Up</button>
                 </form>
             </div>
-    
+
             <!-- Column 4: Contact Us -->
             <div class="footer-column">
                 <h3>Contact Us</h3>
                 <div class="contact-info">
                     <p><i class="fas fa-phone"></i> Call Us: (+1) 202-555-0176, (+1) 202-555-0150</p>
-                    <p><i class="fas fa-envelope"></i> Email Us: demo@email.com, dummy@email.com</p>
+                    <p><i class="fas fa-envelope"></i> Email Us: <a href="/cdn-cgi/l/email-protection"
+                            class="__cf_email__"
+                            data-cfemail="8befeee6e4cbeee6eae2e7a5e8e4e6">[email&#160;protected]</a>, <a
+                            href="/cdn-cgi/l/email-protection" class="__cf_email__"
+                            data-cfemail="3d19081010043d18101c1411531e1210">[email&#160;protected]</a></p>
                     <p><i class="fas fa-map-marker-alt"></i> Walk In: 598 Old House Drive, London</p>
                 </div>
                 <div class="social-links">
@@ -427,61 +431,62 @@
                 </div>
             </div>
         </div>
-    
+
         <!-- Footer Bottom -->
         <div class="footer-bottom">
             <p>Copyright © 2022 The Miraculous Music Template. All Rights Reserved.</p>
         </div>
     </footer>
 
-<section class="modalLogin">
-    <div>
-        <img src="../assets/headphones 1.png" alt="Headphones" style="width:446px; height:446px;">
-        <form action="" class="formLogin">
-            <h3>Login / Sign In</h3>
-            <input type="email" id="email" name="email" placeholder="Enter Your Email">
-            <input type="password" id="password" name="password" placeholder="Enter Your Password">
-            <div class="checkbox-forgot">
-                <aside>
-                    <input type="checkbox" name="checkbox" id="checkbox">
-                    <label for="checkbox">Keep Me Sign In</label>
-                </aside>
-                <aside>
-                    <p>Forgot password?</p>
-                </aside>
-            </div>
-            <div class="button">
-                <button type="submit">Login</button>
-            </div>
-            <p>Don't Have An Account? <a href="">Register Here</a></p>
-        </form>
-    </div>
-</section>
+    <section class="modalLogin">
+        <div>
+            <img src="../assets/headphones 1.png" alt="Headphones" style="width:446px; height:446px;">
+            <form action="" class="formLogin">
+                <h3>Login / Sign In</h3>
+                <input type="email" id="email" name="email" placeholder="Enter Your Email">
+                <input type="password" id="password" name="password" placeholder="Enter Your Password">
+                <div class="checkbox-forgot">
+                    <aside>
+                        <input type="checkbox" name="checkbox" id="checkbox">
+                        <label for="checkbox">Keep Me Sign In</label>
+                    </aside>
+                    <aside>
+                        <p>Forgot password?</p>
+                    </aside>
+                </div>
+                <div class="button">
+                    <button type="submit">Login</button>
+                </div>
+                <p>Don't Have An Account? <a href="">Register Here</a></p>
+            </form>
+        </div>
+    </section>
 
+    <!-- Nút mở modal Register -->
+    <button class="register-btn">Register</button>
 
-<!-- Nút mở modal Register -->
-<button class="register-btn">Register</button>
+    <!-- Modal Register -->
+    <section class="modalRegister">
+        <div>
+            <img src="../assets/headphones 1.png" alt="Headphones" style="width:446px; height:446px;">
+            <form action="" class="formRegister">
+                <h3>Register</h3>
+                <input type="text" id="name" name="name" placeholder="Enter Your Name">
+                <input type="email" id="email1" name="email" placeholder="Enter Your Email">
+                <input type="password" id="password1" name="password1" placeholder="Enter Your Password">
+                <input type="password" id="password2" name="password2" placeholder="Confirm Your Password">
+                <div class="button">
+                    <button type="submit">Register</button>
+                </div>
+                <p>Already Have An Account? <a href="">Login Here</a></p>
+            </form>
+        </div>
+    </section>
 
-<!-- Modal Register -->
-<section class="modalRegister">
-    <div>
-        <img src="../assets/headphones 1.png" alt="Headphones" style="width:446px; height:446px;">
-        <form action="" class="formRegister">
-            <h3>Register</h3>
-            <input type="text" id="name" name="name" placeholder="Enter Your Name">
-            <input type="email" id="email1" name="email" placeholder="Enter Your Email">
-            <input type="password" id="password1" name="password1" placeholder="Enter Your Password">
-            <input type="password" id="password2" name="password2" placeholder="Confirm Your Password">
-            <div class="button">
-                <button type="submit">Register</button>
-            </div>
-            <p>Already Have An Account? <a href="">Login Here</a></p>
-        </form>
-    </div>
-</section>
-</body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-    crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
     <script src="../js/top.js"></script>
+</body>
+
 </html>
