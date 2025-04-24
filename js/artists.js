@@ -25,7 +25,8 @@ registerModal.addEventListener('click', (e) => {
     registerModal.classList.remove('show');
   }
 });
-/*Render  */ const artistsData = [
+/*Render  */
+ const artistsData = [
   [
     { image: "../assets/song1.jpg.png", title: "Best Of Ava Cornish" },
     { image: "../assets/song2.jpg.png", title: "Until I Met You" },
@@ -85,3 +86,66 @@ artistSections.forEach((grid, index) => {
 
 // Gọi hàm để render danh sách nghệ sĩ
 renderArtistsSections();
+const searchInput = document.querySelector('.search-input');
+
+// Hàm tìm kiếm nghệ sĩ
+const searchArtists = (searchTerm) => {
+  const artistSections = document.querySelectorAll('.artists-grid');
+
+  artistSections.forEach((grid, index) => {
+    grid.innerHTML = ""; // Xóa nội dung cũ
+
+    artistsData[index]
+      .filter(artist => artist.title.toLowerCase().includes(searchTerm.toLowerCase()))
+      .forEach(artist => {
+        const artistCard = document.createElement('div');
+        artistCard.classList.add('artist-card');
+
+        const img = document.createElement('img');
+        img.src = artist.image;
+        img.alt = artist.title;
+
+        const title = document.createElement('p');
+        title.textContent = artist.title;
+
+        artistCard.appendChild(img);
+        artistCard.appendChild(title);
+        grid.appendChild(artistCard);
+      });
+  });
+};
+
+// Bắt sự kiện khi người dùng nhập vào ô tìm kiếm
+searchInput.addEventListener('input', (e) => {
+  const searchTerm = e.target.value.trim();
+  
+  if (searchTerm === "") {
+    renderArtistsSections(); // Nếu ô tìm kiếm trống thì render lại tất cả
+  } else {
+    searchArtists(searchTerm); // Nếu có từ khóa thì tìm kiếm
+  }
+});
+// Chức năng toggle sidebar (mở rộng/thu gọn)
+const sidebar = document.querySelector('.sidebar'); // Lấy phần tử sidebar
+const chevronBtn = document.querySelector('.sidebar-chevorn a'); // Lấy nút chevron (mũi tên)
+const mainContent = document.querySelector('.container'); // Lấy container chính
+const header = document.querySelector('header'); // Lấy header
+let isSidebarExpanded = false; // Biến trạng thái: false = sidebar thu gọn, true = sidebar mở rộng
+
+// Thêm sự kiện click cho nút chevron để toggle sidebar
+chevronBtn.addEventListener('click', () => {
+    isSidebarExpanded = !isSidebarExpanded; // Đổi trạng thái (thu gọn ↔ mở rộng)
+    if (isSidebarExpanded) {
+        // Khi sidebar mở rộng
+        sidebar.classList.add('expanded'); // Thêm class .expanded cho sidebar
+        mainContent.classList.add('expanded'); // Điều chỉnh padding container
+        header.classList.add('expanded'); // Điều chỉnh vị trí và chiều rộng header
+        chevronBtn.querySelector('i').classList.replace('fa-chevron-right', 'fa-chevron-left'); // Đổi biểu tượng thành mũi tên trái
+    } else {
+        // Khi sidebar thu gọn
+        sidebar.classList.remove('expanded'); // Xóa class .expanded
+        mainContent.classList.remove('expanded'); // Khôi phục padding container
+        header.classList.remove('expanded'); // Khôi phục header
+        chevronBtn.querySelector('i').classList.replace('fa-chevron-left', 'fa-chevron-right'); // Đổi biểu tượng thành mũi tên phải
+    }
+});
