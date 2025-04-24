@@ -129,6 +129,11 @@ header {
 .sidebar.expanded .sidebar-chevorn {
     left: 190px;
     /* Điều chỉnh vị trí chevron khi sidebar mở rộng */
+    transform: rotate(180deg);
+}
+
+.sidebar-chevorn i {
+    transition: transform 1s ease;
 }
 
 /* Ẩn nhãn văn bản mặc định */

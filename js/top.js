@@ -167,7 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ],
   };
 
-  // Ensure songData is initialized
+  //Dam bao co local storage
   if (!localStorage.getItem("songData")) {
     localStorage.setItem("songData", JSON.stringify(initialSongData));
   }
