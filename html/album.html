@@ -55,7 +55,7 @@
             <span class="text-featured">Featured Albums</span>
             <span class="view-more">view more</span>
         </div>
-        <div class="featured-albums">
+        <div class="featured-albums" id="featured-albums">
             <div class="Featured-item">
                 <div><img src="/assets/album1.jpg.png" alt=""></div>
                 <div>
@@ -106,7 +106,10 @@
             <span class="text-trending">Trending Albums</span>
             <span class="view-more">view more</span>
         </div>
-        <div class="trending-albums">
+        <div class="trending-albums" id="trending-albums">
+            <button id="trending-prev" class="btn btn-sm btn-outline-secondary me-1">
+                <i class="bi bi-chevron-left"></i>
+            </button>
             <div class="Trending-item">
                 <div><img src="/assets/album1.jpg.png" alt=""></div>
                 <div>
@@ -149,12 +152,15 @@
                 </div>
                 <div><span>Ava Cornish & Brian Hill</span></div>
             </div>
+            <button id="trending-next" class="btn btn-sm btn-outline-secondary ms-1">
+                <i class="bi bi-chevron-right"></i>
+            </button>
         </div>
 
         <div class="d-flex justify-content-between mt-3">
-            <span class="text-top">top 15 Albums</span>
+            <span class="text-top15">top 15 Albums</span>
         </div>
-        <div class="d-flex justify-content-between mt-3 container">
+        <div class="d-flex justify-content-between mt-3 container top15_albums" id="top15_albums">
             <div>
                 <div class="d-flex">
                     <div>
@@ -575,10 +581,11 @@
             <p>Copyright © 2022 The Miraculous Music Template. All Rights Reserved.</p>
         </div>
     </footer>
-
+    <audio id="audio-player" controls style="display: none;"></audio>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+        <script src="/js/albums.js"></script>
 </body>
 
 </html>

@@ -131,7 +131,7 @@ header{
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 3rem;
 }
 .Featured-item{
@@ -150,13 +150,13 @@ header{
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 3rem;
 }
 .Trending-item{
   margin-top: 2rem;
 }
-.text-trending{
+.text-trending {
   color:#3BC8E7;
   font-size: 20px;
   border-bottom: 1px solid #3BC8E7;
@@ -167,8 +167,14 @@ header{
   height: 50px;
   object-fit: cover; /* giúp ảnh không bị méo */
 }
+.text-top15{
+  color:#3BC8E7;
+  font-size: 20px;
+  border-bottom: 1px solid #3BC8E7;
+}
 .text-top{
   font-size: 20px;
+  
 }
 .divimg{
   gap : 1rem;
@@ -419,4 +425,10 @@ color: #cccccc;
   border-bottom: 1px solid #3BC8E7;
   margin-top: 3rem;
   margin-bottom: 2rem;
+}
+.top15_albums > div {
+  margin-right: 20px;
+}
+.top15_albums > div:last-child {
+  margin-right: 0;
 }
