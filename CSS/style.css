@@ -956,45 +956,160 @@ header.expanded {
     color: #00c4ff;
     border-bottom: 2px solid;
 }
-.modalLogin input,
-.modalRegister input {
-    background-color: #fff;
-    border: none;
-    outline: none;
-    padding: 8px;
-    font-family: 'Josefin Sans', sans-serif;
-    font-size: 14px;
-    color: #333;
-}
-
-.modalLogin input::placeholder,
-.modalRegister input::placeholder {
-    color: #999;
-    font-family: 'Josefin Sans', sans-serif;
-    font-size: 14px;
-}
-
-.modalLogin .button button:hover,
-.modalRegister .button button:hover {
-    background-color: #2ca8c4;
-    border-color: #2ca8c4;
-    transition: all 0.3s ease;
-}
-
-.modalLogin .checkbox-forgot label,
-.modalLogin .checkbox-forgot p {
-    font-size: 14px;
-    color: white;
-    margin: 0;
-}
-
-.modalLogin .checkbox-forgot aside {
-    display: flex;
+.modalLogin {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: none; /* bật lên bằng .show */
+    justify-content: center;
     align-items: center;
-    gap: 5px;
+    background-color: rgba(0, 0, 0, 0.5); /* nền tối mờ */
+    z-index: 999;
+  }
+
+  .modalLogin.show {
+    display: flex;
+  }
+
+  .modalLogin > div {
+    width: 1280px;
+    height: 608px;
+    background-color: #39C6E5;
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    color: white;
+    font-family: "Josefin Sans", sans-serif;
+  }
+
+
+/* Các phần còn lại giữ nguyên */
+.formLogin {
+    width: 602px;
+    height: 318px;
+}
+.modalLogin div img {
+    width: 446px;
+    height: 446px;
+}
+.formLogin h3 {
+    text-align: center;
+    font-size: 40px !important;
+}
+#email, #password {
+    width: 602px;
+    height: 40px;
+    border-radius: 10px;
+}
+#email::placeholder, #password::placeholder {
+    padding: 8px;
+}
+#email {
+    margin-top: 24px;
+    margin-bottom: 20px;
+}
+#password {
+    margin-bottom: 8px;
+}
+.checkbox-forgot {
+    display: flex;
+    justify-content: space-between;
+}
+.button {
+    text-align: center;
+}
+.button button {
+    width: 148px;
+    height: 48px;
+    border: 1px solid white;
+    border-radius: 25px;
+    background-color: #39C6E5;
+    color: white;
+    margin-top: 19px;
+    margin-bottom: 19px;
+}
+.formLogin p {
+    text-align: center;
+}
+.formLogin p a {
+    text-decoration: none;
+    color: white;
+    font-weight: bolder;
 }
 
-.modalLogin .checkbox-forgot input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
-}
+
+.modalRegister {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+
+  .modalRegister.show {
+    display: flex;
+  }
+
+  .modalRegister > div {
+    width: 1280px;
+    height: 608px;
+    background-color: #39C6E5;
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    color: white;
+    font-family: "Josefin Sans", sans-serif;
+  }
+
+  .formRegister {
+    width: 602px;
+  }
+
+  .formRegister h3 {
+    text-align: center;
+    font-size: 40px;
+  }
+
+  .formRegister input {
+    width: 100%;
+    height: 40px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    padding: 8px;
+  }
+
+  .button {
+    text-align: center;
+  }
+
+  .button button {
+    width: 148px;
+    height: 48px;
+    border: 1px solid white;
+    border-radius: 25px;
+    background-color: #39C6E5;
+    color: white;
+    margin-top: 19px;
+    margin-bottom: 19px;
+  }
+
+  .formRegister p {
+    text-align: center;
+  }
+
+  .formRegister p a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+  }
