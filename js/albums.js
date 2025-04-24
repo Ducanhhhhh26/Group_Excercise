@@ -115,7 +115,7 @@ let data ={
                 "mp3": "/assets/1.mp3"
             },
             {
-                "name": "Ava Cornish & Brian Hill",
+                "name": "Ava Cornish & Brian Hilltest",
                 "name_music":"Until I Met You",
                 "img": "/assets/2.png",
                 "mp3": "/assets/1.mp3"
@@ -199,6 +199,58 @@ let data ={
                 "mp3": "/assets/1.mp3"
             }
         ]
+      },
+      {
+        "Albums_By_Artists":[
+          {
+            "name":"Ava Cornish",
+            "name_music":"Best Of Ava Cornish",
+            "img":"/assets/artist1.jpg.png",
+            "mp3":"/assets/1.mp3"
+          },
+          {
+            "name":"Until I Met You",
+            "name_music":"Best Of Ava Cornish",
+            "img":"/assets/artist2.jpg.png",
+            "mp3":"/assets/2.mp3"
+          },
+          {
+            "name":"Gimme Some Courage",
+            "name_music":"Best Of Ava Cornish",
+            "img":"/assets/artist3.jpg.png",
+            "mp3":"/assets/3.mp3"
+          },
+          {
+            "name":"Dark Alley Acoustic",
+            "name_music":"Best Of Ava Cornish",
+            "img":"/assets/artist4.jpg.png",
+            "mp3":"/assets/4.mp3"
+          },
+          {
+            "name":"Walking Promises",
+            "name_music":"Best Of Ava Cornish",
+            "img":"/assets/artist5.jpg.png",
+            "mp3":"/assets/5.mp3"
+          },
+          {
+            "name":"Desired Games",
+            "name_music":"Best Of Ava Cornish",
+            "img":"/assets/artist6.jpg.png",
+            "mp3":"/assets/1.mp3"
+          },
+          {
+            "name":"Endless Things",
+            "name_music":"Best Of Ava Cornish",
+            "img":"/assets/artist7.jpg.png",
+            "mp3":"/assets/2.mp3"
+          },
+          {
+            "name":"Desired Games",
+            "name_music":"Best Of Ava Cornish",
+            "img":"/assets/artist8.jpg.png",
+            "mp3":"/assets/3.mp3"
+          }
+        ]
       }
   
     ]
@@ -208,25 +260,32 @@ let data ={
     const featuredContainer = document.getElementById("featured-albums");
     const trendingContainer = document.getElementById("trending-albums");
     const top15Container = document.getElementById("top15_albums");
-  
+    const albumsByArtistsContainer = document.getElementById("Artists-albums");
+    
+
     const featuredAlbums = data.data[0].Featured_Albums;
     const trendingAlbums = data.data[1].Trending_Albums;
     const top15Albums = data.data[2].top_15_albums;
-  
+    const albumsByArtists = data.data[3].Albums_By_Artists;
     // Wrap indices in objects for reference
     const featuredRef = { value: 0 };
     const trendingRef = { value: 0 };
-  
+    const artistsRef = { value: 0 };
     // Generic render function with prev/next buttons
     function renderAlbums(container, albums, ref) {
       const index = ref.value;
       const visible = albums.slice(index, index + 6);
+      
+      let itemClass = 'Featured-item';
+      if (container.classList.contains('trending-albums')) itemClass = 'Trending-item';
+      else if (container.id === 'Artists-albums') itemClass = 'Artists-item';
+    
       container.innerHTML = `
         <button id="${container.id}-prev" class="btn btn-sm btn-outline-secondary me-1">
           <i class="bi bi-chevron-left"></i>
         </button>
         ${visible.map(album => `
-          <div class="${container.classList.contains('featured-albums') ? 'Featured-item' : 'Trending-item'}">
+          <div class="${itemClass}" onclick="playAudio('${album.mp3}', '${album.name_music.replace(/'/g, "\\'")}', '${album.name.replace(/'/g, "\\'")}', '${album.img}')">
             <div class="mb-3"><img src="${album.img}" alt=""></div>
             <div><h6>${album.name_music}</h6></div>
             <div><span>${album.name}</span></div>
@@ -237,12 +296,13 @@ let data ={
         </button>
       `;
     }
+    
   
     // Bind navigation handlers
     function bindNav(container, albums, ref) {
       const prevBtn = document.getElementById(`${container.id}-prev`);
       const nextBtn = document.getElementById(`${container.id}-next`);
-  
+      
       prevBtn.onclick = () => {
         if (ref.value > 0) {
           ref.value--;
@@ -265,7 +325,10 @@ let data ={
   
     renderAlbums(trendingContainer, trendingAlbums, trendingRef);
     bindNav(trendingContainer, trendingAlbums, trendingRef);
-  
+    
+    renderAlbums(albumsByArtistsContainer, albumsByArtists, artistsRef);
+    bindNav(albumsByArtistsContainer, albumsByArtists, artistsRef);
+
     // Render Top 15 Albums
     let top15HTML = "";
     for (let i = 0; i < 3; i++) {
@@ -274,12 +337,12 @@ let data ={
         const idx = i * 5 + j;
         const album = top15Albums[idx];
         top15HTML += `
-          <div class="d-flex align-items-center" style="cursor: pointer;" onclick="playAudio('${album.mp3}')">
+          <div class="d-flex align-items-center" style="cursor: pointer;" onclick="playAudio('${album.mp3}', '${album.name_music.replace(/'/g, "\\'")}', '${album.name.replace(/'/g, "\\'")}', '${album.img}')">
             <div><h1>${(idx + 1).toString().padStart(2, '0')}</h1></div>
             <div class="divimg mx-3"><img class="small-img" src="${album.img}" alt=""></div>
             <div>
               <p style="margin-bottom: 0px;" class="text-top">${album.name_music}</p>
-              <p class="text-top">${album.name}</p>
+              <p class="text-top2">${album.name}</p>
             </div>
             <div class="ms-5 me-3">5:10</div>
             <div><i class="bi bi-three-dots"></i></div>
@@ -293,17 +356,24 @@ let data ={
   });
   
   let currentSrc = null;
-function playAudio(src) {
+  let name_music = document.getElementById("name_music");
+  let name_artist = document.getElementById("name_artist");
+  let img_player = document.getElementById("img_player");
+function startstopaudio(){
   const audio = document.getElementById("audio-player");
-  if (audio.src.includes(src)) {
-    if (!audio.paused) {
-      audio.pause();
-    } else {
-      audio.play();
-    }
-  } else {
-    audio.src = src;
+  if (audio.paused) {
     audio.play();
-    currentSrc = src;
+  } else {
+    audio.pause();
   }
+}  
+function playAudio(src, name_music1, name_artist1, img) {
+  name_music.innerText = name_music1;
+  name_artist.innerText = name_artist1;
+  console.log(img);
+  img_player.src = img;
+  console.log(img_player);
+  
+  const audio = document.getElementById("audio-player");  
+    audio.src = src;
 }

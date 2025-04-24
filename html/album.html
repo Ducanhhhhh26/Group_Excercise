@@ -365,46 +365,46 @@
         </div>
 
         <div class="d-flex justify-content-between mt-3">
-            <span class="text-trending">Albums By Artists</span>
+            <span class="text-Artists">Albums By Artists</span>
             <span class="view-more">view more</span>
         </div>
-        <div class="trending-albums">
-            <div class="Trending-item">
+        <div class="Artists-albums" id="Artists-albums">
+            <div class="Artists-item">
                 <div><img src="/assets/album1.jpg.png" alt=""></div>
                 <div>
                     <h6>Bloodlust</h6>
                 </div>
                 <div><span>Ava Cornish & Brian Hill</span></div>
             </div>
-            <div class="Trending-item">
+            <div class="Artists-item">
                 <div><img src="/assets/album1.jpg.png" alt=""></div>
                 <div>
                     <h6>Bloodlust</h6>
                 </div>
                 <div><span>Ava Cornish & Brian Hill</span></div>
             </div>
-            <div class="Trending-item">
+            <div class="Artists-item">
                 <div><img src="/assets/album1.jpg.png" alt=""></div>
                 <div>
                     <h6>Bloodlust</h6>
                 </div>
                 <div><span>Ava Cornish & Brian Hill</span></div>
             </div>
-            <div class="Trending-item">
+            <div class="Artists-item">
                 <div><img src="/assets/album1.jpg.png" alt=""></div>
                 <div>
                     <h6>Bloodlust</h6>
                 </div>
                 <div><span>Ava Cornish & Brian Hill</span></div>
             </div>
-            <div class="Trending-item">
+            <div class="Artists-item">
                 <div><img src="/assets/album1.jpg.png" alt=""></div>
                 <div>
                     <h6>Bloodlust</h6>
                 </div>
                 <div><span>Ava Cornish & Brian Hill</span></div>
             </div>
-            <div class="Trending-item">
+            <div class="Artists-item">
                 <div><img src="/assets/album1.jpg.png" alt=""></div>
                 <div>
                     <h6>Bloodlust</h6>
@@ -462,11 +462,11 @@
                 <div class="col-md-3">
                     <div class="d-flex align-items-center">
                         <div class="player-album-img">
-                            <img class="small-img" src="/assets/album1.jpg.png" alt="Current Song" class="img-fluid">
+                            <img id="img_player" class="small-img " src="/assets/album1.jpg.png" alt="Current Song">
                         </div>
                         <div class="player-song-info ms-3">
-                            <h6>Cro Magnon Man</h6>
-                            <p>Mushroom Records</p>
+                            <h6 id="name_music">Cro Magnon Man</h6>
+                            <p id="name_artist">Mushroom Records</p>
                         </div>
                     </div>
                 </div>
@@ -474,7 +474,7 @@
                     <div class="player-controls text-center">
                         <div class="d-flex justify-content-center align-items-center">
                             <button class="player-btn me-3"><i class="bi bi-skip-start-fill"></i></button>
-                            <button class="player-btn play-btn me-3"><i class="bi bi-play-fill"></i></button>
+                            <button class="player-btn play-btn me-3" onclick="startstopaudio()"><i class="bi bi-play-fill"></i></button>
                             <button class="player-btn me-3"><i class="bi bi-skip-end-fill"></i></button>
                         </div>
                         <div class="progress-container mt-2 d-flex align-items-center">
