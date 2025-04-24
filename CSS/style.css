@@ -590,7 +590,7 @@ header.expanded {
     padding: 0 20px 40px;
     border-top: 1px solid #2e3b4e;
     padding-top: 40px;
-    background-image: url(../ASSEST/Gradient+Overlay.png);
+    /* background-image: url(../assets/images/Gradient+Overlay.png); */
 }
 
 .footer-container {
@@ -955,4 +955,46 @@ header.expanded {
 .section-title h3 {
     color: #00c4ff;
     border-bottom: 2px solid;
+}
+.modalLogin input,
+.modalRegister input {
+    background-color: #fff;
+    border: none;
+    outline: none;
+    padding: 8px;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 14px;
+    color: #333;
+}
+
+.modalLogin input::placeholder,
+.modalRegister input::placeholder {
+    color: #999;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 14px;
+}
+
+.modalLogin .button button:hover,
+.modalRegister .button button:hover {
+    background-color: #2ca8c4;
+    border-color: #2ca8c4;
+    transition: all 0.3s ease;
+}
+
+.modalLogin .checkbox-forgot label,
+.modalLogin .checkbox-forgot p {
+    font-size: 14px;
+    color: white;
+    margin: 0;
+}
+
+.modalLogin .checkbox-forgot aside {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.modalLogin .checkbox-forgot input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
 }
