@@ -3,25 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Music Streaming Platform</title>
+    <title>HOME PAGE</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../CSS/style.css">
 </head>
 <body>
     <div class="container">
         <div class="sidebar">
-            <div class="logo">M</div>
-            <a href="#" class="active"><i class="fas fa-home"></i></a>
-            <a href="#"><i class="fas fa-headphones"></i></a>
-            <a href="#"><i class="fas fa-music"></i></a>
-            <a href="#"><i class="fas fa-gem"></i></a>
-            <a href="#"><i class="fas fa-download"></i></a>
-            <a href="#"><i class="fas fa-heart"></i></a>
-            <a href="#"><i class="fas fa-user"></i></a>
+            <div class="logo"><img src="../assets/images/logo.png.png" alt=""></div>
+            <a href="#" class="active"><i class="fas fa-home"></i><span class="sidebar-label">Home</span></a>
+            <a href="./album.html"><i class="fas fa-headphones"></i><span class="sidebar-label">Albums</span></a>
+            <a href="./artist.html"><i class="fas fa-music"></i><span class="sidebar-label">Artists</span></a>
+            <a href="./genres.html"><i class="fas fa-list"></i><span class="sidebar-label">Genres</span></a>
+            <a href="./top.html"><i class="fas fa-gem"></i><span class="sidebar-label">Top Tracks</span></a>
+            <a href="./downloads.html"><i class="fas fa-download"></i><span class="sidebar-label">Downloads</span></a>
+            <a href="./favorites.html"><i class="fas fa-heart"></i><span class="sidebar-label">Favourites</span></a>
+            <a href="./history.html"><i class="fas fa-clock"></i><span class="sidebar-label">History</span></a>
             <div class="sidebar-chevorn"><a href="#"><i class="fas fa-chevron-right"></i></a></div>
         </div>
-        
         <header class="d-flex justify-content-between align-items-center py-3 px-4">
             <div class="d-flex align-items-center">
                 <div class="search-container">
@@ -58,8 +59,8 @@
                     <p>Dreams your moments, Until I Meet You, Gimme Some Courage, Dark Alley, One more Of A Stranger,<br>Endless<br>Things, The Hearbeat Stops, Walking Promises, Desired Games and many more...</p>
                 </div>
                 <div id="banner_button">
-                    <button>Listen Now</button>
-                    <button>Add To Queue</button>
+                    <button onclick="">Listen Now</button>
+                    <button onclick="">Add To Queue</button>
                 </div>
             </div>
         </div>
@@ -113,6 +114,7 @@
                         <div class="album-artist">Coastal Sounds</div>
                     </div>
                 </div>
+                
             </div>
             <div class="carousel-controls">
                 <button><i class="fas fa-chevron-left"></i></button>
@@ -403,23 +405,31 @@
         <div class="releases">
             <div class="release-item">
                 <img src="../assets/images/img_14.png" alt="Dark Alley Acoustic">
+                <div>
                 <h4>Dark Alley Acoustic 5:10</h4>
                 <p>Ava Cornish</p>
+            </div>
             </div>
             <div class="release-item">
                 <img src="../assets/images/img_16.png" alt="Dark Alley Acoustic">
+                <div>
                 <h4>Dark Alley Acoustic 5:10</h4>
                 <p>Ava Cornish</p>
+            </div>
             </div>
             <div class="release-item">
                 <img src="../assets/images/img_14.png" alt="Dark Alley Acoustic">
+                <div>
                 <h4>Dark Alley Acoustic 5:10</h4>
                 <p>Ava Cornish</p>
             </div>
+            </div>
             <div class="release-item">
                 <img src="../assets/images/img_11.png" alt="Dark Alley Acoustic">
+                <div>
                 <h4>Dark Alley Acoustic 5:10</h4>
                 <p>Ava Cornish</p>
+            </div>
             </div>
         </div>
         <div class="pagination">
@@ -596,31 +606,47 @@
         </footer>
 
         <!-- Music Player -->
-        <div class="music-player">
-            <div class="player-info">
-                <img src="../assets/images/img_15.png" alt="Song Thumbnail">
-                <div class="player-details">
-                    <div class="player-title">Dream Your Moments</div>
-                    <div class="player-artist">Luna Echo</div>
+    <div class="music-player">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-md-3">
+                    <div class="d-flex align-items-center">
+                        <div class="player-album-img">
+                            <img class="small-img" src="../assets/song5.jpg.png" alt="Current Song" class="img-fluid">
+                        </div>
+                        <div class="player-song-info ms-3">
+                            <h6>Cro Magnon Man</h6>
+                            <p>Mushroom Records</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="player-controls">
-                <button><i class="fas fa-backward"></i></button>
-                <button><i class="fas fa-play"></i></button>
-                <button><i class="fas fa-forward"></i></button>
-            </div>
-            <div class="player-progress">
-                <span>01:23</span>
-                <input type="range" min="0" max="100" value="30">
-                <span>03:45</span>
-            </div>
-            <div class="player-options">
-                <button><i class="fas fa-volume-up"></i></button>
-                <button><i class="fas fa-list"></i></button>
+                <div class="col-md-6">
+                    <div class="player-controls text-center">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <button class="player-btn me-3"><i class="bi bi-skip-start-fill"></i></button>
+                            <button class="player-btn play-btn me-3"><i class="bi bi-play-fill"></i></button>
+                            <button class="player-btn me-3"><i class="bi bi-skip-end-fill"></i></button>
+                        </div>
+                        <div class="progress-container mt-2 d-flex align-items-center">
+                            <span class="current-time me-2">1:05</span>
+                            <div class="progress w-100">
+                                <div class="progress-bar" role="progressbar" style="width: 25%"></div>
+                            </div>
+                            <span class="total-time ms-2">4:00</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="player-options d-flex justify-content-end align-items-center">
+                        <button class="player-option-btn me-3"><i class="bi bi-volume-up"></i></button>
+                        <button class="player-option-btn me-3"><i class="bi bi-heart"></i></button>
+                        <button class="player-option-btn"><i class="bi bi-arrow-down-circle"></i></button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
+<script src="../JS/home.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>

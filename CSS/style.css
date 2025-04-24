@@ -7,7 +7,9 @@
 body {
     background-color: #0C1020;
     color: white;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "DM Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
     overflow-x: hidden;
     margin: 0;
     padding: 0;
@@ -108,7 +110,7 @@ header {
     position: fixed;
     top: 0;
     left: 0;
-    width: 80px;
+    width: 80px; /* Chiều rộng mặc định */
     height: 100vh;
     background-color: #1B2039;
     display: flex;
@@ -116,35 +118,47 @@ header {
     align-items: center;
     padding-top: 20px;
     z-index: 110;
+    transition: width 0.3s ease; /* Hiệu ứng chuyển đổi mượt mà */
 }
-.sidebar-chevorn{
+
+.sidebar.expanded {
+    width: 200px; /* Chiều rộng khi mở rộng */
+    align-items: flex-start; /* Căn chỉnh các mục sang trái khi mở rộng */
+    padding-left: 20px; /* Thêm padding bên trái */
+}
+
+.sidebar-chevorn {
     position: absolute;
     left: 70px;
     top: 350px;
-}
-.sidebar .logo {
-    width: 45px;
-    height: 45px;
-    background-color: #3BC8E7;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 50px;
-    cursor: pointer;
-    box-shadow: 0 0 15px rgba(59, 200, 231, 0.5);
+    transition: left 0.3s ease; /* Hiệu ứng chuyển đổi cho chevron */
 }
 
+.sidebar.expanded .sidebar-chevorn {
+    left: 190px; /* Điều chỉnh vị trí chevron khi sidebar mở rộng */
+}
+
+/* Ẩn nhãn văn bản mặc định */
+.sidebar-label {
+    display: none;
+    margin-left: 15px;
+    font-size: 16px;
+    color: white;
+}
+
+/* Hiển thị nhãn khi sidebar mở rộng */
+.sidebar.expanded .sidebar-label {
+    display: inline-block;
+}
+
+/* Căn chỉnh lại các mục trong sidebar */
 .sidebar a {
     color: #ffffff;
     font-size: 18px;
     text-decoration: none;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     width: 100%;
     height: 50px;
     margin-bottom: 15px;
@@ -179,6 +193,39 @@ header {
     background-color: #3BC8E7;
 }
 
+/* Điều chỉnh container và header khi sidebar mở rộng */
+.container {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    padding-left: 80px;
+    padding-bottom: 60px;
+    margin: 0;
+    max-width: none;
+    transition: padding-left 0.3s ease;
+}
+
+.container.expanded {
+    padding-left: 200px;
+}
+
+header {
+    background-color: #1B2039;
+    width: calc(100% - 80px);
+    height: 70px;
+    position: fixed;
+    top: 0;
+    left: 80px;
+    right: 0;
+    z-index: 100;
+    transition: left 0.3s ease, width 0.3s ease;
+}
+
+header.expanded {
+    left: 200px;
+    width: calc(100% - 200px);
+}
+
 /* Banner */
 .banner {
     display: flex;
@@ -190,7 +237,7 @@ header {
     border-radius: 10px;
     overflow: hidden;
     background-color: #151B33;
-    min-height: 300px;
+    height: 500px;
 }
 
 #banner_img {
@@ -198,13 +245,13 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    max-height: 300px;
     overflow: hidden;
+    height: 90%;
 }
 
 #banner_img img {
     max-width: 100%;
-    max-height: 300px;
+    max-height: 500px;
     object-fit: contain;
 }
 
@@ -214,7 +261,7 @@ header {
 }
 
 #banner_text h1 {
-    font-size: 32px;
+    font-size: 52px;
     font-weight: 700;
     margin-bottom: 20px;
     line-height: 1.2;
@@ -229,7 +276,7 @@ header {
     color: #a8b0c0;
     line-height: 1.7;
     margin-bottom: 25px;
-    font-size: 14px;
+    font-size: 18px;
 }
 
 #banner_button {
@@ -671,126 +718,83 @@ Charts Section
     position: fixed;
     bottom: 0;
     left: 0;
-    right: 0;
-    height: 60px;
-    background-color: rgba(119, 119, 119, 0.8);
-    display: flex;
-    align-items: center;
-    padding: 0 20px;
-    z-index: 200;
-}
-
-.player-info {
-    display: flex;
-    align-items: center;
-    width: 250px;
-}
-
-.player-info img {
+    width: 100%;
+    background-color: #777777e4;
+    padding: 10px 0;
+    border-top: 1px solid #ccc; /* border-color */
+    z-index: 1000;
+    }
+    
+    .player-album-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    overflow: hidden;
+    }
+    
+    .player-song-info h6 {
+    color: #ffffff; /* light-color */
+    margin-bottom: 0;
+    font-size: 14px;
+    }
+    
+    .player-song-info p {
+    color: #cccccc; /* muted-color */
+    margin-bottom: 0;
+    font-size: 12px;
+    }
+    
+    .player-btn {
+    background-color: transparent;
+    border: none;
+    color: #222222; /* text-color */
+    font-size: 20px;
+    cursor: pointer;
+    }
+    
+    .play-btn {
     width: 40px;
     height: 40px;
-    border-radius: 4px;
-    overflow: hidden;
-    margin-right: 15px;
-    object-fit: cover;
-}
-
-.player-details {
-    flex: 1;
-}
-
-.player-title {
-    font-size: 14px;
-    color: white;
-    margin-bottom: 3px;
-    white-space: nowrap;
-}
-
-.player-artist {
-    font-size: 12px;
-    color: #a8b0c0;
-}
-
-.player-controls {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-}
-
-.player-controls button {
-    background: transparent;
-    border: none;
-    color: #a8b0c0;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.player-controls button:hover {
-    color: #3BC8E7;
-}
-
-.player-progress {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 300px;
-}
-
-.player-progress span {
-    font-size: 12px;
-    color: #a8b0c0;
-}
-
-.player-progress input[type="range"] {
-    flex: 1;
-    height: 4px;
-    background-color: #2a324d;
-    border-radius: 2px;
-    outline: none;
-}
-
-.player-progress input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 12px;
-    height: 12px;
-    background-color: white;
+    background-color: #007bff; /* primary-color */
     border-radius: 50%;
-    cursor: pointer;
-}
-
-.player-progress input[type="range"]::-webkit-slider-runnable-track {
-    background-color: #3BC8E7;
-}
-
-.player-options {
     display: flex;
     align-items: center;
-    gap: 15px;
-}
-
-.player-options button {
-    background: transparent;
+    justify-content: center;
+    color: #ffffff; /* light-color */
+    }
+    
+    .progress-container {
+    width: 100%;
+    }
+    
+    .current-time,
+    .total-time {
+    font-size: 12px;
+    color: #cccccc; /* muted-color */
+    }
+    
+    .progress {
+    height: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .progress-bar {
+    background-color: #007bff; /* primary-color */
+    }
+    
+    .player-option-btn {
+    background-color: transparent;
     border: none;
-    color: #a8b0c0;
+    color: #222222; /* text-color */
     font-size: 16px;
     cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.player-options button:hover {
-    color: #3BC8E7;
-}
-
+    }
 /* New Releases Section */
 .releases {
     display: flex;
     gap: 15px;
     overflow-x: auto;
     padding: 0 30px 10px;
-    scrollbar-width: thin;
     scrollbar-color: #3BC8E7 #151B33;
 }
 
@@ -809,32 +813,25 @@ Charts Section
 
 .release-item {
     flex: 0 0 auto;
-    width: 150px;
     border-radius: 8px;
-    overflow: hidden;
-    transition: all 0.3s ease;
     cursor: pointer;
-}
-
-.release-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    display: flex;
+    padding-right: 50px;
+    margin-right: 50px;    
 }
 
 .release-item img {
-    width: 100%;
-    height: 150px;
+    width: 50px;
+    height: 50px;
     object-fit: cover;
 }
 
-.release-item h4 {
+.release-item h3 {
     font-size: 14px;
     color: white;
     margin: 10px 0 5px;
     padding: 0 10px;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .release-item p {
