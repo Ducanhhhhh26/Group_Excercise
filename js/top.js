@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
           },
           {
             name: "Ava Cornish",
-            name_music: "Dark Alley EstadoAcoustic",
+            name_music: "Dark Alley Acoustic",
             img: "../assets/11.png",
             mp3: "https://samplesongs.netlify.app/Hate%20Me.mp3",
           },
@@ -167,7 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ],
   };
 
-  //Dam bao co local storage
+  // Đảm bảo có local storage
   if (!localStorage.getItem("songData")) {
     localStorage.setItem("songData", JSON.stringify(initialSongData));
   }
@@ -384,6 +384,66 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
   };
+
+  // Search functionality
+  const searchInput = document.querySelector(".search-input");
+
+  if (searchInput) {
+    searchInput.addEventListener("input", () => {
+      const searchTerm = searchInput.value.trim().toLowerCase();
+
+      // Reset display for all songs if search term is empty
+      if (!searchTerm) {
+        document.querySelectorAll("#top15Row > div").forEach((el) => {
+          el.style.display = "flex";
+        });
+        document.querySelectorAll(".topAllTimesItem").forEach((el) => {
+          el.style.display = "block";
+        });
+        document.querySelectorAll(".trendingItem").forEach((el) => {
+          el.style.display = "flex";
+        });
+        return;
+      }
+
+      // Filter top_music (Weekly Top 15)
+      const top15Items = document.querySelectorAll("#top15Row > div");
+      songData.data[0].top_music.forEach((song, index) => {
+        const matches =
+          song.name_music.toLowerCase().includes(searchTerm) ||
+          song.name.toLowerCase().includes(searchTerm);
+        if (index < top15Items.length) {
+          top15Items[index].style.display = matches ? "flex" : "none";
+        }
+      });
+
+      // Filter top_all_times
+      songData.data[1].top_all_times.forEach((song, index) => {
+        const matches =
+          song.name_music.toLowerCase().includes(searchTerm) ||
+          song.name.toLowerCase().includes(searchTerm);
+        const element = document.querySelector(
+          `.topAllTimesItem:nth-child(${index + 1})`
+        );
+        if (element) {
+          element.style.display = matches ? "block" : "none";
+        }
+      });
+
+      // Filter trending
+      songData.data[2].trending.forEach((song, index) => {
+        const matches =
+          song.name_music.toLowerCase().includes(searchTerm) ||
+          song.name.toLowerCase().includes(searchTerm);
+        const element = document.querySelector(
+          `.trendingItem:nth-child(${index + 1})`
+        );
+        if (element) {
+          element.style.display = matches ? "flex" : "none";
+        }
+      });
+    });
+  }
 });
 
 // Chức năng toggle sidebar (mở rộng/thu gọn)
