@@ -171,15 +171,16 @@ img:hover{
     margin-top: 48px;
 }
 .text{
-    width: 132px;
+    width: 162px;
     border-bottom: 1px solid #3BC8E7;
+    margin-left: 30px;
 
 }
 .artists-grid {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     gap: 20px;
-    padding: 0 20px;
+    padding: 0 40px;
 }
 
 /* Artists Section 1 - 6 items per row */
@@ -190,8 +191,8 @@ img:hover{
 }
 
 .artist-card img {
-    width: 100%;
-    height: 150px;
+    width: 179px;
+    height: 210px;
     object-fit: cover;
     object-position: top;
     border-radius: 10px;
@@ -356,3 +357,174 @@ img:hover{
     font-size: 12px;
     color: #cccccc;
 }
+.modalLogin {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: none; /* bật lên bằng .show */
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5); /* nền tối mờ */
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+  
+  .modalLogin.show {
+    opacity: 1;
+    pointer-events: auto;
+    display: flex;
+  }
+  
+  .modalLogin > div {
+    width: 1280px;
+    height: 608px;
+    background-color: #39C6E5;
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    color: white;
+    font-family: "Josefin Sans", sans-serif;
+    transform: translateY(-30px);
+    opacity: 0;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+  }
+  .modalLogin.show > div {
+    transform: translateY(0);
+    opacity: 1;
+}
+  
+
+/* Các phần còn lại giữ nguyên */
+.formLogin {
+    width: 602px;
+    height: 318px;
+}
+.modalLogin div img {
+    width: 446px;
+    height: 446px;
+}
+.formLogin h3 {
+    text-align: center;
+    font-size: 40px !important;
+}
+#email, #password {
+    width: 602px;
+    height: 40px;
+    border-radius: 10px;
+}
+#email::placeholder, #password::placeholder {
+    padding: 8px;
+}
+#email {
+    margin-top: 24px;
+    margin-bottom: 20px;
+}
+#password {
+    margin-bottom: 8px;
+}
+.checkbox-forgot {
+    display: flex;
+    justify-content: space-between;
+}
+.button {
+    text-align: center;
+}
+.button button {
+    width: 148px;
+    height: 48px;
+    border: 1px solid white;
+    border-radius: 25px;
+    background-color: #39C6E5;
+    color: white;
+    margin-top: 19px;
+    margin-bottom: 19px;
+}
+.formLogin p {
+    text-align: center;
+}
+.formLogin p a {
+    text-decoration: none;
+    color: white;
+    font-weight: bolder;
+}
+
+
+
+.modalRegister {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+  
+  .modalRegister.show {
+    display: flex;
+  }
+  
+  .modalRegister > div {
+    width: 1280px;
+    height: 608px;
+    background-color: #39C6E5;
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    color: white;
+    font-family: "Josefin Sans", sans-serif;
+  }
+  
+  .formRegister {
+    width: 602px;
+  }
+  
+  .formRegister h3 {
+    text-align: center;
+    font-size: 40px;
+  }
+  
+  .formRegister input {
+    width: 100%;
+    height: 40px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    padding: 8px;
+  }
+  
+  .button {
+    text-align: center;
+  }
+  
+  .button button {
+    width: 148px;
+    height: 48px;
+    border: 1px solid white;
+    border-radius: 25px;
+    background-color: #39C6E5;
+    color: white;
+    margin-top: 19px;
+    margin-bottom: 19px;
+  }
+  
+  .formRegister p {
+    text-align: center;
+  }
+  
+  .formRegister p a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+  }
+  
