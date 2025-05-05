@@ -120,7 +120,11 @@ header {
     z-index: 110;
     transition: width 0.3s ease; /* Hiệu ứng chuyển đổi mượt mà */
 }
-
+.sidebar a.active {
+    background-color: #333;
+    color: white;
+    border-radius: 8px;
+  }
 .sidebar.expanded {
     width: 200px; /* Chiều rộng khi mở rộng */
     align-items: flex-start; /* Căn chỉnh các mục sang trái khi mở rộng */

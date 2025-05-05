@@ -18,7 +18,15 @@ chevronBtn.addEventListener('click', () => {
         chevronBtn.querySelector('i').classList.replace('fa-chevron-left', 'fa-chevron-right');
     }
 });
+const links = document.querySelectorAll('.sidebar a');
+const currentPage = window.location.pathname.split('/').pop();
 
+links.forEach(link => {
+  const linkPage = link.getAttribute('href');
+  if (linkPage === currentPage) {
+    link.classList.add('active');
+  }
+});
 const musicData = {
     albums: [
         { title: "Endless Summer", artist: "Sarah Johnson", image: "../assets/images/img_2.png", mp3: "../assets/1.mp3" },
@@ -120,52 +128,4 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-});
-
-
-
-
-
-
-
-document.addEventListener('DOMContentLoaded', () => {
-    const recentlyPlayedGrid = document.querySelector('.recently-played .album-grid');
-    const recentlyPlayedPrev = document.querySelector('.recently-played .carousel-controls button:first-child');
-    const recentlyPlayedNext = document.querySelector('.recently-played .carousel-controls button:last-child');
-    let recentlyPlayedIndex = 0;
-    const totalRecentlyPlayedItems = recentlyPlayedGrid.children.length;
-
-    recentlyPlayedNext.addEventListener('click', () => {
-        if (recentlyPlayedIndex < totalRecentlyPlayedItems - 6) { // Hiển thị 6 mục mỗi lần
-            recentlyPlayedIndex++;
-            recentlyPlayedGrid.style.transform = `translateX(-${recentlyPlayedIndex * (100 / 6)}%)`;
-        }
-    });
-
-    recentlyPlayedPrev.addEventListener('click', () => {
-        if (recentlyPlayedIndex > 0) {
-            recentlyPlayedIndex--;
-            recentlyPlayedGrid.style.transform = `translateX(-${recentlyPlayedIndex * (100 / 6)}%)`;
-        }
-    });
-
-    const featuredArtistsGrid = document.querySelector('.featured-artists .album-grid');
-    const featuredArtistsPrev = document.querySelector('.featured-artists .carousel-controls button:first-child');
-    const featuredArtistsNext = document.querySelector('.featured-artists .carousel-controls button:last-child');
-    let featuredArtistsIndex = 0;
-    const totalFeaturedArtistsItems = featuredArtistsGrid.children.length;
-
-    featuredArtistsNext.addEventListener('click', () => {
-        if (featuredArtistsIndex < totalFeaturedArtistsItems - 6) {
-            featuredArtistsIndex++;
-            featuredArtistsGrid.style.transform = `translateX(-${featuredArtistsIndex * (100 / 6)}%)`;
-        }
-    });
-
-    featuredArtistsPrev.addEventListener('click', () => {
-        if (featuredArtistsIndex > 0) {
-            featuredArtistsIndex--;
-            featuredArtistsGrid.style.transform = `translateX(-${featuredArtistsIndex * (100 / 6)}%)`;
-        }
-    });
-});
+})
