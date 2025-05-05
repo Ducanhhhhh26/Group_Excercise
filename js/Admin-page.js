@@ -1,4 +1,6 @@
+
 document.addEventListener("DOMContentLoaded", () => {
+  
   let accounts = JSON.parse(localStorage.getItem("accounts")) || [];
   let currentFilter = "all";
   let currentPage = 1;
