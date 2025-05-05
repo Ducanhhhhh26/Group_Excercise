@@ -293,17 +293,3 @@ let data ={
   });
   
   let currentSrc = null;
-function playAudio(src) {
-  const audio = document.getElementById("audio-player");
-  if (audio.src.includes(src)) {
-    if (!audio.paused) {
-      audio.pause();
-    } else {
-      audio.play();
-    }
-  } else {
-    audio.src = src;
-    audio.play();
-    currentSrc = src;
-  }
-}

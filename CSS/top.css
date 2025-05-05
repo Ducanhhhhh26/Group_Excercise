@@ -68,54 +68,142 @@ header {
     padding: 5px 15px;
     height: 3rem;
 }
-
 .sidebar {
     position: fixed;
     top: 0;
     left: 0;
-    width: 65px;
+    width: 80px;
+    /* Chiều rộng mặc định */
     height: 100vh;
-    /* Full height to match the page */
-    background-color: #1a252f;
+    background-color: #1B2039;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding-top: 20px;
+    z-index: 110;
+    transition: width 0.3s ease;
+    /* Hiệu ứng chuyển đổi mượt mà */
+}
+
+.sidebar.expanded {
+    width: 200px;
+    /* Chiều rộng khi mở rộng */
+    align-items: flex-start;
+    /* Căn chỉnh các mục sang trái khi mở rộng */
+    padding-left: 20px;
+    /* Thêm padding bên trái */
 }
 
 .sidebar .logo {
-    width: 30px;
-    height: 30px;
-    background-color: #00c4ff;
-    border-radius: 50%;
+    margin-bottom: 20px;
     display: flex;
     justify-content: center;
-    align-items: center;
-    color: white;
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 40px;
+    width: 100%;
+    transition: all 0.3s ease;
 }
 
+.sidebar .logo img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+.sidebar.expanded .logo {
+    justify-content: flex-start;
+    margin-left: 40px;
+}
+
+.sidebar.expanded .logo img {
+    width: 100px;
+    height: 100px;
+}
+
+.sidebar-chevorn {
+    position: absolute;
+    left: 70px;
+    top: 350px;
+    transition: left 0.3s ease;
+    /* Hiệu ứng chuyển đổi cho chevron */
+}
+
+.sidebar.expanded .sidebar-chevorn {
+    left: 190px;
+    /* Điều chỉnh vị trí chevron khi sidebar mở rộng */
+    transform: rotate(180deg);
+}
+
+.sidebar-chevorn i {
+    transition: transform 1s ease;
+}
+
+/* Ẩn nhãn văn bản mặc định */
+.sidebar-label {
+    display: none;
+    margin-left: 15px;
+    font-size: 16px;
+    color: white;
+}
+
+.sidebar.expanded a {
+    justify-content: flex-start;
+    /* ✅ icon + text sát trái */
+    padding-left: 15px;
+    /* ✅ tạo khoảng cách trái */
+}
+
+/* Hiển thị nhãn khi sidebar mở rộng */
+.sidebar.expanded .sidebar-label {
+    display: inline-block;
+}
+
+/* Căn chỉnh lại các mục trong sidebar */
 .sidebar a {
     color: #ffffff;
-    font-size: 20px;
+    font-size: 18px;
     text-decoration: none;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    /* Sửa ở đây */
     width: 100%;
     height: 50px;
+    margin-bottom: 15px;
     transition: background-color 0.3s;
+    position: relative;
+    padding-left: 15px;
+    /* Thêm để tạo khoảng cách từ cạnh trái */
+}
+
+.sidebar a i {
+    margin-right: 10px;
+    /* Giữa icon và nhãn */
+}
+
+.sidebar a::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background-color: transparent;
+    transition: all 0.3s ease;
 }
 
 .sidebar a:hover {
     background-color: #2e3b4e;
 }
 
+.sidebar a:hover::before {
+    background-color: #3BC8E7;
+}
+
 .sidebar a.active {
-    background-color: #00c4ff;
-    color: #ffffff;
+    background-color: #28304d;
+}
+
+.sidebar a.active::before {
+    background-color: #3BC8E7;
 }
 
 #topContainer {
@@ -208,6 +296,7 @@ header {
     color: white;
     font-size: 16px;
     margin: 0 15px;
+    margin-bottom: 9px;
     /* Reduced for better alignment */
     cursor: pointer;
 }#topAllTimes {
@@ -416,6 +505,10 @@ header {
     border-top: 1px solid #2e3b4e;
     padding-top: 40px;
     background-image: url(../assets/Gradient+Overlay.png);
+        background-size: 100% 100%;
+            /* hoặc cover, contain, hoặc kích thước cụ thể */
+            background-repeat: no-repeat;
+            background-position: center;
 }
 
 .footer-container {
@@ -735,4 +828,15 @@ header {
     text-decoration: none;
     color: white;
     font-weight: bold;
+}
+
+.small-img {
+
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    /* giúp ảnh không bị méo */
+}
+.hidden {
+    display: none;
 }
