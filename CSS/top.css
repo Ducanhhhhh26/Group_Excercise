@@ -296,6 +296,7 @@ header {
     color: white;
     font-size: 16px;
     margin: 0 15px;
+    margin-bottom: 9px;
     /* Reduced for better alignment */
     cursor: pointer;
 }#topAllTimes {
