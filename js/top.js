@@ -172,6 +172,16 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("songData", JSON.stringify(initialSongData));
   }
 
+  const links = document.querySelectorAll(".sidebar a");
+  const currentPage = window.location.pathname.split("/").pop();
+
+  links.forEach((link) => {
+    const linkPage = link.getAttribute("href");
+    if (linkPage === currentPage) {
+      link.classList.add("active");
+    }
+  });
+
   // Modal Toggling and Music Player Visibility
   const loginBtn = document.querySelector(".login-btn");
   const registerBtn = document.querySelector(".register-btn");
@@ -358,7 +368,7 @@ document.addEventListener("DOMContentLoaded", () => {
     JSON.parse(localStorage.getItem("songData")) || initialSongData;
   localStorage.setItem("songData", JSON.stringify(songData));
 
-  // Function to play a song when clicked via onclick in HTML
+  // Function play song when clicked
   window.playSong = function (index, category) {
     let song;
     if (category === "top_music") {
@@ -385,14 +395,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  // Search functionality
+  // Search function
   const searchInput = document.querySelector(".search-input");
 
   if (searchInput) {
     searchInput.addEventListener("input", () => {
       const searchTerm = searchInput.value.trim().toLowerCase();
 
-      // Reset display for all songs if search term is empty
+      // Reset display
       if (!searchTerm) {
         document.querySelectorAll("#top15Row > div").forEach((el) => {
           el.style.display = "flex";
@@ -406,7 +416,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // Filter top_music (Weekly Top 15)
+      // Filter Weekly Top 15
       const top15Items = document.querySelectorAll("#top15Row > div");
       songData.data[0].top_music.forEach((song, index) => {
         const matches =
@@ -446,7 +456,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// Chức năng toggle sidebar (mở rộng/thu gọn)
 const sidebar = document.querySelector(".sidebar");
 const chevronBtn = document.querySelector(".sidebar-chevorn a");
 const mainContent = document.querySelector(".container");
