@@ -380,3 +380,27 @@ function playAudio(src, name_music1, name_artist1, img) {
   let audio = document.getElementById("audio-player");  
     audio.src = src;
 }
+// Chức năng toggle sidebar (mở rộng/thu gọn)
+const sidebar = document.querySelector('.sidebar'); // Lấy phần tử sidebar
+const chevronBtn = document.querySelector('.sidebar-chevorn a'); // Lấy nút chevron (mũi tên)
+const mainContent = document.querySelector('.container'); // Lấy container chính
+const header = document.querySelector('header'); // Lấy header
+let isSidebarExpanded = false; // Biến trạng thái: false = sidebar thu gọn, true = sidebar mở rộng
+
+// Thêm sự kiện click cho nút chevron để toggle sidebar
+chevronBtn.addEventListener('click', () => {
+    isSidebarExpanded = !isSidebarExpanded; // Đổi trạng thái (thu gọn ↔ mở rộng)
+    if (isSidebarExpanded) {
+        // Khi sidebar mở rộng
+        sidebar.classList.add('expanded'); // Thêm class .expanded cho sidebar
+        mainContent.classList.add('expanded'); // Điều chỉnh padding container
+        header.classList.add('expanded'); // Điều chỉnh vị trí và chiều rộng header
+        chevronBtn.querySelector('i').classList.replace('fa-chevron-right', 'fa-chevron-left'); // Đổi biểu tượng thành mũi tên trái
+    } else {
+        // Khi sidebar thu gọn
+        sidebar.classList.remove('expanded'); // Xóa class .expanded
+        mainContent.classList.remove('expanded'); // Khôi phục padding container
+        header.classList.remove('expanded'); // Khôi phục header
+        chevronBtn.querySelector('i').classList.replace('fa-chevron-left', 'fa-chevron-right'); // Đổi biểu tượng thành mũi tên phải
+    }
+});
