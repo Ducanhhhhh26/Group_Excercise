@@ -536,6 +536,10 @@ img {
 .formLogin {
     width: 602px;
     height: 318px;
+  
+}
+.formLogin input{
+  padding: 8px ;
 }
 .modalLogin div img {
     width: 446px;
