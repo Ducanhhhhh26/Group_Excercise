@@ -962,10 +962,10 @@ header.expanded {
     left: 0;
     width: 100vw;
     height: 100vh;
-    display: none; /* bật lên bằng .show */
+    display: none;
     justify-content: center;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.5); /* nền tối mờ */
+    background-color: rgba(0, 0, 0, 0.5);
     z-index: 999;
   }
 
@@ -986,8 +986,6 @@ header.expanded {
     font-family: "Josefin Sans", sans-serif;
   }
 
-
-/* Các phần còn lại giữ nguyên */
 .formLogin {
     width: 602px;
     height: 318px;
@@ -1112,4 +1110,19 @@ header.expanded {
     text-decoration: none;
     color: white;
     font-weight: bold;
+  }
+.logout-btn:hover {
+    background-color: #e60000;
+}
+header .d-flex.align-items-center span.me-2 {
+    color: #ffffff;
+    font-size: 14px;
+}
+.logout-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
   }
