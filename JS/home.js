@@ -121,6 +121,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+
+
+
+
+
+
 document.addEventListener('DOMContentLoaded', () => {
     const recentlyPlayedGrid = document.querySelector('.recently-played .album-grid');
     const recentlyPlayedPrev = document.querySelector('.recently-played .carousel-controls button:first-child');

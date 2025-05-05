@@ -39,16 +39,17 @@
         </div>
     </header>
     <div class="sidebar">
-        <div class="logo">M</div>
-        <a href="#"><i class="fas fa-home"></i></a>
-        <a href="#" class="active"><i class="fas fa-headphones"></i></a>
-        <a href="#"><i class="bi bi-mic-fill"></i></a>
-        <a href="#"><i class="bi bi-file-earmark-music"></i></a>
-        <a href="#"><i class="fas fa-gem"></i></a>
+        <div class="logo"><img src="../assets/images/logo.png.png" alt=""></div>
+        <a href="index.html" class="active"><img src="../assets/Image (2).png" alt=""><span class="sidebar-label">Home</span></a>
+        <a href="album.html"><img src="../assets/Image (3).png" alt=""><span class="sidebar-label">Albums</span></a>
+        <a href="artist.html"><img src="../assets/icon.svg fill.png" alt=""><span class="sidebar-label">Artists</span></a>
+        <a href="#"><img src="../assets/Image (4).png" alt=""><span class="sidebar-label">Genres</span></a>
+        <a href="top.html"><img src="../assets/Image (5).png" alt=""><span class="sidebar-label">Top Tracks</span></a>
         
-        <a href="#"><i class="fas fa-download"></i></a>
-        <a href="#"><i class="fas fa-heart"></i></a>
-        <a href="#"><i class="fas fa-user"></i></a>
+        <a href="#"><img src="../assets/Image (6).png" alt=""><span class="sidebar-label">Downloads</span></a>
+        <a href="#"><img src="../assets/Image (7).png" alt=""><span class="sidebar-label">Favourites</span></a>
+        <a href="#"><img src="../assets/Image (8).png" alt=""><span class="sidebar-label">History</span></a>
+        <div class="sidebar-chevorn"><a href="#"><i class="fas fa-chevron-right"></i></a></div>
     </div>
     <div class="container">
         <div class="d-flex justify-content-between mt-3">
@@ -365,46 +366,46 @@
         </div>
 
         <div class="d-flex justify-content-between mt-3">
-            <span class="text-trending">Albums By Artists</span>
+            <span class="text-Artists">Albums By Artists</span>
             <span class="view-more">view more</span>
         </div>
-        <div class="trending-albums">
-            <div class="Trending-item">
+        <div class="Artists-albums" id="Artists-albums">
+            <div class="Artists-item">
                 <div><img src="/assets/album1.jpg.png" alt=""></div>
                 <div>
                     <h6>Bloodlust</h6>
                 </div>
                 <div><span>Ava Cornish & Brian Hill</span></div>
             </div>
-            <div class="Trending-item">
+            <div class="Artists-item">
                 <div><img src="/assets/album1.jpg.png" alt=""></div>
                 <div>
                     <h6>Bloodlust</h6>
                 </div>
                 <div><span>Ava Cornish & Brian Hill</span></div>
             </div>
-            <div class="Trending-item">
+            <div class="Artists-item">
                 <div><img src="/assets/album1.jpg.png" alt=""></div>
                 <div>
                     <h6>Bloodlust</h6>
                 </div>
                 <div><span>Ava Cornish & Brian Hill</span></div>
             </div>
-            <div class="Trending-item">
+            <div class="Artists-item">
                 <div><img src="/assets/album1.jpg.png" alt=""></div>
                 <div>
                     <h6>Bloodlust</h6>
                 </div>
                 <div><span>Ava Cornish & Brian Hill</span></div>
             </div>
-            <div class="Trending-item">
+            <div class="Artists-item">
                 <div><img src="/assets/album1.jpg.png" alt=""></div>
                 <div>
                     <h6>Bloodlust</h6>
                 </div>
                 <div><span>Ava Cornish & Brian Hill</span></div>
             </div>
-            <div class="Trending-item">
+            <div class="Artists-item">
                 <div><img src="/assets/album1.jpg.png" alt=""></div>
                 <div>
                     <h6>Bloodlust</h6>
@@ -462,11 +463,11 @@
                 <div class="col-md-3">
                     <div class="d-flex align-items-center">
                         <div class="player-album-img">
-                            <img class="small-img" src="/assets/album1.jpg.png" alt="Current Song" class="img-fluid">
+                            <img id="img_player" class="small-img " src="/assets/album1.jpg.png" alt="Current Song">
                         </div>
                         <div class="player-song-info ms-3">
-                            <h6>Cro Magnon Man</h6>
-                            <p>Mushroom Records</p>
+                            <h6 id="name_music">Cro Magnon Man</h6>
+                            <p id="name_artist">Mushroom Records</p>
                         </div>
                     </div>
                 </div>
@@ -474,7 +475,7 @@
                     <div class="player-controls text-center">
                         <div class="d-flex justify-content-center align-items-center">
                             <button class="player-btn me-3"><i class="bi bi-skip-start-fill"></i></button>
-                            <button class="player-btn play-btn me-3"><i class="bi bi-play-fill"></i></button>
+                            <button class="player-btn play-btn me-3 " id="start-pause" onclick="startstopaudio()"><i class="bi bi-play-fill"></i></button>
                             <button class="player-btn me-3"><i class="bi bi-skip-end-fill"></i></button>
                         </div>
                         <div class="progress-container mt-2 d-flex align-items-center">
