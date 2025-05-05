@@ -143,6 +143,7 @@ header {
 
 .sidebar.expanded .logo {
     justify-content: flex-start;
+    margin-left: 40px;
 }
 
 .sidebar.expanded .logo img {
@@ -168,7 +169,10 @@ header {
     font-size: 16px;
     color: white;
 }
-
+.sidebar.expanded a {
+    justify-content: flex-start; /* ✅ icon + text sát trái */
+    padding-left: 15px; /* ✅ tạo khoảng cách trái */
+}
 /* Hiển thị nhãn khi sidebar mở rộng */
 .sidebar.expanded .sidebar-label {
     display: inline-block;
@@ -181,12 +185,17 @@ header {
     text-decoration: none;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center; /* Sửa ở đây */
     width: 100%;
     height: 50px;
     margin-bottom: 15px;
     transition: background-color 0.3s;
     position: relative;
+    padding-left: 15px; /* Thêm để tạo khoảng cách từ cạnh trái */
+}
+
+.sidebar a i {
+    margin-right: 10px; /* Giữa icon và nhãn */
 }
 
 .sidebar a::before {
@@ -423,6 +432,125 @@ header.expanded {
 .carousel-controls button:hover {
     color: #3BC8E7;
 }
+.album-grid {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 15px;
+    padding: 0 30px;
+    transition: transform 0.3s ease;
+}
+
+.album-item {
+    flex: 0 0 16.66%; /* Mỗi mục chiếm 1/6 chiều rộng */
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+/* Popular Albums Grid */
+.album-grid {
+    display: flex; /* Hỗ trợ carousel */
+    flex-wrap: nowrap; /* Sắp xếp ngang */
+    gap: 15px;
+    padding: 0 30px;
+    transition: transform 0.3s ease; /* Hiệu ứng mượt mà */
+}
+
+.album-item {
+    flex: 0 0 16.66%; /* Mỗi mục chiếm 1/6 chiều rộng */
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+/* Carousel Controls */
+.carousel-controls {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    padding: 0 15px;
+}
+
+.carousel-controls button {
+    background: transparent;
+    border: none;
+    color: #a8b0c0;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.carousel-controls button:hover {
+    color: #3BC8E7;
+}
+
+/* Carousel Genre */
+.carousel-genre {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 18px;
+    font-weight: bold;
+    color: #3BC8E7;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 5px 15px;
+    border-radius: 12px;
+}
+
+/* Đảm bảo các section hỗ trợ carousel */
+.recently-played, .featured-artists, .featured-albums {
+    position: relative;
+}
+
+/* Các style khác giữ nguyên */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; 
+}
+
+body {
+    background-color: #0C1020;
+    color: white;
+    font-family: "DM Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+/* Style cho nút xóa và thông báo tìm kiếm */
+.search-container .clear-btn {
+    position: absolute;
+    right: 40px;
+    top: 0;
+    height: 100%;
+    border: none;
+    background-color: transparent;
+    padding: 0 15px;
+    cursor: pointer;
+    color: #a8b0c0;
+}
+
+.search-container .clear-btn:hover {
+    color: #3BC8E7;
+}
+
+.search-message {
+    font-size: 16px;
+    color: #a8b0c0;
+    text-align: center;
+    margin: 80px 30px 20px;
+}
 
 /* Charts Section */
 .charts-section {
@@ -583,31 +711,32 @@ header.expanded {
     font-size: 12px;
     color: #a8b0c0;
 }
-
-/* Footer */
 .footer {
     background-color: #1a252f;
-    padding: 0 20px 40px;
+    padding: 0 20px 40px; /* Remove top padding to connect with section above */
     border-top: 1px solid #2e3b4e;
     padding-top: 40px;
-    background-image: url(../ASSEST/Gradient+Overlay.png);
-}
+    background-image: url(/assets/Gradient+Overlay.png);
+    background-size: 100% 100%; /* hoặc cover, contain, hoặc kích thước cụ thể */
+    background-repeat: no-repeat;
+    background-position: center;
+    }
 
-.footer-container {
+    .footer-container {
     display: flex;
     justify-content: space-between;
     max-width: 1200px;
     margin: 0 auto;
     flex-wrap: wrap;
     gap: 20px;
-}
+    }
 
-.footer-logo {
+    .footer-logo {
     text-align: center;
     margin-bottom: 40px;
-}
+    }
 
-.footer-logo .logo {
+    .footer-logo .logo {
     width: 50px;
     height: 50px;
     background-color: #00c4ff;
@@ -619,70 +748,70 @@ header.expanded {
     font-size: 28px;
     font-weight: bold;
     margin: 0 auto 10px;
-}
+    }
 
-.footer-logo h1 {
+    .footer-logo h1 {
     font-size: 24px;
     color: #ffffff;
-}
+    }
 
-.footer-column {
+    .footer-column {
     flex: 1;
     min-width: 200px;
     margin-bottom: 20px;
-}
+    }
 
-.footer-column h3 {
+    .footer-column h3 {
     font-size: 18px;
     color: #00c4ff;
     margin-bottom: 15px;
     text-transform: uppercase;
-}
+    }
 
-.footer-column p {
+    .footer-column p {
     font-size: 14px;
     line-height: 1.6;
     color: #cccccc;
-}
+    }
 
-.footer-column a {
+    .footer-column a {
     color: #00c4ff;
     text-decoration: none;
     font-size: 14px;
-}
+    }
 
-.footer-column a:hover {
+    .footer-column a:hover {
     text-decoration: underline;
-}
+    }
 
-.footer-column .app-links {
+    .footer-column .app-links {
     display: flex;
     flex-direction: column;
     gap: 10px;
     margin-top: 10px;
-}
+    }
 
-.footer-column .app-links img {
+    .footer-column .app-links img {
     width: 120px;
     height: auto;
-}
+    }
 
-.footer-column .subscribe-form {
+    .footer-column .subscribe-form {
     display: flex;
     flex-direction: column;
     gap: 10px;
-}
+    }
 
-.footer-column .subscribe-form input {
+    .footer-column .subscribe-form input {
     padding: 10px;
     border: 1px solid #2e3b4e;
     border-radius: 5px;
     background-color: #2e3b4e;
     color: #ffffff;
     font-size: 14px;
-}
+    }
 
-.footer-column .subscribe-form button {
+    .footer-column .subscribe-form button {
     padding: 10px;
     background-color: #00c4ff;
     border: none;
@@ -690,51 +819,50 @@ header.expanded {
     color: #ffffff;
     font-size: 14px;
     cursor: pointer;
-}
+    transition: background-color 0.3s;
+    }
 
-.footer-column .subscribe-form button:hover {
+    .footer-column .subscribe-form button:hover {
     background-color: #00aaff;
-}
+    }
 
-.footer-column .contact-info {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
 
-.footer-column .contact-info p {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 14px;
-}
 
-.footer-column .contact-info i {
-    color: #00c4ff;
-}
+    .footer-column .contact-info i {
+    color: #ffffff;
+    }
 
-.footer-column .social-links {
+    .footer-column .social-links {
     display: flex;
     gap: 15px;
     margin-top: 15px;
-}
+    }
 
-.footer-column .social-links a {
-    color: #00c4ff;
+    .footer-column .social-links a {
+    color: white;
     font-size: 18px;
-    border: 1px solid grey;
     margin: 3px;
     padding: 5px;
-}
+    }
+    .icon-social{
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    background-color: #3BC8E7;
+    width: 40px;
+    height: 40px;
+    }
 
-.footer-bottom {
+    .footer-bottom {
     text-align: center;
     margin-top: 20px;
     padding-top: 20px;
     border-top: 1px solid #2e3b4e;
     font-size: 12px;
     color: #cccccc;
-}
+    }
 
 /* Music Player */
 .music-player {
@@ -742,7 +870,7 @@ header.expanded {
     bottom: 0;
     left: 0;
     width: 100%;
-    background-color: #1B2039; /* Đồng bộ với tông màu chủ đạo */
+    background-color: #1B2039;
     padding: 10px 0;
     border-top: 1px solid #2e3b4e;
     z-index: 1000;
@@ -840,8 +968,8 @@ header.expanded {
     border-radius: 8px;
     cursor: pointer;
     display: flex;
-    padding-right: 20px; /* Giảm khoảng cách */
-    margin-right: 20px; /* Giảm khoảng cách */
+    padding-right: 70px;
+    margin-right: 70px; 
 }
 
 .release-item img {
