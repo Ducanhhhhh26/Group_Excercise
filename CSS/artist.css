@@ -169,7 +169,11 @@ header{
     position: relative;
     padding-left: 7px; /* Thêm để tạo khoảng cách từ cạnh trái */
 }
-
+.sidebar a.active {
+  background-color: #333;
+  color: white;
+  border-radius: 8px;
+}
 .sidebar a i {
     margin-right: 10px; /* Giữa icon và nhãn */
 }
@@ -229,19 +233,7 @@ img {
   }
   
   /* Wrapper dùng để ẩn phần trượt */
-  .carousel-wrapper {
-    width: 1217px; 
-    overflow: hidden;
-    margin: 0 auto;
-  }
-  
-  /* Grid dùng để trượt */
-  .artists-grid {
-    display: flex;
-    gap: 20px;
-    animation: slide-left 15s linear infinite;
-    width: max-content;
-  }
+
   
   /* Card từng nghệ sĩ */
   .artist-card {
@@ -263,7 +255,19 @@ img {
     font-size: 14px;
     color: #ffffff;
   }
+  .carousel-wrapper {
+    width: 1217px; 
+    overflow: hidden;
+    margin: 0 auto;
+  }
   
+  /* Grid dùng để trượt */
+  .artists-grid {
+    display: flex;
+    gap: 20px;
+    animation: slide-left 15s linear infinite;
+    width: max-content;
+  }
   /* Keyframe cho hiệu ứng trượt */
   @keyframes slide-left {
     0% {
