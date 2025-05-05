@@ -132,7 +132,7 @@ header{
   align-items: center;
   justify-content: center;
   flex-wrap: nowrap;
-  gap: 3rem;
+  gap: 2rem;
 }
 .Featured-item{
   margin-top: 2rem;
@@ -151,12 +151,27 @@ header{
   align-items: center;
   justify-content: center;
   flex-wrap: nowrap;
-  gap: 3rem;
+  gap: 2rem;
+}
+.Artists-albums{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 2rem;
 }
 .Trending-item{
   margin-top: 2rem;
 }
+.Artists-item{
+  margin-top: 2rem;
+}
 .text-trending {
+  color:#3BC8E7;
+  font-size: 20px;
+  border-bottom: 1px solid #3BC8E7;
+}
+.text-Artists{
   color:#3BC8E7;
   font-size: 20px;
   border-bottom: 1px solid #3BC8E7;
@@ -174,6 +189,10 @@ header{
 }
 .text-top{
   font-size: 20px;
+  
+}
+.text-top2{
+  font-size: 15px;
   
 }
 .divimg{
@@ -276,6 +295,9 @@ padding: 0 20px 40px; /* Remove top padding to connect with section above */
 border-top: 1px solid #2e3b4e;
 padding-top: 40px;
 background-image: url(/assets/Gradient+Overlay.png);
+background-size: 100% 100%; /* hoặc cover, contain, hoặc kích thước cụ thể */
+background-repeat: no-repeat;
+background-position: center;
 }
 
 .footer-container {
