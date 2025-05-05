@@ -40,29 +40,37 @@
             </div>
         </div>
     </header>
-<div class="sidebar">
-    <div class="logo">M</div>
-    <a href="#"><i class="fas fa-home"></i></a>
-    <a href="#" class="active"><i class="fas fa-headphones"></i></a>
-    <a href="#"><i class="fas fa-music"></i></a>
-    <a href="#"><i class="fas fa-gem"></i></a>
-    <a href="#"><i class="fas fa-chevron-right"></i></a>
-    <a href="#"><i class="fas fa-download"></i></a>
-    <a href="#"><i class="fas fa-heart"></i></a>
-    <a href="#"><i class="fas fa-user"></i></a>
-</div>
+    <div class="sidebar">
+        <div class="logo"><img src="../assets/images/logo.png.png" alt=""></div>
+        <a href="index.html" class="active"><img src="../assets/Image (2).png" alt=""><span class="sidebar-label">Home</span></a>
+        <a href="album.html"><img src="../assets/Image (3).png" alt=""><span class="sidebar-label">Albums</span></a>
+        <a href="artist.html"><img src="../assets/icon.svg fill.png" alt=""><span class="sidebar-label">Artists</span></a>
+        <a href="#"><img src="../assets/Image (4).png" alt=""><span class="sidebar-label">Genres</span></a>
+        <a href="top.html"><img src="../assets/Image (5).png" alt=""><span class="sidebar-label">Top Tracks</span></a>
+        <br>
+        
+        <a href="#"><img src="../assets/Image (6).png" alt=""><span class="sidebar-label">Downloads</span></a>
+        <a href="#"><img src="../assets/Image (7).png" alt=""><span class="sidebar-label">Favourites</span></a>
+        <a href="#"><img src="../assets/Image (8).png" alt=""><span class="sidebar-label">History</span></a>
+        <div class="sidebar-chevorn"><a href="#"><i class="fas fa-chevron-right"></i></a></div>
+    </div>
 
 <main>
     <div class="artists-section">
         <p class="text">Featured Artists</p>
-        <div class="artists-grid">
-            /*Nội dung render ở đây*/
+      
+        <!-- Wrapper để ẩn phần tràn -->
+        <div class="carousel-wrapper">
+          <!-- Track để slide -->
+          <div class="artists-grid">
+            <!-- JS render các .artist-card tại đây -->
+          </div>
         </div>
-    </div>
+      </div>
 
-    <div class="artists-section">
+    <div class="artists-section2">
         <p class="text">Featured Artists</p>
-        <div class="artists-grid">
+        <div class="artists-grid2">
             /*Nội dung render ở đây*/
         </div>
     </div>
@@ -72,7 +80,7 @@
    <footer class="footer">
     <!-- Logo -->
     <div class="footer-logo">
-       <img src="../assets/" alt="">
+        <img src="/assets/open_logo.png.png" alt="">
     </div>
 
     <!-- Footer Columns -->
@@ -81,7 +89,9 @@
         <div class="footer-column">
             <h3>Miraculous Music Station</h3>
             <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat Duis aute irure dolor.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                laboris nisi ut aliquip ex ea commodo consequat Duis aute irure dolor.
             </p>
         </div>
 
@@ -90,9 +100,9 @@
             <h3>Download Our App</h3>
             <p>Go Mobile with our app. Listen to your favourite songs at just one click. Download Now!</p>
             <div class="app-links">
-                <a href="#"><i class="fa-brands fa-google"></i>  Google Play</a>
-                <a href="#"><i class="fa-brands fa-app-store-ios"></i>  App Store</a>
-                <a href="#"><i class="fa-solid fa-window-restore"></i>  Windown Store</a>
+                <a href="#"><img src="/assets/google_play.jpg.png" alt=""></a>
+                <a href="#"><img src="/assets/app_store.jpg.png" alt=""></a>
+                <a href="#"><img src="/assets/windows.jpg.png" alt=""></a>
             </div>
         </div>
 
@@ -110,18 +120,40 @@
         <!-- Column 4: Contact Us -->
         <div class="footer-column">
             <h3>Contact Us</h3>
-            <div class="contact-info">
-                <p><i class="fas fa-phone"></i> Call Us: (+1) 202-555-0176, (+1) 202-555-0150</p>
-                <p><i class="fas fa-envelope"></i> Email Us: demo@email.com, dummy@email.com</p>
-                <p><i class="fas fa-map-marker-alt"></i> Walk In: 598 Old House Drive, London</p>
+            <div class="contact-info ">
+                <div class="d-flex">
+                    <div class="icon-social me-3 w-25">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <p>Call Us: (+1) 202-555-0176, (+1) 202-555-0150</p>
+                </div>
+                <div class="d-flex">
+                    <div class="icon-social me-3 w-25"><i class="fas fa-envelope"></i></div> 
+                    <p>Email Us:
+                        demo@email.com, dummy@email.com</p>
+                </div>
+                <div class="d-flex">
+                    <div class="icon-social  me-3 "><i class="fas fa-map-marker-alt"></i></div>
+                    <p>Walk In: 598 Old
+                        House Drive, London</p> 
+                </div>
             </div>
             <div class="social-links">
                 <h3>Follow Us</h3>
-                <div>
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-google-plus-g"></i></a>
+                <div class="d-flex ">
+                    <div class="icon-social me-3">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    </div>
+                    <div class="icon-social me-3">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                    <div class="icon-social me-3">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                    <div class="icon-social me-3">
+                        <a href="#"><i class="fab fa-google-plus-g"></i></a>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -132,6 +164,7 @@
         <p>Copyright © 2022 The Miraculous Music Template. All Rights Reserved.</p>
     </div>
 </footer>
+
 <section class="modalLogin">
     <div>
       <img src="../assets/headphones 1.png" alt="Headphones" style="width:446px; height:446px;">
@@ -181,16 +214,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../js/artists.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
