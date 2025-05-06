@@ -332,12 +332,6 @@ header.expanded {
     font-size: 14px;
 }
 
-#banner_button button:hover {
-    background-color: #2ca8c4;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(59, 200, 231, 0.3);
-}
-
 /* Popular Albums Grid */
 .section-title {
     font-size: 18px;

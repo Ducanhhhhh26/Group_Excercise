@@ -130,7 +130,7 @@ let isSidebarExpanded = false; // Biến trạng thái: false = sidebar thu gọ
 chevronBtn.addEventListener('click', () => {
     isSidebarExpanded = !isSidebarExpanded; // Đổi trạng thái (thu gọn ↔ mở rộng)
     if (isSidebarExpanded) {
-        // Khi sidebar mở rộng
+        // Khi sidebar mở rộng  
         sidebar.classList.add('expanded'); // Thêm class .expanded cho sidebar
         mainContent.classList.add('expanded'); // Điều chỉnh padding container
         header.classList.add('expanded'); // Điều chỉnh vị trí và chiều rộng header
@@ -221,7 +221,15 @@ searchInput.addEventListener('input', (e) => {
 
 // Render ban đầu
 renderArtistsSections1();
+const links = document.querySelectorAll('.sidebar a');
+const currentPage = window.location.pathname.split('/').pop();
 
+links.forEach(link => {
+  const linkPage = link.getAttribute('href');
+  if (linkPage === currentPage) {
+    link.classList.add('active');
+  }
+});
 
 
 

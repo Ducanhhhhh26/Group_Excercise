@@ -20,7 +20,7 @@ header{
 .search-container {
   position: relative;
   width: 250px;
-  margin-left: 3rem;
+  margin-left: 3.5rem;
 }
 
 .search-input {
@@ -90,7 +90,11 @@ header{
   z-index: 110;
   transition: width 0.3s ease; /* Hiệu ứng chuyển đổi mượt mà */
 }
-
+.sidebar a.active {
+  background-color: #333;
+  color: white;
+  border-radius: 8px;
+}
 .sidebar.expanded {
   width: 200px; /* Chiều rộng khi mở rộng */
   align-items: flex-start; /* Căn chỉnh các mục sang trái khi mở rộng */
@@ -525,4 +529,178 @@ color: #cccccc;
 }
 .top15_albums > div:last-child {
   margin-right: 0;
+}
+.modalLogin {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: none; /* bật lên bằng .show */
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5); /* nền tối mờ */
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.modalLogin.show {
+  opacity: 1;
+  pointer-events: auto;
+  display: flex;
+}
+
+.modalLogin > div {
+  width: 1280px;
+  height: 608px;
+  background-color: #39C6E5;
+  border-radius: 20px;
+  padding: 30px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  color: white;
+  font-family: "Josefin Sans", sans-serif;
+  transform: translateY(-30px);
+  opacity: 0;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+.modalLogin.show > div {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+
+/* Các phần còn lại giữ nguyên */
+.formLogin {
+  width: 602px;
+  height: 318px;
+
+}
+.formLogin input{
+padding: 8px ;
+}
+.modalLogin div img {
+  width: 446px;
+  height: 446px;
+}
+.formLogin h3 {
+  text-align: center;
+  font-size: 40px !important;
+}
+#email, #password {
+  width: 602px;
+  height: 40px;
+  border-radius: 10px;
+}
+#email::placeholder, #password::placeholder {
+  padding: 8px;
+}
+#email {
+  margin-top: 24px;
+  margin-bottom: 20px;
+}
+#password {
+  margin-bottom: 8px;
+}
+.checkbox-forgot {
+  display: flex;
+  justify-content: space-between;
+}
+.button {
+  text-align: center;
+}
+.button button {
+  width: 148px;
+  height: 48px;
+  border: 1px solid white;
+  border-radius: 25px;
+  background-color: #39C6E5;
+  color: white;
+  margin-top: 19px;
+  margin-bottom: 19px;
+}
+.formLogin p {
+  text-align: center;
+}
+.formLogin p a {
+  text-decoration: none;
+  color: white;
+  font-weight: bolder;
+}
+
+
+
+.modalRegister {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.modalRegister.show {
+  display: flex;
+}
+
+.modalRegister > div {
+  width: 1280px;
+  height: 608px;
+  background-color: #39C6E5;
+  border-radius: 20px;
+  padding: 30px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  color: white;
+  font-family: "Josefin Sans", sans-serif;
+}
+
+.formRegister {
+  width: 602px;
+}
+
+.formRegister h3 {
+  text-align: center;
+  font-size: 40px;
+}
+
+.formRegister input {
+  width: 100%;
+  height: 40px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  padding: 8px;
+}
+
+.button {
+  text-align: center;
+}
+
+.button button {
+  width: 148px;
+  height: 48px;
+  border: 1px solid white;
+  border-radius: 25px;
+  background-color: #39C6E5;
+  color: white;
+  margin-top: 19px;
+  margin-bottom: 19px;
+}
+
+.formRegister p {
+  text-align: center;
+}
+
+.formRegister p a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
 }
