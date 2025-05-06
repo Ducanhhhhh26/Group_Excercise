@@ -16,7 +16,6 @@ document.addEventListener("DOMContentLoaded", () => {
       password: "Admin@123",
       dob: "01/01/1990",
       phone: "0123456789",
-      hometown: "Hà Nội",
       role: "Admin",
     });
     localStorage.setItem("accounts", JSON.stringify(accounts));
@@ -44,10 +43,12 @@ document.addEventListener("DOMContentLoaded", () => {
       all: accounts.length,
       Users: accounts.filter((acc) => acc.role === "Users").length,
       Artists: accounts.filter((acc) => acc.role === "Artists").length,
+      Admin: accounts.filter((acc) => acc.role === "Admin").length,
     };
     document.querySelector('[data-filter="all"] .filter-count').textContent = counts.all;
     document.querySelector('[data-filter="Users"] .filter-count').textContent = counts.Users;
     document.querySelector('[data-filter="Artists"] .filter-count').textContent = counts.Artists;
+    document.querySelector('[data-filter="Admin"] .filter-count').textContent = counts.Admin;
   }
 
   // Load and render accounts
@@ -555,6 +556,8 @@ document.addEventListener("DOMContentLoaded", () => {
     checkboxes.forEach((cb) => (cb.checked = e.target.checked));
   });
 
+  
   // Initial load
   loadAccounts();
+
 });
