@@ -130,6 +130,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+//CUON TRANG
+
 
 document.addEventListener('DOMContentLoaded', () => {
     const recentlyPlayedGrid = document.querySelector('.recently-played .album-grid');
@@ -172,3 +174,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+
+
+
+// TIM KIEM
+const search_input=document.querySelector('')
