@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin page</title>
-    <link rel="stylesheet" href="/CSS/Admin-page-style.css">
-    
+    <title>Quản lý Bài hát nổi bật</title>
+    <link rel="stylesheet" href="/CSS/Admin-top.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 </head>
@@ -14,12 +13,9 @@
         <div class="sidebar-container">
             <div class="logo">
                 <a href="index.html"><img src="/assets/open_logo.png.png" alt="Miraculous"></a>
-                
             </div>
-            <div class="sidebar-chevorn"><a href="#"><i class="fas fa-chevron-right"></i></a></div>
             <div class="sidebar-menu">
-                
-                <a href="Admin-page.html" class="sidebar-item active">
+                <a href="Admin-page.html" class="sidebar-item">
                     <i class="bi bi-person-fill"></i> Users
                 </a>
                 <a href="Admin-albums.html" class="sidebar-item">
@@ -31,14 +27,13 @@
                 <a href="#" class="sidebar-item">
                     <i class="bi bi-download"></i> Download
                 </a>
-                <a href="Admin-top.html" class="sidebar-item">
+                <a href="Admin-top.html" class="sidebar-item active">
                     <i class="bi bi-gem"></i> Top tracks
                 </a>
                 <div class="d-flex align-items-center">
                     <button class="btn btn-danger logout-btn" style="margin-top: 280px;margin-left: 10px;">Đăng xuất</button>
-                  </div>
+                </div>
             </div>
-            
         </div>
     </div>
 
@@ -47,29 +42,28 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.html"><i class="bi bi-house"></i></a></li>
                 <li class="breadcrumb-item"><a href="#">Tài khoản</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Danh sách tài khoản</li>
+                <li class="breadcrumb-item active" aria-current="page">Bài hát nổi bật</li>
             </ol>
         </nav>
 
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="mb-0">Danh sách tài khoản</h2>
+            <h2 class="mb-0">Bài hát nổi bật</h2>
             <div class="d-flex">
                 <button class="btn btn-primary">
-                    <i class="bi bi-plus-lg me-1"></i> Thêm tài khoản
+                    <i class="bi bi-plus-lg me-1"></i> Thêm bài hát
                 </button>
             </div>
         </div>
 
         <div class="mb-4">
             <div class="d-flex flex-wrap">
-              <div class="filter-pill active" data-filter="all">Tất cả <span class="filter-count">0</span></div>
-              <div class="filter-pill" data-filter="Users">Users <span class="filter-count">0</span></div>
-              <div class="filter-pill" data-filter="Artists">Artists <span class="filter-count">0</span></div>
-              <div class="filter-pill" data-filter="Admin">Admins <span class="filter-count">0</span></div>
+                <div class="filter-pill active" data-filter="all">Tất cả <span class="filter-count">0</span></div>
+                <div class="filter-pill" data-filter="Top Music">Top Music <span class="filter-count">0</span></div>
+                <div class="filter-pill" data-filter="Top All Times">Top All Times <span class="filter-count">0</span></div>
+                <div class="filter-pill" data-filter="Trending">Trending <span class="filter-count">0</span></div>
             </div>
-          </div>
+        </div>
 
-        <!-- Toolbar -->
         <div class="d-flex justify-content-between mb-3">
             <div class="input-group" style="max-width: 300px;">
                 <span class="input-group-text bg-white border-end-0">
@@ -80,7 +74,6 @@
         </div>
         <button class="btn btn-danger delete-selected-btn" style="margin-bottom: 20px;">Xóa đã chọn</button>
 
-        <!-- Table -->
         <div class="card">
             <div class="table-responsive">
                 <table class="table table-hover mb-0">
@@ -88,35 +81,28 @@
                         <tr>
                             <th width="40">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="selectAll">
+                                    <input class="form-check-input" type="checkbox" id="selectAll">
                                 </div>
                             </th>
-                            <th>Mã tài khoản</th>
-                            <th>Họ và tên</th>
-                            <th>Email</th>
-                            <th>Năm sinh</th>
-                            <th>Số điện thoại</th>
-                            <th>Quê quán</th>
-                            <th>Loại</th>
+                            <th>Mã bài hát</th>
+                            <th>Tên bài hát</th>
+                            <th>Nghệ sĩ</th>
+                            <th>Loại danh sách</th>
                             <th width="80"></th>
                         </tr>
                     </thead>
-                    <tbody>
-                    </tbody>
+                    <tbody></tbody>
                 </table>
             </div>
         </div>
-        
 
-        <!-- Pagination -->
         <nav aria-label="Page navigation">
-            <ul class="pagination justify-content-center mt-3">
-            </ul>
-          </nav>
-          
-    <!-- Bootstrap JS Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+            <ul class="pagination justify-content-center mt-3"></ul>
+        </nav>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="/js/Admin-page.js"></script>
+    <script src="/js/Admin-top.js"></script>
 </body>
 </html>
