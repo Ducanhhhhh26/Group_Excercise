@@ -100,7 +100,9 @@ header{
   align-items: flex-start; /* Căn chỉnh các mục sang trái khi mở rộng */
   padding-left: 20px; /* Thêm padding bên trái */
 }
-
+.sidebar-chevorn i {
+  transition: transform 1s ease;
+}
 .sidebar .logo {
   margin-bottom: 20px;
   display: flex;

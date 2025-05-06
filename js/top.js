@@ -566,7 +566,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
-
+//Khong lam
 const sidebar = document.querySelector(".sidebar");
 const chevronBtn = document.querySelector(".sidebar-chevorn a");
 const mainContent = document.querySelector(".container");
