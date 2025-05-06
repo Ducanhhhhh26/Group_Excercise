@@ -18,37 +18,38 @@ chevronBtn.addEventListener('click', () => {
         chevronBtn.querySelector('i').classList.replace('fa-chevron-left', 'fa-chevron-right');
     }
 });
-let musicData = {
+
+const musicData = {
     albums: [
-        { title: "Endless Summer", artist: "Sarah Johnson", image: "../assets/images/img_2.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-        { title: "Midnight Dreams", artist: "Alex Turner", image: "../assets/images/img_3.png", mp3: "https://samplesongs.netlify.app/Bad%20Liar.mp3" },
-        { title: "Neon Lights", artist: "Electro Beats", image: "../assets/images/img_4.png", mp3: "https://samplesongs.netlify.app/Faded.mp3" },
-        { title: "Mountain View", artist: "Nature Sounds", image: "../assets/images/img_5.png", mp3: "https://samplesongs.netlify.app/Hate%20Me.mp3" },
-        { title: "City Lights", artist: "Urban Rhythms", image: "../assets/images/img_6.png", mp3: "https://samplesongs.netlify.app/album-arts/solo.jpg" },
-        { title: "Ocean Waves", artist: "Coastal Sounds", image: "../assets/images/img_7.png", mp3: "https://samplesongs.netlify.app/Without%20Me.mp3" },
-        { title: "Bloodlust", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song1.jpg.png", mp3: "https://samplesongs.netlify.app/Without%20Me.mp3" },
-        { title: "Time flies", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song5.jpg.png", mp3: "https://samplesongs.netlify.app/Without%20Me.mp3" },
-        { title: "Dark matters", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song6.jpg.png", mp3: "https://samplesongs.netlify.app/Without%20Me.mp3" },
-        { title: "Eye to eye", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song1.jpg.png", mp3: "https://samplesongs.netlify.app/Without%20Me.mp3" },
-        { title: "Cloud nine", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song3.jpg.png", mp3: "https://samplesongs.netlify.app/Without%20Me.mp3" },
-        { title: "Cobweb of lies", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song5.jpg.png", mp3: "https://samplesongs.netlify.app/Without%20Me.mp3" }
+        { title: "Endless Summer", artist: "Sarah Johnson", image: "../assets/images/img_2.png", mp3: "../assets/1.mp3" },
+        { title: "Midnight Dreams", artist: "Alex Turner", image: "../assets/images/img_3.png", mp3: "../assets/1.mp3" },
+        { title: "Neon Lights", artist: "Electro Beats", image: "../assets/images/img_4.png", mp3: "../assets/1.mp3" },
+        { title: "Mountain View", artist: "Nature Sounds", image: "../assets/images/img_5.png", mp3: "../assets/1.mp3" },
+        { title: "City Lights", artist: "Urban Rhythms", image: "../assets/images/img_6.png", mp3: "../assets/1.mp3" },
+        { title: "Ocean Waves", artist: "Coastal Sounds", image: "../assets/images/img_7.png", mp3: "../assets/1.mp3" },
+        { title: "Bloodlust", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song1.jpg.png", mp3: "../assets/1.mp3" },
+        { title: "Time flies", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song5.jpg.png", mp3: "../assets/1.mp3" },
+        { title: "Dark matters", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song6.jpg.png", mp3: "../assets/1.mp3" },
+        { title: "Eye to eye", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song1.jpg.png", mp3: "../assets/1.mp3" },
+        { title: "Cloud nine", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song3.jpg.png", mp3: "../assets/1.mp3" },
+        { title: "Cobweb of lies", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song5.jpg.png", mp3: "../assets/1.mp3" }
     ],
     charts: [
-        { title: "Summer Vibes", artist: "Beach Boys", image: "../assets/images/img_10.png", mp3: "https://samplesongs.netlify.app/Hate%20Me.mp3" },
-        { title: "Moonlit Nights", artist: "Luna Echo", image: "../assets/images/img_11.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-        { title: "Electric Pulse", artist: "DJ Spark", image: "../assets/images/img_12.png", mp3: "https://samplesongs.netlify.app/Bad%20Liar.mp3" },
-        { title: "Golden Hour", artist: "Sunny Days", image: "../assets/images/img_13.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-        { title: "Echoes of Love", artist: "Heartstrings", image: "../assets/images/img_14.png", mp3: "https://samplesongs.netlify.app/Hate%20Me.mp3" },
-        { title: "City Dreams", artist: "Urban Echo", image: "../assets/images/img_15.png", mp3: "https://samplesongs.netlify.app/Bad%20Liar.mp3" },
-        { title: "Starry Sky", artist: "Night Glow", image: "../assets/images/img_16.png", mp3: "https://samplesongs.netlify.app/Bad%20Liar.mp3" },
-        { title: "Rhythm Flow", artist: "Beat Master", image: "../assets/images/img_17.png", mp3: "https://samplesongs.netlify.app/Hate%20Me.mp3" },
-        { title: "Ocean Breeze", artist: "Wave Riders", image: "../assets/images/img_18.png", mp3: "https://samplesongs.netlify.app/Bad%20Liar.mp3" },
-        { title: "Sunset Glow", artist: "Horizon Band", image: "../assets/images/img_14.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-        { title: "Neon Dreams", artist: "Light Pulse", image: "../assets/images/img_17.png", mp3: "https://samplesongs.netlify.app/Hate%20Me.mp3" },
-        { title: "Wild Hearts", artist: "Free Spirits", image: "../assets/images/img_10.png", mp3: "https://samplesongs.netlify.app/Bad%20Liar.mp3" },
-        { title: "Crystal Echo", artist: "Glass Notes", image: "../assets/images/img_16.png", mp3: "https://samplesongs.netlify.app/Hate%20Me.mp3" },
-        { title: "Frosty Nights", artist: "Winter Chill", image: "../assets/images/img_19.png", mp3: "https://samplesongs.netlify.app/Bad%20Liar.mp3" },
-        { title: "Fire Within", artist: "Blaze Band", image: "../assets/images/img_15.png", mp3: "https://samplesongs.netlify.app/Hate%20Me.mp3" }
+        { title: "Summer Vibes", artist: "Beach Boys", image: "../assets/images/img_10.png", mp3: "../assets/1.mp3" },
+        { title: "Moonlit Nights", artist: "Luna Echo", image: "../assets/images/img_11.png", mp3: "../assets/1.mp3" },
+        { title: "Electric Pulse", artist: "DJ Spark", image: "../assets/images/img_12.png", mp3: "../assets/1.mp3" },
+        { title: "Golden Hour", artist: "Sunny Days", image: "../assets/images/img_13.png", mp3: "../assets/1.mp3" },
+        { title: "Echoes of Love", artist: "Heartstrings", image: "../assets/images/img_14.png", mp3: "../assets/1.mp3" },
+        { title: "City Dreams", artist: "Urban Echo", image: "../assets/images/img_15.png", mp3: "../assets/1.mp3" },
+        { title: "Starry Sky", artist: "Night Glow", image: "../assets/images/img_16.png", mp3: "../assets/1.mp3" },
+        { title: "Rhythm Flow", artist: "Beat Master", image: "../assets/images/img_17.png", mp3: "../assets/1.mp3" },
+        { title: "Ocean Breeze", artist: "Wave Riders", image: "../assets/images/img_18.png", mp3: "../assets/1.mp3" },
+        { title: "Sunset Glow", artist: "Horizon Band", image: "../assets/images/img_14.png", mp3: "../assets/1.mp3" },
+        { title: "Neon Dreams", artist: "Light Pulse", image: "../assets/images/img_17.png", mp3: "../assets/1.mp3" },
+        { title: "Wild Hearts", artist: "Free Spirits", image: "../assets/images/img_10.png", mp3: "../assets/1.mp3" },
+        { title: "Crystal Echo", artist: "Glass Notes", image: "../assets/images/img_16.png", mp3: "../assets/1.mp3" },
+        { title: "Frosty Nights", artist: "Winter Chill", image: "../assets/images/img_19.png", mp3: "../assets/1.mp3" },
+        { title: "Fire Within", artist: "Blaze Band", image: "../assets/images/img_15.png", mp3: "../assets/1.mp3" }
     ],
     releases: [
         { title: "Dark Alley Acoustic", artist: "Ava Cornish", image: "../assets/images/img_14.png", duration: "5:10", mp3: "../assets/1.mp3" },
@@ -57,10 +58,6 @@ let musicData = {
         { title: "Golden Sunset", artist: "Sunny Days", image: "../assets/images/img_15.png", duration: "4:15", mp3: "../assets/1.mp3" }
     ]
 };
-if (localStorage.getItem('musicData')) {
-    musicData = JSON.parse(localStorage.getItem('musicData'));
-}
-
 document.addEventListener('DOMContentLoaded', () => {
     const audioPlayer = document.getElementById('audio-player');
     const playBtn = document.querySelector('.play-btn');
