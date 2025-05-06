@@ -1,94 +1,109 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Initialize localStorage with song data, using local paths for img and external URLs for mp3
-  const initialSongData = {
+  // Initialize song data with continuous IDs
+  const topMusicSong = {
     data: [
       {
         top_music: [
           {
+            id: 1,
             name: "Ava Cornish",
             name_music: "Until I Met You",
             img: "../assets/1.png",
             mp3: "https://samplesongs.netlify.app/Faded.mp3",
           },
           {
+            id: 2,
             name: "Ava Cornish",
             name_music: "Walking Promises",
             img: "../assets/2.png",
             mp3: "https://samplesongs.netlify.app/Solo.mp3",
           },
           {
+            id: 3,
             name: "Ava Cornish",
             name_music: "Gimme Some Courage",
             img: "../assets/3.png",
             mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3",
           },
           {
+            id: 4,
             name: "Ava Cornish",
             name_music: "Desired Games",
             img: "../assets/4.png",
             mp3: "https://samplesongs.netlify.app/Bad%20Liar.mp3",
           },
           {
+            id: 5,
             name: "Ava Cornish",
             name_music: "Dark Alley Acoustic",
             img: "../assets/5.png",
             mp3: "https://samplesongs.netlify.app/Hate%20Me.mp3",
           },
           {
+            id: 6,
             name: "Ava Cornish",
             name_music: "Walking Promises",
             img: "../assets/6.png",
             mp3: "https://samplesongs.netlify.app/Without%20Me.mp3",
           },
           {
+            id: 7,
             name: "Ava Cornish",
             name_music: "Endless Things",
             img: "../assets/7.png",
             mp3: "https://samplesongs.netlify.app/Faded.mp3",
           },
           {
+            id: 8,
             name: "Ava Cornish",
             name_music: "Dream Your Moments",
             img: "../assets/8.png",
             mp3: "https://samplesongs.netlify.app/Solo.mp3",
           },
           {
+            id: 9,
             name: "Ava Cornish",
             name_music: "Until I Met You",
             img: "../assets/9.png",
             mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3",
           },
           {
+            id: 10,
             name: "Ava Cornish",
             name_music: "Gimme Some Courage",
             img: "../assets/10.png",
             mp3: "https://samplesongs.netlify.app/Bad%20Liar.mp3",
           },
           {
+            id: 11,
             name: "Ava Cornish",
             name_music: "Dark Alley Acoustic",
             img: "../assets/11.png",
             mp3: "https://samplesongs.netlify.app/Hate%20Me.mp3",
           },
           {
+            id: 12,
             name: "Ava Cornish",
             name_music: "The Heartbeat Stops",
             img: "../assets/12.png",
             mp3: "https://samplesongs.netlify.app/Without%20Me.mp3",
           },
           {
+            id: 13,
             name: "Ava Cornish",
             name_music: "One More Stranger",
             img: "../assets/13.png",
             mp3: "https://samplesongs.netlify.app/Faded.mp3",
           },
           {
+            id: 14,
             name: "Ava Cornish",
             name_music: "Walking Promises",
             img: "../assets/14.png",
             mp3: "https://samplesongs.netlify.app/Solo.mp3",
           },
           {
+            id: 15,
             name: "Ava Cornish",
             name_music: "Endless Things",
             img: "../assets/15.png",
@@ -99,36 +114,42 @@ document.addEventListener("DOMContentLoaded", () => {
       {
         top_all_times: [
           {
+            id: 16,
             name: "Ava Cornish & Brian Hill",
             name_music: "Bloodlust",
             img: "../assets/album1.jpg.png",
             mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3",
           },
           {
+            id: 17,
             name: "Ava Cornish & Brian Hill",
             name_music: "Time flies",
             img: "../assets/album2.jpg.png",
             mp3: "https://samplesongs.netlify.app/Bad%20Liar.mp3",
           },
           {
+            id: 18,
             name: "Ava Cornish & Brian Hill",
             name_music: "Dark matters",
             img: "../assets/album3.jpg.png",
             mp3: "https://samplesongs.netlify.app/Faded.mp3",
           },
           {
+            id: 19,
             name: "Ava Cornish & Brian Hill",
             name_music: "Eye to eye",
             img: "../assets/album4.jpg.png",
             mp3: "https://samplesongs.netlify.app/Hate%20Me.mp3",
           },
           {
+            id: 20,
             name: "Ava Cornish & Brian Hill",
             name_music: "Cloud nine",
             img: "../assets/album5.jpg.png",
             mp3: "https://samplesongs.netlify.app/Solo.mp3",
           },
           {
+            id: 21,
             name: "Ava Cornish & Brian Hill",
             name_music: "Cobweb of lies",
             img: "../assets/album6.jpg.png",
@@ -139,24 +160,28 @@ document.addEventListener("DOMContentLoaded", () => {
       {
         trending: [
           {
+            id: 22,
             name: "Ava Cornish",
             name_music: "Dark Alley Acoustic",
             img: "../assets/1.png",
             mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3",
           },
           {
+            id: 23,
             name: "Ava Cornish",
             name_music: "Dark Alley Acoustic",
             img: "../assets/2.png",
             mp3: "https://samplesongs.netlify.app/Solo.mp3",
           },
           {
+            id: 24,
             name: "Ava Cornish",
             name_music: "Dark Alley Acoustic",
             img: "../assets/3.png",
             mp3: "https://samplesongs.netlify.app/Faded.mp3",
           },
           {
+            id: 25,
             name: "Ava Cornish",
             name_music: "Dark Alley Acoustic",
             img: "../assets/4.png",
@@ -169,8 +194,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Đảm bảo có local storage
   if (!localStorage.getItem("songData")) {
-    localStorage.setItem("songData", JSON.stringify(initialSongData));
+    localStorage.setItem("songData", JSON.stringify(topMusicSong));
   }
+
+  // Load songData from localStorage
+  let songData = JSON.parse(localStorage.getItem("songData")) || topMusicSong;
 
   const links = document.querySelectorAll(".sidebar a");
   const currentPage = window.location.pathname.split("/").pop();
@@ -246,11 +274,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Music Player Controls
   const playBtn = document.querySelector(".play-btn");
+  const skipStartBtn = document.querySelector(
+    ".player-btn i.bi-skip-start-fill"
+  ).parentElement;
+  const skipEndBtn = document.querySelector(
+    ".player-btn i.bi-skip-end-fill"
+  ).parentElement;
+  const muteBtn = document.querySelector(
+    ".player-option-btn i.bi-volume-up"
+  ).parentElement;
   const progressBar = document.querySelector(".progress-bar");
   const currentTimeEl = document.querySelector(".current-time");
   const totalTimeEl = document.querySelector(".total-time");
 
-  let isPlaying = false;
+  let isPlaying = true;
+  let isMuted = false;
   const audio = new Audio();
 
   const formatTime = (seconds) => {
@@ -260,10 +298,44 @@ document.addEventListener("DOMContentLoaded", () => {
     return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
   };
 
+  // Hàm lấy chỉ số hiện tại dựa trên id
+  const currentSongIndex = (category = "top_music") => {
+    const currentSong =
+      JSON.parse(localStorage.getItem("currentSong")) ||
+      songData.data[0].top_music[0];
+    const songs = songData.data.find((d) => d[category])[category];
+    return songs.findIndex((song) => song.id === currentSong.id);
+  };
+
+  // Hàm chuyển đến bài tiếp theo trong cùng category
+  const skipToNext = (category = "top_music") => {
+    const songs = songData.data.find((d) => d[category])[category];
+    const currentIndex = currentSongIndex(category);
+    if (currentIndex < songs.length - 1) {
+      const nextSong = songs[currentIndex + 1];
+      localStorage.setItem("currentSong", JSON.stringify(nextSong));
+      updatePlayer();
+      isPlaying = true; // Tự động phát bài mới
+    }
+  };
+
+  // Hàm chuyển về bài trước trong cùng category
+  const skipToPrevious = (category = "top_music") => {
+    const songs = songData.data.find((d) => d[category])[category];
+    const currentIndex = currentSongIndex(category);
+    if (currentIndex > 0) {
+      const previousSong = songs[currentIndex - 1];
+      localStorage.setItem("currentSong", JSON.stringify(previousSong));
+      updatePlayer();
+      isPlaying = true; // Tự động phát bài mới
+    }
+  };
+
+  // Hàm cập nhật giao diện và phát nhạc
   const updatePlayer = () => {
     let currentSong =
       JSON.parse(localStorage.getItem("currentSong")) ||
-      initialSongData.data[0].top_music[0];
+      songData.data[0].top_music[0];
     localStorage.setItem("currentSong", JSON.stringify(currentSong));
 
     const playerSongTitle = document.querySelector(".player-song-info h6");
@@ -302,6 +374,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (progressBar) progressBar.style.width = "0%";
     if (currentTimeEl) currentTimeEl.textContent = "0:00";
 
+    // Khôi phục trạng thái mute khi chuyển bài
+    audio.muted = isMuted;
+
     if (isPlaying && audio.src) {
       audio
         .play()
@@ -315,8 +390,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
+  // Tự động phát nhạc khi tải trang
   updatePlayer();
 
+  // Gắn sự kiện cho các nút
   if (playBtn) {
     playBtn.addEventListener("click", (e) => {
       e.stopPropagation();
@@ -334,6 +411,39 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         audio.pause();
         playBtn.innerHTML = '<i class="bi bi-play-fill"></i>';
+      }
+    });
+  }
+
+  if (skipStartBtn) {
+    skipStartBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const currentCategory =
+        localStorage.getItem("currentCategory") || "top_music";
+      skipToPrevious(currentCategory);
+    });
+  }
+
+  if (skipEndBtn) {
+    skipEndBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const currentCategory =
+        localStorage.getItem("currentCategory") || "top_music";
+      skipToNext(currentCategory);
+    });
+  }
+
+  // Thêm sự kiện cho nút mute
+  if (muteBtn) {
+    muteBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      isMuted = !isMuted; // Chuyển đổi trạng thái mute
+      audio.muted = isMuted; // Cập nhật trạng thái âm thanh
+      const muteIcon = muteBtn.querySelector("i");
+      if (isMuted) {
+        muteIcon.classList.replace("bi-volume-up", "bi-volume-mute");
+      } else {
+        muteIcon.classList.replace("bi-volume-mute", "bi-volume-up");
       }
     });
   }
@@ -356,17 +466,17 @@ document.addEventListener("DOMContentLoaded", () => {
     if (currentTimeEl) currentTimeEl.textContent = formatTime(currentTime);
   });
 
+  // Tự động chuyển bài khi kết thúc
   audio.addEventListener("ended", () => {
     isPlaying = false;
     if (playBtn) playBtn.innerHTML = '<i class="bi bi-play-fill"></i>';
     if (progressBar) progressBar.style.width = "0%";
     if (currentTimeEl) currentTimeEl.textContent = "0:00";
     audio.currentTime = 0;
+    const currentCategory =
+      localStorage.getItem("currentCategory") || "top_music";
+    skipToNext(currentCategory);
   });
-
-  let songData =
-    JSON.parse(localStorage.getItem("songData")) || initialSongData;
-  localStorage.setItem("songData", JSON.stringify(songData));
 
   // Function play song when clicked
   window.playSong = function (index, category) {
@@ -381,6 +491,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (song) {
       localStorage.setItem("currentSong", JSON.stringify(song));
+      localStorage.setItem("currentCategory", category); // Lưu category hiện tại
       updatePlayer();
       isPlaying = true;
       audio
