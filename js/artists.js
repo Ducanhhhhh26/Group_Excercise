@@ -28,34 +28,34 @@ registerModal.addEventListener('click', (e) => {
 /*Render  */
  const artistsData = [
   [
-    { image: "../assets/song1.jpg.png", title: "Best Of Ava Cornish" },
-    { image: "../assets/song2.jpg.png", title: "Until I Met You" },
-    { image: "../assets/song3.jpg.png", title: "Gimme Some Courage" },
-    { image: "../assets/song4.jpg.png", title: "Dark Alley Acoustic" },
-    { image: "../assets/song5.jpg.png", title: "Walking Promises" },
-    { image: "../assets/song6.jpg.png", title: "Desired Games" }
+    {id:1, image: "../assets/song1.jpg.png", title: "Best Of Ava Cornish", },
+    {id:2,  image: "../assets/song2.jpg.png", title: "Until I Met You" },
+    {id:3,  image: "../assets/song3.jpg.png", title: "Gimme Some Courage" },
+    {id:4,  image: "../assets/song4.jpg.png", title: "Dark Alley Acoustic" },
+    {id:5,  image: "../assets/song5.jpg.png", title: "Walking Promises" },
+    {id:6,  image: "../assets/song6.jpg.png", title: "Desired Games" }
 ],
 [
-    { image: "../assets/r_music1.jpg.png", title: "Claire Hudson" },
-    { image: "../assets/artist1.jpg.png", title: "Carl Brown" },
-    { image: "../assets/artist2.jpg.png", title: "Virginia Harris" },
-    { image: "../assets/artist3.jpg.png", title: "Max Glover" },
-    { image: "../assets/artist4.jpg.png", title: "Jennifer Kelly" },
-    { image: "../assets/artist5.jpg.png", title: "Harry Jackson" },
-    { image: "../assets/artist6.jpg.png", title: "Kevin Buckland" },
-    { image: "../assets/artist7.jpg.png", title: "Anna Ellison" },
-    { image: "../assets/artist8.jpg.png", title: "Kylie Greene" },
-    { image: "../assets/song6.jpg (1).png", title: "Sean Wilson" },
-    { image: "../assets/album4.jpg.png", title: "Jennifer Kelly" },
-    { image: "../assets/song2.jpg (1).png", title: "Steven Walker" },
-    { image: "../assets/artist9.jpg.png", title: "Olivia Paige" },
-    { image: "../assets/artist10.jpg.png", title: "Nicole Miller" },
-    { image: "../assets/artist11.jpg.png", title: "Edward Clark" },
-    { image: "../assets/artist12.jpg.png", title: "Adam Glover" },
-    { image: "../assets/artist13.jpg.png", title: "Leah Knox" },
-    { image: "../assets/song4.jpg (1).png", title: "Charles Davidson" },
-    { image: "../assets/album2.jpg.png", title: "Vanessa Hunter" },
-    { image: "../assets/album3.jpg.png", title: "Sophie Hudson" }
+    {id:7,  image: "../assets/r_music1.jpg.png", title: "Claire Hudson" },
+    {id:8,  image: "../assets/artist1.jpg.png", title: "Carl Brown" },
+    {id:9,  image: "../assets/artist2.jpg.png", title: "Virginia Harris" },
+    {id:10,  image: "../assets/artist3.jpg.png", title: "Max Glover" },
+    {id:11,  image: "../assets/artist4.jpg.png", title: "Jennifer Kelly" },
+    {id:12,  image: "../assets/artist5.jpg.png", title: "Harry Jackson" },
+    {id:13,  image: "../assets/artist6.jpg.png", title: "Kevin Buckland" },
+    {id:14,  image: "../assets/artist7.jpg.png", title: "Anna Ellison" },
+    {id:15,  image: "../assets/artist8.jpg.png", title: "Kylie Greene" },
+    {id:16,  image: "../assets/song6.jpg (1).png", title: "Sean Wilson" },
+    {id:17,  image: "../assets/album4.jpg.png", title: "Jennifer Kelly" },
+    {id:18,  image: "../assets/song2.jpg (1).png", title: "Steven Walker" },
+    {id:19,  image: "../assets/artist9.jpg.png", title: "Olivia Paige" },
+    {id:20, image: "../assets/artist10.jpg.png", title: "Nicole Miller" },
+    {id:21, image: "../assets/artist11.jpg.png", title: "Edward Clark" },
+    {id:22,  image: "../assets/artist12.jpg.png", title: "Adam Glover" },
+    {id:23,  image: "../assets/artist13.jpg.png", title: "Leah Knox" },
+    {id:24,  image: "../assets/song4.jpg (1).png", title: "Charles Davidson" },
+    {id:25,  image: "../assets/album2.jpg.png", title: "Vanessa Hunter" },
+    {id:26,  image: "../assets/album3.jpg.png", title: "Sophie Hudson" }
 ]
 ];
 
@@ -233,261 +233,5 @@ links.forEach(link => {
 
 
 
-let data ={
-  "data": [
-    {
-      "Featured_Albums":[
-        {
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music":"Bloodlust",
-          "img": "/assets/album1.jpg.png",
-          "mp3": "/assets/1.mp3"
-        },
-        {
-          "name": "Ava Cornish & Brian Hill",
-          "name_music":"Time flies",
-          "img": "/assets/album2.jpg.png",
-          "mp3": "/assets/1.mp3"
-        },
-        {
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music":"Dark matters",
-          "img": "/assets/album3.jpg.png",
-          "mp3": "/assets/1.mp3"
-        },
-        {
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music":"Eye to eye",
-          "img": "/assets/album4.jpg.png",
-          "mp3": "/assets/1.mp3"
-        },
-        {
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music":"Cloud nine",
-          "img": "/assets/album5.jpg.png",
-          "mp3": "/assets/1.mp3"
-        },
-        {
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music":"Cobweb of lies",
-          "img": "/assets/album6.jpg.png",
-          "mp3": "/assets/1.mp3"
-        },
-        {
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music":"Endless Things",
-          "img": "/assets/artist1.jpg.png",
-          "mp3": "/assets/1.mp3"
-        },
-        {
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music":"Desired Games",
-          "img": "/assets/artist2.jpg.png",
-          "mp3": "/assets/1.mp3"
-        }
 
-      ]
-    },
-    {
-      "Trending_Albums":[
-        {
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music":"Dream Your",
-          "img": "/assets/artist13.jpg.png",
-          "mp3": "/assets/1.mp3"
-        },
-        {
-          "name": "Ava Cornish & Brian Hill",
-          "name_music":"Until I Met You",
-          "img": "/assets/artist12.jpg.png",
-          "mp3": "/assets/1.mp3"
-        },
-        {
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music":"Gimme Some Courage",
-          "img": "/assets/artist11.jpg.png",
-          "mp3": "/assets/1.mp3"
-        },
-        {
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music":"Dark Alley Acoustic",
-          "img": "/assets/artist10.jpg.png",
-          "mp3": "/assets/1.mp3"
-        },
-        {
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music":"Walking Promises",
-          "img": "/assets/artist9.jpg.png",
-          "mp3": "/assets/1.mp3"
-        },
-        {
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music":"Desired Games",
-          "img": "/assets/artist8.jpg.png",
-          "mp3": "/assets/1.mp3"
-        },
-        {
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music":"Endless Things",
-          "img": "/assets/artist7.jpg.png",
-          "mp3": "/assets/1.mp3"
-        },
-        {
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music":"Desired Games",
-          "img": "/assets/artist6.jpg.png",
-          "mp3": "/assets/1.mp3"
-        }
-
-      ]
-    },
-    {
-      "top_15_albums":[
-          {
-              "name": "Ava Cornish & Brian Hilltest",
-              "name_music":"Dream Your",
-              "img": "/assets/1.png",
-              "mp3": "/assets/1.mp3"
-          },
-          {
-              "name": "Ava Cornish & Brian Hilltest",
-              "name_music":"Until I Met You",
-              "img": "/assets/2.png",
-              "mp3": "/assets/1.mp3"
-          },
-          {
-              "name": "Ava Cornish & Brian Hilltest",
-              "name_music":"Gimme Some",
-              "img": "/assets/3.png",
-              "mp3": "/assets/1.mp3"
-          },
-          {
-              "name": "Ava Cornish & Brian Hilltest",
-              "name_music":"Dark Alley Acoustic",
-              "img": "/assets/4.png",
-              "mp3": "/assets/1.mp3"
-          },
-          {
-              "name": "Ava Cornish & Brian Hilltest",
-              "name_music":"Walking Promises",
-              "img": "/assets/5.png",
-              "mp3": "/assets/1.mp3"
-          },
-          {
-              "name": "Ava Cornish & Brian Hilltest",
-              "name_music":"Desired Games",
-              "img": "/assets/6.png",
-              "mp3": "/assets/1.mp3"
-          },
-          {
-              "name": "Ava Cornish & Brian Hilltest",
-              "name_music":"Endless Things",
-              "img": "/assets/7.png",
-              "mp3": "/assets/1.mp3"
-          },
-          {
-              "name": "Ava Cornish & Brian Hilltest",
-              "name_music":"Desired Games",
-              "img": "/assets/8.png",
-              "mp3": "/assets/1.mp3"
-          },
-          {
-              "name": "Ava Cornish & Brian Hilltest",
-              "name_music":"Desired Games",
-              "img": "/assets/9.png",
-              "mp3": "/assets/1.mp3"
-          },
-          {
-              "name": "Ava Cornish & Brian Hilltest",
-              "name_music":"Desired Games",
-              "img": "/assets/10.png",
-              "mp3": "/assets/1.mp3"
-          },
-          {
-              "name": "Ava Cornish & Brian Hilltest",
-              "name_music":"Desired Games",
-              "img": "/assets/11.png",
-              "mp3": "/assets/1.mp3"
-          },
-          {
-              "name": "Ava Cornish & Brian Hilltest",
-              "name_music":"Desired Games",
-              "img": "/assets/12.png",
-              "mp3": "/assets/1.mp3"
-          },
-          {
-              "name": "Ava Cornish & Brian Hilltest",
-              "name_music":"Desired Games",
-              "img": "/assets/13.png",
-              "mp3": "/assets/1.mp3"
-          },
-          {
-              "name": "Ava Cornish & Brian Hilltest",
-              "name_music":"Desired Games",
-              "img": "/assets/14.png",
-              "mp3": "/assets/1.mp3"
-          },
-          {
-              "name": "Ava Cornish & Brian Hilltest",
-              "name_music":"Desired Games",
-              "img": "/assets/15.png",
-              "mp3": "/assets/1.mp3"
-          }
-      ]
-    },
-    {
-      "Albums_By_Artists":[
-        {
-          "name":"Ava Cornish",
-          "name_music":"Best Of Ava Cornish",
-          "img":"/assets/artist1.jpg.png",
-          "mp3":"/assets/1.mp3"
-        },
-        {
-          "name":"Until I Met You",
-          "name_music":"Best Of Ava Cornish",
-          "img":"/assets/artist2.jpg.png",
-          "mp3":"/assets/2.mp3"
-        },
-        {
-          "name":"Gimme Some Courage",
-          "name_music":"Best Of Ava Cornish",
-          "img":"/assets/artist3.jpg.png",
-          "mp3":"/assets/3.mp3"
-        },
-        {
-          "name":"Dark Alley Acoustic",
-          "name_music":"Best Of Ava Cornish",
-          "img":"/assets/artist4.jpg.png",
-          "mp3":"/assets/4.mp3"
-        },
-        {
-          "name":"Walking Promises",
-          "name_music":"Best Of Ava Cornish",
-          "img":"/assets/artist5.jpg.png",
-          "mp3":"/assets/5.mp3"
-        },
-        {
-          "name":"Desired Games",
-          "name_music":"Best Of Ava Cornish",
-          "img":"/assets/artist6.jpg.png",
-          "mp3":"/assets/1.mp3"
-        },
-        {
-          "name":"Endless Things",
-          "name_music":"Best Of Ava Cornish",
-          "img":"/assets/artist7.jpg.png",
-          "mp3":"/assets/2.mp3"
-        },
-        {
-          "name":"Desired Games",
-          "name_music":"Best Of Ava Cornish",
-          "img":"/assets/artist8.jpg.png",
-          "mp3":"/assets/3.mp3"
-        }
-      ]
-    }
-
-  ]
-}
 
