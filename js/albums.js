@@ -404,6 +404,15 @@ chevronBtn.addEventListener('click', () => {
         chevronBtn.querySelector('i').classList.replace('fa-chevron-left', 'fa-chevron-right'); // Đổi biểu tượng thành mũi tên phải
     }
 });
+const links = document.querySelectorAll('.sidebar a');
+const currentPage = window.location.pathname.split('/').pop();
+
+links.forEach(link => {
+  const linkPage = link.getAttribute('href');
+  if (linkPage === currentPage) {
+    link.classList.add('active');
+  }
+});
 /* Login */
 const loginBtn = document.querySelector('.login-btn');
 const modal = document.querySelector('.modalLogin');

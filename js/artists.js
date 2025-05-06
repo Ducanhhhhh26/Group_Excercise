@@ -28,34 +28,34 @@ registerModal.addEventListener('click', (e) => {
 /*Render  */
  const artistsData = [
   [
-    { image: "../assets/song1.jpg.png", title: "Best Of Ava Cornish" },
-    { image: "../assets/song2.jpg.png", title: "Until I Met You" },
-    { image: "../assets/song3.jpg.png", title: "Gimme Some Courage" },
-    { image: "../assets/song4.jpg.png", title: "Dark Alley Acoustic" },
-    { image: "../assets/song5.jpg.png", title: "Walking Promises" },
-    { image: "../assets/song6.jpg.png", title: "Desired Games" }
+    {id:1, image: "../assets/song1.jpg.png", title: "Best Of Ava Cornish", },
+    {id:2,  image: "../assets/song2.jpg.png", title: "Until I Met You" },
+    {id:3,  image: "../assets/song3.jpg.png", title: "Gimme Some Courage" },
+    {id:4,  image: "../assets/song4.jpg.png", title: "Dark Alley Acoustic" },
+    {id:5,  image: "../assets/song5.jpg.png", title: "Walking Promises" },
+    {id:6,  image: "../assets/song6.jpg.png", title: "Desired Games" }
 ],
 [
-    { image: "../assets/r_music1.jpg.png", title: "Claire Hudson" },
-    { image: "../assets/artist1.jpg.png", title: "Carl Brown" },
-    { image: "../assets/artist2.jpg.png", title: "Virginia Harris" },
-    { image: "../assets/artist3.jpg.png", title: "Max Glover" },
-    { image: "../assets/artist4.jpg.png", title: "Jennifer Kelly" },
-    { image: "../assets/artist5.jpg.png", title: "Harry Jackson" },
-    { image: "../assets/artist6.jpg.png", title: "Kevin Buckland" },
-    { image: "../assets/artist7.jpg.png", title: "Anna Ellison" },
-    { image: "../assets/artist8.jpg.png", title: "Kylie Greene" },
-    { image: "../assets/song6.jpg (1).png", title: "Sean Wilson" },
-    { image: "../assets/album4.jpg.png", title: "Jennifer Kelly" },
-    { image: "../assets/song2.jpg (1).png", title: "Steven Walker" },
-    { image: "../assets/artist9.jpg.png", title: "Olivia Paige" },
-    { image: "../assets/artist10.jpg.png", title: "Nicole Miller" },
-    { image: "../assets/artist11.jpg.png", title: "Edward Clark" },
-    { image: "../assets/artist12.jpg.png", title: "Adam Glover" },
-    { image: "../assets/artist13.jpg.png", title: "Leah Knox" },
-    { image: "../assets/song4.jpg (1).png", title: "Charles Davidson" },
-    { image: "../assets/album2.jpg.png", title: "Vanessa Hunter" },
-    { image: "../assets/album3.jpg.png", title: "Sophie Hudson" }
+    {id:7,  image: "../assets/r_music1.jpg.png", title: "Claire Hudson" },
+    {id:8,  image: "../assets/artist1.jpg.png", title: "Carl Brown" },
+    {id:9,  image: "../assets/artist2.jpg.png", title: "Virginia Harris" },
+    {id:10,  image: "../assets/artist3.jpg.png", title: "Max Glover" },
+    {id:11,  image: "../assets/artist4.jpg.png", title: "Jennifer Kelly" },
+    {id:12,  image: "../assets/artist5.jpg.png", title: "Harry Jackson" },
+    {id:13,  image: "../assets/artist6.jpg.png", title: "Kevin Buckland" },
+    {id:14,  image: "../assets/artist7.jpg.png", title: "Anna Ellison" },
+    {id:15,  image: "../assets/artist8.jpg.png", title: "Kylie Greene" },
+    {id:16,  image: "../assets/song6.jpg (1).png", title: "Sean Wilson" },
+    {id:17,  image: "../assets/album4.jpg.png", title: "Jennifer Kelly" },
+    {id:18,  image: "../assets/song2.jpg (1).png", title: "Steven Walker" },
+    {id:19,  image: "../assets/artist9.jpg.png", title: "Olivia Paige" },
+    {id:20, image: "../assets/artist10.jpg.png", title: "Nicole Miller" },
+    {id:21, image: "../assets/artist11.jpg.png", title: "Edward Clark" },
+    {id:22,  image: "../assets/artist12.jpg.png", title: "Adam Glover" },
+    {id:23,  image: "../assets/artist13.jpg.png", title: "Leah Knox" },
+    {id:24,  image: "../assets/song4.jpg (1).png", title: "Charles Davidson" },
+    {id:25,  image: "../assets/album2.jpg.png", title: "Vanessa Hunter" },
+    {id:26,  image: "../assets/album3.jpg.png", title: "Sophie Hudson" }
 ]
 ];
 
