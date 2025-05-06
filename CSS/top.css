@@ -64,8 +64,12 @@ header {
 .login-btn {
     background-color: #3BC8E7;
     color: white;
+    border: none;
     border-radius: 20px;
-    padding: 5px 15px;
+    padding: 8px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
     height: 3rem;
 }
 .sidebar {
@@ -199,7 +203,9 @@ header {
 }
 
 .sidebar a.active {
-    background-color: #28304d;
+   background-color: #28304d;
+    color: white;
+    border-radius: 8px;
 }
 
 .sidebar a.active::before {
