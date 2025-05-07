@@ -618,11 +618,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         Swal.showValidationMessage("Tất cả các trường đều bắt buộc.");
                         return false;
                     }
-                    const urlRegex = /^(https?:\/\/[^\s$.?#].[^\s]*)$/;
-                    if (!urlRegex.test(img) || !urlRegex.test(mp3)) {
-                        Swal.showValidationMessage("Vui lòng nhập URL hợp lệ cho Hình ảnh và MP3.");
-                        return false;
-                    }
+                    
 
                     return { name_music, name, img, mp3, type };
                 }
@@ -783,11 +779,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     Swal.showValidationMessage("Tất cả các trường đều bắt buộc.");
                     return false;
                 }
-                const urlRegex = /^(https?:\/\/[^\s$.?#].[^\s]*)$/;
-                if (!urlRegex.test(img) || !urlRegex.test(mp3)) {
-                    Swal.showValidationMessage("Vui lòng nhập URL hợp lệ cho Hình ảnh và MP3.");
-                    return false;
-                }
+                
 
                 return { name_music, name, img, mp3, type };
             }
