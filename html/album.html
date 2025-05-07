@@ -475,9 +475,9 @@
                 <div class="col-md-6">
                     <div class="player-controls text-center">
                         <div class="d-flex justify-content-center align-items-center">
-                            <button class="player-btn me-3"><i class="bi bi-skip-start-fill"></i></button>
+                            <button class="player-btn me-3" id="prev-audio"><i class="bi bi-skip-start-fill"></i></button>
                             <button class="player-btn play-btn me-3 " id="start-pause" onclick="startstopaudio()"><i class="bi bi-play-fill"></i></button>
-                            <button class="player-btn me-3"><i class="bi bi-skip-end-fill"></i></button>
+                            <button class="player-btn me-3" id="next-audio"><i class="bi bi-skip-end-fill"></i></button>
                         </div>
                         <div class="progress-container mt-2 d-flex align-items-center">
                             <span class="current-time me-2">1:05</span>
@@ -490,7 +490,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="player-options d-flex justify-content-end align-items-center">
-                        <button class="player-option-btn me-3"><i class="bi bi-volume-up"></i></button>
+                        <button class="player-option-btn me-3" id="volume"><i class="bi bi-volume-up"></i></button>
                         <button class="player-option-btn me-3"><i class="bi bi-heart"></i></button>
                         <button class="player-option-btn"><i class="bi bi-arrow-down-circle"></i></button>
                     </div>
@@ -610,7 +610,6 @@
     
      <!-- Nút mở modal Register -->
     
-    
     <!-- Modal Register -->
     <section class="modalRegister">
       <div>
@@ -629,6 +628,7 @@
       </div>
     </section>
     <audio id="audio-player" controls style="display: none;"></audio>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>

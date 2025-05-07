@@ -60,21 +60,23 @@ header{
   cursor: pointer;
 }
 
-.register-btn {
-  background-color: #3BC8E7;
-  color: white;
-  border-radius: 20px;
-  padding: 5px 15px;
-  height: 3rem;
+.register-btn, .login-btn {
+    background-color: #3BC8E7;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    height: 3rem;
 }
 
-.login-btn {
-  background-color: #3BC8E7;
-  color: white;
-  border-radius: 20px;
-  padding: 5px 15px;
-  height: 3rem;
+.register-btn:hover, .login-btn:hover {
+    background-color: #2ca8c4;
+    transform: translateY(-2px);
 }
+
 /* side bar */
 .sidebar {
   position: fixed;
@@ -705,4 +707,15 @@ padding: 8px ;
   text-decoration: none;
   color: white;
   font-weight: bold;
+}
+.logout-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.logout-btn:hover {
+  background-color: #e60000;
 }
