@@ -1,332 +1,337 @@
-let data = {
-  "data": [
-    {
-      "Featured_Albums": [
-        {
-          "id": "1",
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music": "Bloodlust",
-          "img": "/assets/album1.jpg.png",
-          "mp3": "https://samplesongs.netlify.app/Death%20Bed.mp3"
-        },
-        {
-          "id": "2",
-          "name": "Ava Cornish & Brian Hill",
-          "name_music": "Time flies",
-          "img": "/assets/album2.jpg.png",
-          "mp3": "https://samplesongs.netlify.app/Bad%20Liar.mp3"
-        },
-        {
-          "id": "3",
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music": "Dark matters",
-          "img": "/assets/album3.jpg.png",
-          "mp3": "https://samplesongs.netlify.app/Faded.mp3"
-        },
-        {
-          "id": "4",
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music": "Eye to eye",
-          "img": "/assets/album4.jpg.png",
-          "mp3": "https://samplesongs.netlify.app/Hate%20Me.mp3"
-        },
-        {
-          "id": "5",
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music": "Cloud nine",
-          "img": "/assets/album5.jpg.png",
-          "mp3": "https://samplesongs.netlify.app/Solo.mp3"
-        },
-        {
-          "id": "6",
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music": "Cobweb of lies",
-          "img": "/assets/album6.jpg.png",
-          "mp3": "https://samplesongs.netlify.app/Without%20Me.mp3"
-        },
-        {
-          "id": "7",
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music": "Endless Things",
-          "img": "/assets/artist1.jpg.png",
-          "mp3": "https://samplesongs.netlify.app/Death%20Bed.mp3"
-        },
-        {
-          "id": "8",
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music": "Desired Games",
-          "img": "/assets/artist2.jpg.png",
-          "mp3": "https://samplesongs.netlify.app/Death%20Bed.mp3"
-        }
-      ]
-    },
-    {
-      "Trending_Albums": [
-        {
-          "id": "1",
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music": "Dream Your",
-          "img": "/assets/artist13.jpg.png",
-          "mp3": "https://samplesongs.netlify.app/Bad%20Liar.mp3"
-        },
-        {
-          "id": "2",
-          "name": "Ava Cornish & Brian Hill",
-          "name_music": "Until I Met You",
-          "img": "/assets/artist12.jpg.png",
-          "mp3": "https://samplesongs.netlify.app/Faded.mp3"
-        },
-        {
-          "id": "3",
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music": "Gimme Some Courage",
-          "img": "/assets/artist11.jpg.png",
-          "mp3": "https://samplesongs.netlify.app/Hate%20Me.mp3"
-        },
-        {
-          "id": "4",
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music": "Dark Alley Acoustic",
-          "img": "/assets/artist10.jpg.png",
-          "mp3": "https://samplesongs.netlify.app/Hate%20Me.mp3"
-        },
-        {
-          "id": "5",
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music": "Walking Promises",
-          "img": "/assets/artist9.jpg.png",
-          "mp3": "https://samplesongs.netlify.app/Death%20Bed.mp3"
-        },
-        {
-          "id": "6",
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music": "Desired Games",
-          "img": "/assets/artist8.jpg.png",
-          "mp3": "https://samplesongs.netlify.app/Death%20Bed.mp3"
-        },
-        {
-          "id": "7",
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music": "Endless Things",
-          "img": "/assets/artist7.jpg.png",
-          "mp3": "https://samplesongs.netlify.app/Solo.mp3"
-        },
-        {
-          "id": "8",
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music": "Desired Games",
-          "img": "/assets/artist6.jpg.png",
-          "mp3": "https://samplesongs.netlify.app/Hate%20Me.mp3"
-        }
-      ]
-    },
-    {
-      "top_15_albums": [
-        {
-          "id": "1",
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music": "Dream Your",
-          "img": "/assets/1.png",
-          "mp3": "https://samplesongs.netlify.app/Bad%20Liar.mp3"
-        },
-        {
-          "id": "2",
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music": "Until I Met You",
-          "img": "/assets/2.png",
-          "mp3": "https://samplesongs.netlify.app/Solo.mp3"
-        },
-        {
-          "id": "3",
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music": "Gimme Some",
-          "img": "/assets/3.png",
-          "mp3": "https://samplesongs.netlify.app/Hate%20Me.mp3"
-        },
-        {
-          "id": "4",
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music": "Dark Alley Acoustic",
-          "img": "/assets/4.png",
-          "mp3": "https://samplesongs.netlify.app/Without%20Me.mp3"
-        },
-        {
-          "id": "5",
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music": "Walking Promises",
-          "img": "/assets/5.png",
-          "mp3": "https://samplesongs.netlify.app/Solo.mp3"
-        },
-        {
-          "id": "6",
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music": "Desired Games",
-          "img": "/assets/6.png",
-          "mp3": "https://samplesongs.netlify.app/Faded.mp3"
-        },
-        {
-          "id": "7",
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music": "Endless Things",
-          "img": "/assets/7.png",
-          "mp3": "https://samplesongs.netlify.app/Solo.mp3"
-        },
-        {
-          "id": "8",
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music": "Desired Games",
-          "img": "/assets/8.png",
-          "mp3": "https://samplesongs.netlify.app/Solo.mp3"
-        },
-        {
-          "id": "9",
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music": "Desired Games",
-          "img": "/assets/9.png",
-          "mp3": "https://samplesongs.netlify.app/Solo.mp3"
-        },
-        {
-          "id": "10",
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music": "Desired Games",
-          "img": "/assets/10.png",
-          "mp3": "https://samplesongs.netlify.app/Solo.mp3"
-        },
-        {
-          "id": "11",
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music": "Desired Games",
-          "img": "/assets/11.png",
-          "mp3": "https://samplesongs.netlify.app/Solo.mp3"
-        },
-        {
-          "id": "12",
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music": "Desired Games",
-          "img": "/assets/12.png",
-          "mp3": "https://samplesongs.netlify.app/Solo.mp3"
-        },
-        {
-          "id": "13",
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music": "Desired Games",
-          "img": "/assets/13.png",
-          "mp3": "https://samplesongs.netlify.app/Solo.mp3"
-        },
-        {
-          "id": "14",
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music": "Desired Games",
-          "img": "/assets/14.png",
-          "mp3": "https://samplesongs.netlify.app/Solo.mp3"
-        },
-        {
-          "id": "15",
-          "name": "Ava Cornish & Brian Hilltest",
-          "name_music": "Desired Games",
-          "img": "/assets/15.png",
-          "mp3": "https://samplesongs.netlify.app/Solo.mp3"
-        }
-      ]
-    },
-    {
-      "Albums_By_Artists": [
-        {
-          "id": "1",
-          "name": "Ava Cornish",
-          "name_music": "Best Of Ava Cornish",
-          "img": "/assets/artist1.jpg.png",
-          "mp3": "https://samplesongs.netlify.app/Solo.mp3"
-        },
-        {
-          "id": "2",
-          "name": "Until I Met You",
-          "name_music": "Best Of Ava Cornish",
-          "img": "/assets/artist2.jpg.png",
-          "mp3": "/assets/2.mp3"
-        },
-        {
-          "id": "3",
-          "name": "Gimme Some Courage",
-          "name_music": "Best Of Ava Cornish",
-          "img": "/assets/artist3.jpg.png",
-          "mp3": "/assets/3.mp3"
-        },
-        {
-          "id": "4",
-          "name": "Dark Alley Acoustic",
-          "name_music": "Best Of Ava Cornish",
-          "img": "/assets/artist4.jpg.png",
-          "mp3": "/assets/4.mp3"
-        },
-        {
-          "id": "5",
-          "name": "Walking Promises",
-          "name_music": "Best Of Ava Cornish",
-          "img": "/assets/artist5.jpg.png",
-          "mp3": "/assets/5.mp3"
-        },
-        {
-          "id": "6",
-          "name": "Desired Games",
-          "name_music": "Best Of Ava Cornish",
-          "img": "/assets/artist6.jpg.png",
-          "mp3": "https://samplesongs.netlify.app/Solo.mp3"
-        },
-        {
-          "id": "7",
-          "name": "Endless Things",
-          "name_music": "Best Of Ava Cornish",
-          "img": "/assets/artist7.jpg.png",
-          "mp3": "/assets/2.mp3"
-        },
-        {
-          "id": "8",
-          "name": "Desired Games",
-          "name_music": "Best Of Ava Cornish",
-          "img": "/assets/artist8.jpg.png",
-          "mp3": "/assets/3.mp3"
-        }
-      ]
-    },
-    {
-      "New_Releases": [
-        {
-          "id": "1",
-          "name": "The Testers",
-          "name_music": "Fresh Beats",
-          "img": "/assets/artist6.jpg.png",
-          "mp3": "https://samplesongs.netlify.app/Death%20Bed.mp3"
-        },
-        {
-          "id": "2",
-          "name": "Synthwave Masters",
-          "name_music": "Neon Nights",
-          "img": "/assets/artist1.jpg.png",
-          "mp3": "https://samplesongs.netlify.app/Bad%20Liar.mp3"
-        },
-        {
-          "id": "3",
-          "name": "Indie Rockers",
-          "name_music": "Garage Echoes",
-          "img": "/assets/artist2.jpg.png",
-          "mp3": "https://samplesongs.netlify.app/Faded.mp3"
-        },
-        {
-          "id": "4",
-          "name": "Chillhop Cafe",
-          "name_music": "Lo-Fi Mornings",
-          "img": "/assets/artist4.jpg.png",
-          "mp3": "https://samplesongs.netlify.app/Hate%20Me.mp3"
-        }
-      ]
-    }
-  ]
-}
+// let data = {
+//   "data": [
+//     {
+//       "Featured_Albums": [
+//         {
+//           "id": "1",
+//           "name": "Ava Cornish & Brian Hilltest",
+//           "name_music": "Bloodlust",
+//           "img": "/assets/album1.jpg.png",
+//           "mp3": "https://samplesongs.netlify.app/Death%20Bed.mp3"
+//         },
+//         {
+//           "id": "2",
+//           "name": "Ava Cornish & Brian Hill",
+//           "name_music": "Time flies",
+//           "img": "/assets/album2.jpg.png",
+//           "mp3": "https://samplesongs.netlify.app/Bad%20Liar.mp3"
+//         },
+//         {
+//           "id": "3",
+//           "name": "Ava Cornish & Brian Hilltest",
+//           "name_music": "Dark matters",
+//           "img": "/assets/album3.jpg.png",
+//           "mp3": "https://samplesongs.netlify.app/Faded.mp3"
+//         },
+//         {
+//           "id": "4",
+//           "name": "Ava Cornish & Brian Hilltest",
+//           "name_music": "Eye to eye",
+//           "img": "/assets/album4.jpg.png",
+//           "mp3": "https://samplesongs.netlify.app/Hate%20Me.mp3"
+//         },
+//         {
+//           "id": "5",
+//           "name": "Ava Cornish & Brian Hilltest",
+//           "name_music": "Cloud nine",
+//           "img": "/assets/album5.jpg.png",
+//           "mp3": "https://samplesongs.netlify.app/Solo.mp3"
+//         },
+//         {
+//           "id": "6",
+//           "name": "Ava Cornish & Brian Hilltest",
+//           "name_music": "Cobweb of lies",
+//           "img": "/assets/album6.jpg.png",
+//           "mp3": "https://samplesongs.netlify.app/Without%20Me.mp3"
+//         },
+//         {
+//           "id": "7",
+//           "name": "Ava Cornish & Brian Hilltest",
+//           "name_music": "Endless Things",
+//           "img": "/assets/artist1.jpg.png",
+//           "mp3": "https://samplesongs.netlify.app/Death%20Bed.mp3"
+//         },
+//         {
+//           "id": "8",
+//           "name": "Ava Cornish & Brian Hilltest",
+//           "name_music": "Desired Games",
+//           "img": "/assets/artist2.jpg.png",
+//           "mp3": "https://samplesongs.netlify.app/Death%20Bed.mp3"
+//         }
+//       ]
+//     },
+//     {
+//       "Trending_Albums": [
+//         {
+//           "id": "1",
+//           "name": "Ava Cornish & Brian Hilltest",
+//           "name_music": "Dream Your",
+//           "img": "/assets/artist13.jpg.png",
+//           "mp3": "https://samplesongs.netlify.app/Bad%20Liar.mp3"
+//         },
+//         {
+//           "id": "2",
+//           "name": "Ava Cornish & Brian Hill",
+//           "name_music": "Until I Met You",
+//           "img": "/assets/artist12.jpg.png",
+//           "mp3": "https://samplesongs.netlify.app/Faded.mp3"
+//         },
+//         {
+//           "id": "3",
+//           "name": "Ava Cornish & Brian Hilltest",
+//           "name_music": "Gimme Some Courage",
+//           "img": "/assets/artist11.jpg.png",
+//           "mp3": "https://samplesongs.netlify.app/Hate%20Me.mp3"
+//         },
+//         {
+//           "id": "4",
+//           "name": "Ava Cornish & Brian Hilltest",
+//           "name_music": "Dark Alley Acoustic",
+//           "img": "/assets/artist10.jpg.png",
+//           "mp3": "https://samplesongs.netlify.app/Hate%20Me.mp3"
+//         },
+//         {
+//           "id": "5",
+//           "name": "Ava Cornish & Brian Hilltest",
+//           "name_music": "Walking Promises",
+//           "img": "/assets/artist9.jpg.png",
+//           "mp3": "https://samplesongs.netlify.app/Death%20Bed.mp3"
+//         },
+//         {
+//           "id": "6",
+//           "name": "Ava Cornish & Brian Hilltest",
+//           "name_music": "Desired Games",
+//           "img": "/assets/artist8.jpg.png",
+//           "mp3": "https://samplesongs.netlify.app/Death%20Bed.mp3"
+//         },
+//         {
+//           "id": "7",
+//           "name": "Ava Cornish & Brian Hilltest",
+//           "name_music": "Endless Things",
+//           "img": "/assets/artist7.jpg.png",
+//           "mp3": "https://samplesongs.netlify.app/Solo.mp3"
+//         },
+//         {
+//           "id": "8",
+//           "name": "Ava Cornish & Brian Hilltest",
+//           "name_music": "Desired Games",
+//           "img": "/assets/artist6.jpg.png",
+//           "mp3": "https://samplesongs.netlify.app/Hate%20Me.mp3"
+//         }
+//       ]
+//     },
+//     {
+//       "top_15_albums": [
+//         {
+//           "id": "1",
+//           "name": "Ava Cornish & Brian Hilltest",
+//           "name_music": "Dream Your",
+//           "img": "/assets/1.png",
+//           "mp3": "https://samplesongs.netlify.app/Bad%20Liar.mp3"
+//         },
+//         {
+//           "id": "2",
+//           "name": "Ava Cornish & Brian Hilltest",
+//           "name_music": "Until I Met You",
+//           "img": "/assets/2.png",
+//           "mp3": "https://samplesongs.netlify.app/Solo.mp3"
+//         },
+//         {
+//           "id": "3",
+//           "name": "Ava Cornish & Brian Hilltest",
+//           "name_music": "Gimme Some",
+//           "img": "/assets/3.png",
+//           "mp3": "https://samplesongs.netlify.app/Hate%20Me.mp3"
+//         },
+//         {
+//           "id": "4",
+//           "name": "Ava Cornish & Brian Hilltest",
+//           "name_music": "Dark Alley Acoustic",
+//           "img": "/assets/4.png",
+//           "mp3": "https://samplesongs.netlify.app/Without%20Me.mp3"
+//         },
+//         {
+//           "id": "5",
+//           "name": "Ava Cornish & Brian Hilltest",
+//           "name_music": "Walking Promises",
+//           "img": "/assets/5.png",
+//           "mp3": "https://samplesongs.netlify.app/Solo.mp3"
+//         },
+//         {
+//           "id": "6",
+//           "name": "Ava Cornish & Brian Hilltest",
+//           "name_music": "Desired Games",
+//           "img": "/assets/6.png",
+//           "mp3": "https://samplesongs.netlify.app/Faded.mp3"
+//         },
+//         {
+//           "id": "7",
+//           "name": "Ava Cornish & Brian Hilltest",
+//           "name_music": "Endless Things",
+//           "img": "/assets/7.png",
+//           "mp3": "https://samplesongs.netlify.app/Solo.mp3"
+//         },
+//         {
+//           "id": "8",
+//           "name": "Ava Cornish & Brian Hilltest",
+//           "name_music": "Desired Games",
+//           "img": "/assets/8.png",
+//           "mp3": "https://samplesongs.netlify.app/Solo.mp3"
+//         },
+//         {
+//           "id": "9",
+//           "name": "Ava Cornish & Brian Hilltest",
+//           "name_music": "Desired Games",
+//           "img": "/assets/9.png",
+//           "mp3": "https://samplesongs.netlify.app/Solo.mp3"
+//         },
+//         {
+//           "id": "10",
+//           "name": "Ava Cornish & Brian Hilltest",
+//           "name_music": "Desired Games",
+//           "img": "/assets/10.png",
+//           "mp3": "https://samplesongs.netlify.app/Solo.mp3"
+//         },
+//         {
+//           "id": "11",
+//           "name": "Ava Cornish & Brian Hilltest",
+//           "name_music": "Desired Games",
+//           "img": "/assets/11.png",
+//           "mp3": "https://samplesongs.netlify.app/Solo.mp3"
+//         },
+//         {
+//           "id": "12",
+//           "name": "Ava Cornish & Brian Hilltest",
+//           "name_music": "Desired Games",
+//           "img": "/assets/12.png",
+//           "mp3": "https://samplesongs.netlify.app/Solo.mp3"
+//         },
+//         {
+//           "id": "13",
+//           "name": "Ava Cornish & Brian Hilltest",
+//           "name_music": "Desired Games",
+//           "img": "/assets/13.png",
+//           "mp3": "https://samplesongs.netlify.app/Solo.mp3"
+//         },
+//         {
+//           "id": "14",
+//           "name": "Ava Cornish & Brian Hilltest",
+//           "name_music": "Desired Games",
+//           "img": "/assets/14.png",
+//           "mp3": "https://samplesongs.netlify.app/Solo.mp3"
+//         },
+//         {
+//           "id": "15",
+//           "name": "Ava Cornish & Brian Hilltest",
+//           "name_music": "Desired Games",
+//           "img": "/assets/15.png",
+//           "mp3": "https://samplesongs.netlify.app/Solo.mp3"
+//         }
+//       ]
+//     },
+//     {
+//       "Albums_By_Artists": [
+//         {
+//           "id": "1",
+//           "name": "Ava Cornish",
+//           "name_music": "Best Of Ava Cornish",
+//           "img": "/assets/artist1.jpg.png",
+//           "mp3": "https://samplesongs.netlify.app/Solo.mp3"
+//         },
+//         {
+//           "id": "2",
+//           "name": "Until I Met You",
+//           "name_music": "Best Of Ava Cornish",
+//           "img": "/assets/artist2.jpg.png",
+//           "mp3": "/assets/2.mp3"
+//         },
+//         {
+//           "id": "3",
+//           "name": "Gimme Some Courage",
+//           "name_music": "Best Of Ava Cornish",
+//           "img": "/assets/artist3.jpg.png",
+//           "mp3": "/assets/3.mp3"
+//         },
+//         {
+//           "id": "4",
+//           "name": "Dark Alley Acoustic",
+//           "name_music": "Best Of Ava Cornish",
+//           "img": "/assets/artist4.jpg.png",
+//           "mp3": "/assets/4.mp3"
+//         },
+//         {
+//           "id": "5",
+//           "name": "Walking Promises",
+//           "name_music": "Best Of Ava Cornish",
+//           "img": "/assets/artist5.jpg.png",
+//           "mp3": "/assets/5.mp3"
+//         },
+//         {
+//           "id": "6",
+//           "name": "Desired Games",
+//           "name_music": "Best Of Ava Cornish",
+//           "img": "/assets/artist6.jpg.png",
+//           "mp3": "https://samplesongs.netlify.app/Solo.mp3"
+//         },
+//         {
+//           "id": "7",
+//           "name": "Endless Things",
+//           "name_music": "Best Of Ava Cornish",
+//           "img": "/assets/artist7.jpg.png",
+//           "mp3": "/assets/2.mp3"
+//         },
+//         {
+//           "id": "8",
+//           "name": "Desired Games",
+//           "name_music": "Best Of Ava Cornish",
+//           "img": "/assets/artist8.jpg.png",
+//           "mp3": "/assets/3.mp3"
+//         }
+//       ]
+//     },
+//     {
+//       "New_Releases": [
+//         {
+//           "id": "1",
+//           "name": "The Testers",
+//           "name_music": "Fresh Beats",
+//           "img": "/assets/artist6.jpg.png",
+//           "mp3": "https://samplesongs.netlify.app/Death%20Bed.mp3"
+//         },
+//         {
+//           "id": "2",
+//           "name": "Synthwave Masters",
+//           "name_music": "Neon Nights",
+//           "img": "/assets/artist1.jpg.png",
+//           "mp3": "https://samplesongs.netlify.app/Bad%20Liar.mp3"
+//         },
+//         {
+//           "id": "3",
+//           "name": "Indie Rockers",
+//           "name_music": "Garage Echoes",
+//           "img": "/assets/artist2.jpg.png",
+//           "mp3": "https://samplesongs.netlify.app/Faded.mp3"
+//         },
+//         {
+//           "id": "4",
+//           "name": "Chillhop Cafe",
+//           "name_music": "Lo-Fi Mornings",
+//           "img": "/assets/artist4.jpg.png",
+//           "mp3": "https://samplesongs.netlify.app/Hate%20Me.mp3"
+//         }
+//       ]
+//     }
+//   ]
+// }
 
 document.addEventListener("DOMContentLoaded", function () {
+  window.playAudio       = playAudio;
+  window.startstopaudio  = startstopaudio;
+  window.nextAudio       = nextAudio;
+  window.prevAudio       = prevAudio;
   // Initialize accounts and create default admin if none exists
   let accounts = JSON.parse(localStorage.getItem("accounts")) || [];
+  let data = JSON.parse(localStorage.getItem("albums")) || [];
   const hasAdmin = accounts.some((account) => account.role === "Admin");
   if (!hasAdmin) {
     const defaultAdmin = {
