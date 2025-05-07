@@ -58,7 +58,6 @@ let data = {
           "img": "/assets/artist2.jpg.png",
           "mp3": "https://samplesongs.netlify.app/Death%20Bed.mp3"
         }
-
       ]
     },
     {
@@ -119,7 +118,6 @@ let data = {
           "img": "/assets/artist6.jpg.png",
           "mp3": "https://samplesongs.netlify.app/Hate%20Me.mp3"
         }
-
       ]
     },
     {
@@ -323,18 +321,34 @@ let data = {
         }
       ]
     }
-
   ]
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+  // Initialize accounts and create default admin if none exists
+  let accounts = JSON.parse(localStorage.getItem("accounts")) || [];
+  const hasAdmin = accounts.some((account) => account.role === "Admin");
+  if (!hasAdmin) {
+    const defaultAdmin = {
+      accountId: "TK000001",
+      fullName: "Admin User",
+      email: "admin@example.com",
+      password: "Admin@123",
+      dob: "01/01/1990",
+      phone: "0123456789",
+      hometown: "Hà Nội",
+      role: "Admin",
+    };
+    accounts.push(defaultAdmin);
+    localStorage.setItem("accounts", JSON.stringify(accounts));
+  }
+
   let featuredContainer = document.getElementById("featured-albums");
   let trendingContainer = document.getElementById("trending-albums");
   let top15Container = document.getElementById("top15_albums");
   let albumsByArtistsContainer = document.getElementById("Artists-albums");
-  let newReleasesContainer = document.getElementById("trending"); // Target container for New Releases
-  let newReleasesData = data.data[4].New_Releases; // Get New Releases data
-
+  let newReleasesContainer = document.getElementById("trending");
+  let newReleasesData = data.data[4].New_Releases;
 
   let featuredAlbums = data.data[0].Featured_Albums;
   let trendingAlbums = data.data[1].Trending_Albums;
@@ -370,7 +384,6 @@ document.addEventListener("DOMContentLoaded", function () {
       `;
   }
 
-
   function bindNav(container, albums, ref) {
     let prevBtn = document.getElementById(`${container.id}-prev`);
     let nextBtn = document.getElementById(`${container.id}-next`);
@@ -391,7 +404,6 @@ document.addEventListener("DOMContentLoaded", function () {
     };
   }
 
-
   renderAlbums(featuredContainer, featuredAlbums, featuredRef);
   bindNav(featuredContainer, featuredAlbums, featuredRef);
 
@@ -401,7 +413,7 @@ document.addEventListener("DOMContentLoaded", function () {
   renderAlbums(albumsByArtistsContainer, albumsByArtists, artistsRef);
   bindNav(albumsByArtistsContainer, albumsByArtists, artistsRef);
   renderNewReleases(newReleasesContainer, newReleasesData);
-  // Render Top 15 Albums
+
   let top15HTML = "";
   for (let i = 0; i < 3; i++) {
     top15HTML += '<div class="me-3">';
@@ -425,6 +437,7 @@ document.addEventListener("DOMContentLoaded", function () {
     top15HTML += '</div>';
   }
   top15Container.innerHTML = top15HTML;
+
   function renderNewReleases(container, releases) {
     let rowsHtml = '';
     for (let i = 0; i < releases.length; i += 4) {
@@ -442,272 +455,484 @@ document.addEventListener("DOMContentLoaded", function () {
           `).join('');
       rowsHtml += '</div>';
     }
-
     container.innerHTML = rowsHtml;
   }
+
   let searchInput = document.getElementById('search-input');
   let searchButton = document.getElementById('search-btn');
 
-
-  // Hàm xử lý tìm kiếm
   function handleSearch() {
     let searchTerm = searchInput.value.toLowerCase().trim();
-    // Lọc Featured Albums
     let filteredFeatured = featuredAlbums.filter(album =>
       album.name_music.toLowerCase().includes(searchTerm) ||
       album.name.toLowerCase().includes(searchTerm)
     );
-    featuredRef.value = 0; // Reset về trang đầu tiên
+    featuredRef.value = 0;
     renderAlbums(featuredContainer, filteredFeatured, featuredRef);
-    bindNav(featuredContainer, filteredFeatured, featuredRef); // Gắn lại sự kiện nav cho kết quả mới
+    bindNav(featuredContainer, filteredFeatured, featuredRef);
 
-    // Lọc Trending Albums
     let filteredTrending = trendingAlbums.filter(album =>
       album.name_music.toLowerCase().includes(searchTerm) ||
       album.name.toLowerCase().includes(searchTerm)
     );
-    trendingRef.value = 0; // Reset về trang đầu tiên
+    trendingRef.value = 0;
     renderAlbums(trendingContainer, filteredTrending, trendingRef);
-    bindNav(trendingContainer, filteredTrending, trendingRef); // Gắn lại sự kiện nav cho kết quả mới
+    bindNav(trendingContainer, filteredTrending, trendingRef);
 
-    // Lọc Albums By Artists
     let filteredArtists = albumsByArtists.filter(album =>
       album.name_music.toLowerCase().includes(searchTerm) ||
       album.name.toLowerCase().includes(searchTerm)
     );
-    artistsRef.value = 0; // Reset về trang đầu tiên
+    artistsRef.value = 0;
     renderAlbums(albumsByArtistsContainer, filteredArtists, artistsRef);
-    bindNav(albumsByArtistsContainer, filteredArtists, artistsRef); // Gắn lại sự kiện nav cho kết quả mới
+    bindNav(albumsByArtistsContainer, filteredArtists, artistsRef);
   }
 
-  // Gắn sự kiện click cho nút tìm kiếm
   searchButton.addEventListener('click', handleSearch);
-});
 
-let currentSrc = null;
-let name_music = document.getElementById("name_music");
-let name_artist = document.getElementById("name_artist");
-let img_player = document.getElementById("img_player");
-let start_pause = document.getElementById("start-pause");
-let audio = document.getElementById("audio-player");
+  // Authentication Functions
+  function updateAuthButtons() {
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    let loginBtn = document.querySelector(".login-btn");
+    const registerBtn = document.querySelector(".register-btn");
 
-function startstopaudio() {
-  if (audio.paused) {
+    if (currentUser) {
+      if (registerBtn) registerBtn.style.display = "none";
+      if (loginBtn) {
+        loginBtn.textContent = "Logout";
+        loginBtn.classList.remove("login-btn");
+        loginBtn.classList.add("logout-btn");
+        const newLoginBtn = loginBtn.cloneNode(true);
+        loginBtn.parentNode.replaceChild(newLoginBtn, loginBtn);
+        newLoginBtn.addEventListener("click", () => {
+          Swal.fire({
+            title: "Are you sure?",
+            text: "You will be logged out of your account.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, log out",
+            cancelButtonText: "Cancel",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              localStorage.removeItem("currentUser");
+              Swal.fire("Logged out!", "You have been successfully logged out.", "success");
+              updateAuthButtons();
+              handleSearch(); // Reset content
+            }
+          });
+        });
+      }
+      const welcomeMessage = document.createElement("span");
+      welcomeMessage.className = "me-2";
+      welcomeMessage.textContent = `Welcome, ${currentUser.fullName}`;
+      const authContainer = document.querySelector("header .d-flex.align-items-center > div:last-child");
+      if (authContainer && !authContainer.querySelector("span.me-2")) {
+        authContainer.insertBefore(welcomeMessage, authContainer.firstChild);
+      }
+    } else {
+      if (registerBtn) registerBtn.style.display = "inline-block";
+      loginBtn = document.querySelector(".logout-btn") || document.querySelector(".login-btn");
+      if (loginBtn && loginBtn.classList.contains("logout-btn")) {
+        loginBtn.textContent = "Login";
+        loginBtn.classList.remove("logout-btn");
+        loginBtn.classList.add("login-btn");
+        const newLoginBtn = loginBtn.cloneNode(true);
+        loginBtn.parentNode.replaceChild(newLoginBtn, loginBtn);
+        loginBtn = newLoginBtn;
+      }
+      if (loginBtn) {
+        loginBtn.addEventListener("click", () => {
+          const modalLogin = document.querySelector(".modalLogin");
+          if (modalLogin) {
+            modalLogin.classList.add("show");
+            modalLogin.style.display = "flex";
+          } else {
+            Swal.fire("Error!", "Login modal not found.", "error");
+          }
+        });
+      }
+      const welcomeMessage = document.querySelector("header .d-flex.align-items-center span.me-2");
+      if (welcomeMessage) welcomeMessage.remove();
+    }
+
+    const newRegisterBtn = document.querySelector(".register-btn");
+    if (newRegisterBtn) {
+      newRegisterBtn.addEventListener("click", () => {
+        const modalRegister = document.querySelector(".modalRegister");
+        if (modalRegister) {
+          modalRegister.classList.add("show");
+          modalRegister.style.display = "flex";
+        } else {
+          Swal.fire("Error!", "Register modal not found.", "error");
+        }
+      });
+    }
+  }
+
+  // Login Modal
+  const modalLogin = document.querySelector(".modalLogin");
+  const loginForm = document.querySelector(".formLogin");
+  const forgotPasswordLink = document.querySelector(".modalLogin .forgot-password");
+  const registerLink = document.querySelector(".formLogin a");
+
+  if (modalLogin) {
+    modalLogin.addEventListener("click", (e) => {
+      if (e.target === modalLogin) {
+        modalLogin.classList.remove("show");
+        modalLogin.style.display = "none";
+      }
+    });
+  }
+
+  if (loginForm) {
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!emailRegex.test(email)) {
+        Swal.fire("Error!", "Please enter a valid email address.", "error");
+        return;
+      }
+      if (!password) {
+        Swal.fire("Error!", "Please enter a password.", "error");
+        return;
+      }
+
+      const accounts = JSON.parse(localStorage.getItem("accounts")) || [];
+      const user = accounts.find((account) => account.email === email && account.password === password);
+
+      if (user) {
+        localStorage.setItem("currentUser", JSON.stringify(user));
+        Swal.fire("Success!", "Logged in successfully.", "success").then(() => {
+          modalLogin.classList.remove("show");
+          modalLogin.style.display = "none";
+          loginForm.reset();
+          updateAuthButtons();
+          if (user.role === "Admin") {
+            window.location.href = "Admin-page.html";
+          }
+        });
+      } else {
+        Swal.fire("Error!", "Invalid email or password.", "error");
+      }
+    });
+  }
+
+  if (forgotPasswordLink) {
+    forgotPasswordLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      Swal.fire({
+        title: "Forgot Password",
+        text: "Please contact support at shadowsgamer371@gmail.com to reset your password.",
+        icon: "info",
+      });
+    });
+  }
+
+  if (registerLink) {
+    registerLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      modalLogin.classList.remove("show");
+      modalLogin.style.display = "none";
+      const modalRegister = document.querySelector(".modalRegister");
+      if (modalRegister) {
+        modalRegister.classList.add("show");
+        modalRegister.style.display = "flex";
+      }
+    });
+  }
+
+  // Register Modal
+  const modalRegister = document.querySelector(".modalRegister");
+  const registerForm = document.querySelector(".formRegister");
+  const loginLink = document.querySelector(".formRegister a");
+
+  if (modalRegister) {
+    modalRegister.addEventListener("click", (e) => {
+      if (e.target === modalRegister) {
+        modalRegister.classList.remove("show");
+        modalRegister.style.display = "none";
+      }
+    });
+  }
+
+  if (registerForm) {
+    registerForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email1").value.trim();
+      const password1 = document.getElementById("password1").value.trim();
+      const password2 = document.getElementById("password2").value.trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+      if (!name || !email || !password1 || !password2) {
+        Swal.fire("Error!", "Please fill in all fields.", "error");
+        return;
+      }
+      if (!emailRegex.test(email)) {
+        Swal.fire("Error!", "Please enter a valid email address.", "error");
+        return;
+      }
+      if (!passwordRegex.test(password1)) {
+        Swal.fire(
+          "Error!",
+          "Password must be at least 8 characters long, include uppercase, lowercase, number, and special character.",
+          "error"
+        );
+        return;
+      }
+      if (password1 !== password2) {
+        Swal.fire("Error!", "Passwords do not match.", "error");
+        return;
+      }
+
+      const accounts = JSON.parse(localStorage.getItem("accounts")) || [];
+      if (accounts.some((account) => account.email === email)) {
+        Swal.fire("Error!", "This email is already registered.", "error");
+        return;
+      }
+
+      const newAccount = {
+        accountId: `TK${Math.floor(Math.random() * 1000000).toString().padStart(6, "0")}`,
+        fullName: name,
+        email,
+        password: password1,
+        dob: "",
+        phone: "",
+        hometown: "",
+        role: "Users",
+      };
+
+      accounts.push(newAccount);
+      localStorage.setItem("accounts", JSON.stringify(accounts));
+      localStorage.setItem("currentUser", JSON.stringify(newAccount));
+
+      Swal.fire("Success!", "Registered successfully. You are now logged in.", "success").then(() => {
+        modalRegister.classList.remove("show");
+        modalRegister.style.display = "none";
+        registerForm.reset();
+        updateAuthButtons();
+      });
+    });
+  }
+
+  if (loginLink) {
+    loginLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      modalRegister.classList.remove("show");
+      modalRegister.style.display = "none";
+      const modalLogin = document.querySelector(".modalLogin");
+      if (modalLogin) {
+        modalLogin.classList.add("show");
+        modalLogin.style.display = "flex";
+      }
+    });
+  }
+
+  let currentSrc = null;
+  let name_music = document.getElementById("name_music");
+  let name_artist = document.getElementById("name_artist");
+  let img_player = document.getElementById("img_player");
+  let start_pause = document.getElementById("start-pause");
+  let audio = document.getElementById("audio-player");
+
+  function startstopaudio() {
+    if (audio.paused) {
+      audio.play();
+      start_pause.innerHTML = `<i class="bi bi-pause"></i>`;
+    } else {
+      audio.pause();
+      start_pause.innerHTML = `<i class="bi bi-play-fill"></i>`;
+    }
+  }
+
+  function nextAudio(itemClass, id) {
+    if (itemClass == "Featured-item") {
+      let currentIndex = id;
+      if (currentIndex <= data.data[0].Featured_Albums.length ) {
+        currentIndex++;
+        let nextAlbum = data.data[0].Featured_Albums[currentIndex -1];
+        playAudio(nextAlbum.mp3, nextAlbum.name_music, nextAlbum.name, nextAlbum.img, nextAlbum.id);
+      }
+      currentAudio = {
+        itemClass: itemClass,
+        id: currentIndex,
+      };
+    }else if (itemClass == "Trending-item") {
+      let currentIndex = id;
+      if (currentIndex < data.data[1].Trending_Albums.length) {
+        currentIndex++;
+        let nextAlbum = data.data[1].Trending_Albums[currentIndex -1];
+        playAudio(nextAlbum.mp3, nextAlbum.name_music, nextAlbum.name, nextAlbum.img, nextAlbum.id);
+      }
+      currentAudio = {
+        itemClass: itemClass,
+        id: currentIndex,
+      };
+    }else if (itemClass == "Artists-item") {
+      let currentIndex = id;
+      if (currentIndex < data.data[3].Albums_By_Artists.length) {
+        currentIndex++;
+        let nextAlbum = data.data[3].Albums_By_Artists[currentIndex -1];
+        playAudio(nextAlbum.mp3, nextAlbum.name_music, nextAlbum.name, nextAlbum.img, nextAlbum.id);
+      }
+      currentAudio = {
+        itemClass: itemClass,
+        id: currentIndex,
+      };
+    }else if (itemClass == "trendingItem") {
+      let currentIndex = id;
+      if (currentIndex < data.data[4].New_Releases.length) {
+        currentIndex++;
+        let nextAlbum = data.data[4].New_Releases[currentIndex -1];
+        playAudio(nextAlbum.mp3, nextAlbum.name_music, nextAlbum.name, nextAlbum.img, nextAlbum.id);
+      }
+      currentAudio = {
+        itemClass: itemClass,
+        id: currentIndex,
+      };
+    }else if (itemClass == "top-item") {
+      let currentIndex = id;
+      if (currentIndex < data.data[2].top_15_albums.length) {
+        currentIndex++;
+        let nextAlbum = data.data[2].top_15_albums[currentIndex -1];
+        playAudio(nextAlbum.mp3, nextAlbum.name_music, nextAlbum.name, nextAlbum.img, nextAlbum.id);
+      }
+      currentAudio = {
+        itemClass: itemClass,
+        id: currentIndex,
+      };
+    }
+  }
+
+  function prevAudio(itemClass, id) {
+    if (itemClass == "Featured-item") {
+      let currentIndex = id;
+      if (currentIndex > 1) {
+        currentIndex--;
+        let prevAlbum = data.data[0].Featured_Albums[currentIndex -1];
+        playAudio(prevAlbum.mp3, prevAlbum.name_music, prevAlbum.name, prevAlbum.img, prevAlbum.id);
+      }
+      currentAudio = {
+        itemClass: itemClass,
+        id: currentIndex,
+      };
+    }else if (itemClass == "Trending-item") {
+      let currentIndex = id;
+      if (currentIndex > 1) {
+        currentIndex--;
+        let prevAlbum = data.data[1].Trending_Albums[currentIndex -1];
+        playAudio(prevAlbum.mp3, prevAlbum.name_music, prevAlbum.name, prevAlbum.img, prevAlbum.id);
+      }
+      currentAudio = {
+        itemClass: itemClass,
+        id: currentIndex,
+      };
+    }else if (itemClass == "Artists-item") {
+      let currentIndex = id;
+      if (currentIndex > 1) {
+        currentIndex--;
+        let prevAlbum = data.data[3].Albums_By_Artists[currentIndex -1];
+        playAudio(prevAlbum.mp3, prevAlbum.name_music, prevAlbum.name, prevAlbum.img, prevAlbum.id);
+      }
+      currentAudio = {
+        itemClass: itemClass,
+        id: currentIndex,
+      };
+    }else if (itemClass == "trendingItem") {
+      let currentIndex = id;
+      if (currentIndex > 1) {
+        currentIndex--;
+        let prevAlbum = data.data[4].New_Releases[currentIndex -1];
+        playAudio(prevAlbum.mp3, prevAlbum.name_music, prevAlbum.name, prevAlbum.img, prevAlbum.id);
+      }
+      currentAudio = {
+        itemClass: itemClass,
+        id: currentIndex,
+      };
+    }else if (itemClass == "top-item") {
+      let currentIndex = id;
+      if (currentIndex > 1) {
+        currentIndex--;
+        let prevAlbum = data.data[2].top_15_albums[currentIndex -1];
+        playAudio(prevAlbum.mp3, prevAlbum.name_music, prevAlbum.name, prevAlbum.img, prevAlbum.id);
+      }
+      currentAudio = {
+        itemClass: itemClass,
+        id: currentIndex,
+      };
+    }
+  }
+
+  let btn_next_audio = document.getElementById("next-audio");
+  btn_next_audio.addEventListener("click", function () {  
+    nextAudio(currentAudio.itemClass, currentAudio.id);
+  });
+
+  let currentAudio = {};
+  let btn_prev_audio = document.getElementById("prev-audio");
+  btn_prev_audio.addEventListener("click", function () {
+    prevAudio(currentAudio.itemClass, currentAudio.id);
+  });
+
+  function playAudio(src, name_music1, name_artist1, img, id, itemClass) {
+    currentAudio = {
+      itemClass: itemClass,
+      id: id,
+    }
+    name_music.innerText = name_music1;
+    name_artist.innerText = name_artist1;
+    img_player.src = img;
+    audio.src = src;
     audio.play();
     start_pause.innerHTML = `<i class="bi bi-pause"></i>`;
-  } else {
-    audio.pause();
-    start_pause.innerHTML = `<i class="bi bi-play-fill"></i>`;
   }
-}
-function nextAudio(itemClass, id) {
-  console.log("next")
-  if (itemClass == "Featured-item") {
-    let currentIndex = id;
-    console.log(currentIndex)
-    if (currentIndex <= data.data[0].Featured_Albums.length ) {
-      currentIndex++;
-      let nextAlbum = data.data[0].Featured_Albums[currentIndex -1];
-      playAudio(nextAlbum.mp3, nextAlbum.name_music, nextAlbum.name, nextAlbum.img, nextAlbum.id);
-      console.log(currentIndex)
-    }
-    currentAudio = {
-      itemClass: itemClass,
-      id: currentIndex,
-    };
-  }else if (itemClass == "Trending-item") {
-    let currentIndex = id;
-    if (currentIndex < data.data[1].Trending_Albums.length) {
-      currentIndex++;
-      let nextAlbum = data.data[1].Trending_Albums[currentIndex -1];
-      playAudio(nextAlbum.mp3, nextAlbum.name_music, nextAlbum.name, nextAlbum.img, nextAlbum.id);
-    }
-    currentAudio = {
-      itemClass: itemClass,
-      id: currentIndex,
-    };
-  }else if (itemClass == "Artists-item") {
-    let currentIndex = id;
-    if (currentIndex < data.data[3].Albums_By_Artists.length) {
-      currentIndex++;
-      let nextAlbum = data.data[3].Albums_By_Artists[currentIndex -1];
-      playAudio(nextAlbum.mp3, nextAlbum.name_music, nextAlbum.name, nextAlbum.img, nextAlbum.id);
-    }
-    currentAudio = {
-      itemClass: itemClass,
-      id: currentIndex,
-    };
-  }else if (itemClass == "trendingItem") {
-    let currentIndex = id;
-    if (currentIndex < data.data[4].New_Releases.length) {
-      currentIndex++;
-      let nextAlbum = data.data[4].New_Releases[currentIndex -1];
-      playAudio(nextAlbum.mp3, nextAlbum.name_music, nextAlbum.name, nextAlbum.img, nextAlbum.id);
-    }
-    currentAudio = {
-      itemClass: itemClass,
-      id: currentIndex,
-    };
-  }else if (itemClass == "top-item") {
-    let currentIndex = id;
-    if (currentIndex < data.data[2].top_15_albums.length) {
-      currentIndex++;
-      let nextAlbum = data.data[2].top_15_albums[currentIndex -1];
-      playAudio(nextAlbum.mp3, nextAlbum.name_music, nextAlbum.name, nextAlbum.img, nextAlbum.id);
-    }
-    currentAudio = {
-      itemClass: itemClass,
-      id: currentIndex,
-    };
-  }
-}
-function prevAudio(itemClass, id) {
-  if (itemClass == "Featured-item") {
-    let currentIndex = id;
-    if (currentIndex > 1) {
-      currentIndex--;
-      let prevAlbum = data.data[0].Featured_Albums[currentIndex -1];
-      playAudio(prevAlbum.mp3, prevAlbum.name_music, prevAlbum.name, prevAlbum.img, prevAlbum.id);
-    }
-    currentAudio = {
-      itemClass: itemClass,
-      id: currentIndex,
-    };
-  }else if (itemClass == "Trending-item") {
-    let currentIndex = id;
-    if (currentIndex > 1) {
-      currentIndex--;
-      let prevAlbum = data.data[1].Trending_Albums[currentIndex -1];
-      playAudio(prevAlbum.mp3, prevAlbum.name_music, prevAlbum.name, prevAlbum.img, prevAlbum.id);
-    }
-    currentAudio = {
-      itemClass: itemClass,
-      id: currentIndex,
-    };
-  }else if (itemClass == "Artists-item") {
-    let currentIndex = id;
-    if (currentIndex > 1) {
-      currentIndex--;
-      let prevAlbum = data.data[3].Albums_By_Artists[currentIndex -1];
-      playAudio(prevAlbum.mp3, prevAlbum.name_music, prevAlbum.name, prevAlbum.img, prevAlbum.id);
-    }
-    currentAudio = {
-      itemClass: itemClass,
-      id: currentIndex,
-    };
-  }else if (itemClass == "trendingItem") {
-    let currentIndex = id;
-    if (currentIndex > 1) {
-      currentIndex--;
-      let prevAlbum = data.data[4].New_Releases[currentIndex -1];
-      playAudio(prevAlbum.mp3, prevAlbum.name_music, prevAlbum.name, prevAlbum.img, prevAlbum.id);
-    }
-    currentAudio = {
-      itemClass: itemClass,
-      id: currentIndex,
-    };
-  }else if (itemClass == "top-item") {
-    let currentIndex = id;
-    if (currentIndex > 1) {
-      currentIndex--;
-      let prevAlbum = data.data[2].top_15_albums[currentIndex -1];
-      playAudio(prevAlbum.mp3, prevAlbum.name_music, prevAlbum.name, prevAlbum.img, prevAlbum.id);
-    }
-    currentAudio = {
-      itemClass: itemClass,
-      id: currentIndex,
-    };
-  }
-}
-let btn_next_audio = document.getElementById("next-audio");
-btn_next_audio.addEventListener("click", function () {  
-  nextAudio(currentAudio.itemClass, currentAudio.id);
-});
-let currentAudio = {};
-let btn_prev_audio = document.getElementById("prev-audio");
-btn_prev_audio.addEventListener("click", function () {
-  prevAudio(currentAudio.itemClass, currentAudio.id);
-})
-function playAudio(src, name_music1, name_artist1, img, id, itemClass) {
-  currentAudio = {
-    itemClass: itemClass,
-    id: id,
-  }
-  name_music.innerText = name_music1;
-  name_artist.innerText = name_artist1;
-  img_player.src = img;
-  audio.src = src;
-  audio.play();
-  start_pause.innerHTML = `<i class="bi bi-pause"></i>`;
-}
 
-let volume = document.getElementById("volume");
-volume.addEventListener("click", function () {
-  if(audio.muted){
-    audio.muted = false;
-    volume.innerHTML = `<i class="bi bi-volume-up"></i>`;
-  }else{
-    audio.muted = true;
-    volume.innerHTML = `<i class="bi bi-volume-mute"></i>`;
-  }
-})
-// Chức năng toggle sidebar (mở rộng/thu gọn)
-let sidebar = document.querySelector('.sidebar'); // Lấy phần tử sidebar
-let chevronBtn = document.querySelector('.sidebar-chevorn a'); // Lấy nút chevron (mũi tên)
-let mainContent = document.querySelector('.container'); // Lấy container chính
-let header = document.querySelector('header'); // Lấy header
-let isSidebarExpanded = false; // Biến trạng thái: false = sidebar thu gọn, true = sidebar mở rộng
+  let volume = document.getElementById("volume");
+  volume.addEventListener("click", function () {
+    if(audio.muted){
+      audio.muted = false;
+      volume.innerHTML = `<i class="bi bi-volume-up"></i>`;
+    }else{
+      audio.muted = true;
+      volume.innerHTML = `<i class="bi bi-volume-mute"></i>`;
+    }
+  });
 
-// Thêm sự kiện click cho nút chevron để toggle sidebar
-chevronBtn.addEventListener('click', () => {
-  isSidebarExpanded = !isSidebarExpanded; // Đổi trạng thái (thu gọn ↔ mở rộng)
-  if (isSidebarExpanded) {
-    // Khi sidebar mở rộng
-    sidebar.classList.add('expanded'); // Thêm class .expanded cho sidebar
-    mainContent.classList.add('expanded'); // Điều chỉnh padding container
-    header.classList.add('expanded'); // Điều chỉnh vị trí và chiều rộng header
-    chevronBtn.querySelector('i').classList.replace('fa-chevron-right', 'fa-chevron-left'); // Đổi biểu tượng thành mũi tên trái
-  } else {
-    // Khi sidebar thu gọn
-    sidebar.classList.remove('expanded'); // Xóa class .expanded
-    mainContent.classList.remove('expanded'); // Khôi phục padding container
-    header.classList.remove('expanded'); // Khôi phục header
-    chevronBtn.querySelector('i').classList.replace('fa-chevron-left', 'fa-chevron-right'); // Đổi biểu tượng thành mũi tên phải
-  }
-});
-let links = document.querySelectorAll('.sidebar a');
-let currentPage = window.location.pathname.split('/').pop();
+  // Sidebar Toggle
+  let sidebar = document.querySelector('.sidebar');
+  let chevronBtn = document.querySelector('.sidebar-chevorn a');
+  let mainContent = document.querySelector('.container');
+  let header = document.querySelector('header');
+  let isSidebarExpanded = false;
 
-links.forEach(link => {
-  let linkPage = link.getAttribute('href');
-  if (linkPage === currentPage) {
-    link.classList.add('active');
-  }
-});
-/* Login */
-let loginBtn = document.querySelector('.login-btn');
-let modal = document.querySelector('.modalLogin');
+  chevronBtn.addEventListener('click', () => {
+    isSidebarExpanded = !isSidebarExpanded;
+    if (isSidebarExpanded) {
+      sidebar.classList.add('expanded');
+      mainContent.classList.add('expanded');
+      header.classList.add('expanded');
+      chevronBtn.querySelector('i').classList.replace('fa-chevron-right', 'fa-chevron-left');
+    } else {
+      sidebar.classList.remove('expanded');
+      mainContent.classList.remove('expanded');
+      header.classList.remove('expanded');
+      chevronBtn.querySelector('i').classList.replace('fa-chevron-left', 'fa-chevron-right');
+    }
+  });
 
-loginBtn.addEventListener('click', () => {
-  modal.classList.add('show');
-});
+  let links = document.querySelectorAll('.sidebar a');
+  let currentPage = window.location.pathname.split('/').pop();
+  links.forEach(link => {
+    let linkPage = link.getAttribute('href');
+    if (linkPage === currentPage) {
+      link.classList.add('active');
+    }
+  });
 
-// Đóng modal khi click ra ngoài (tuỳ chọn)
-modal.addEventListener('click', (e) => {
-  if (e.target === modal) {
-    modal.classList.remove('show');
-  }
-});
-/* Register */
-let registerBtn = document.querySelector('.register-btn');
-let registerModal = document.querySelector('.modalRegister');
-
-registerBtn.addEventListener('click', () => {
-  registerModal.classList.add('show');
-});
-
-registerModal.addEventListener('click', (e) => {
-  if (e.target === registerModal) {
-    registerModal.classList.remove('show');
-  }
+  // Initialize header buttons
+  updateAuthButtons();
 });

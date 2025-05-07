@@ -1,4 +1,22 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Initialize accounts and create default admin if none exists
+  let accounts = JSON.parse(localStorage.getItem("accounts")) || [];
+  const hasAdmin = accounts.some((account) => account.role === "Admin");
+  if (!hasAdmin) {
+    const defaultAdmin = {
+      accountId: "TK000001",
+      fullName: "Admin User",
+      email: "admin@example.com",
+      password: "Admin@123",
+      dob: "01/01/1990",
+      phone: "0123456789",
+      hometown: "Hà Nội",
+      role: "Admin",
+    };
+    accounts.push(defaultAdmin);
+    localStorage.setItem("accounts", JSON.stringify(accounts));
+  }
+
   // Initialize song data with continuous IDs
   const topMusicSong = {
     data: [
@@ -200,9 +218,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Load songData from localStorage
   let songData = JSON.parse(localStorage.getItem("songData")) || topMusicSong;
 
+  // Active link
   const links = document.querySelectorAll(".sidebar a");
   const currentPage = window.location.pathname.split("/").pop();
-
   links.forEach((link) => {
     const linkPage = link.getAttribute("href");
     if (linkPage === currentPage) {
@@ -210,9 +228,31 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Sidebar toggle
+  const sidebar = document.querySelector(".sidebar");
+  const chevronBtn = document.querySelector(".sidebar-chevorn a");
+  const mainContent = document.querySelector(".container");
+  const header = document.querySelector("header");
+  let isSidebarExpanded = false;
+
+  if (chevronBtn) {
+    chevronBtn.addEventListener("click", () => {
+      isSidebarExpanded = !isSidebarExpanded;
+      if (isSidebarExpanded) {
+        sidebar.classList.add("expanded");
+        mainContent.classList.add("expanded");
+        header.classList.add("expanded");
+        chevronBtn.querySelector("i").classList.replace("fa-chevron-right", "fa-chevron-left");
+      } else {
+        sidebar.classList.remove("expanded");
+        mainContent.classList.remove("expanded");
+        header.classList.remove("expanded");
+        chevronBtn.querySelector("i").classList.replace("fa-chevron-left", "fa-chevron-right");
+      }
+    });
+  }
+
   // Modal Toggling and Music Player Visibility
-  const loginBtn = document.querySelector(".login-btn");
-  const registerBtn = document.querySelector(".register-btn");
   const modalLogin = document.querySelector(".modalLogin");
   const modalRegister = document.querySelector(".modalRegister");
   const musicPlayer = document.querySelector(".music-player");
@@ -228,368 +268,417 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  if (loginBtn) {
-    loginBtn.addEventListener("click", () => {
-      modalLogin.classList.toggle("show");
-      modalRegister.classList.remove("show");
-      toggleMusicPlayerVisibility();
-    });
-  }
+  // Authentication Functions
+  function updateAuthButtons() {
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    let loginBtn = document.querySelector(".login-btn");
+    const registerBtn = document.querySelector(".register-btn");
 
-  if (registerBtn) {
-    registerBtn.addEventListener("click", () => {
-      modalRegister.classList.toggle("show");
-      modalLogin.classList.remove("show");
-      toggleMusicPlayerVisibility();
-    });
-  }
-
-  document.addEventListener("click", (e) => {
-    if (e.target === modalLogin) {
-      modalLogin.classList.remove("show");
-      toggleMusicPlayerVisibility();
+    if (currentUser) {
+      if (registerBtn) registerBtn.style.display = "none";
+      if (loginBtn) {
+        loginBtn.textContent = "Logout";
+        loginBtn.classList.remove("login-btn");
+        loginBtn.classList.add("logout-btn");
+        const newLoginBtn = loginBtn.cloneNode(true);
+        loginBtn.parentNode.replaceChild(newLoginBtn, loginBtn);
+        newLoginBtn.addEventListener("click", () => {
+          Swal.fire({
+            title: "Are you sure?",
+            text: "You will be logged out of your account.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, log out",
+            cancelButtonText: "Cancel",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              localStorage.removeItem("currentUser");
+              Swal.fire("Logged out!", "You have been successfully logged out.", "success");
+              updateAuthButtons();
+              // Reset search
+              const searchInput = document.querySelector(".search-input");
+              if (searchInput) searchInput.value = "";
+              document.querySelectorAll("#top15Row > div").forEach((el) => {
+                el.style.display = "flex";
+              });
+              document.querySelectorAll(".topAllTimesItem").forEach((el) => {
+                el.style.display = "block";
+              });
+              document.querySelectorAll(".trendingItem").forEach((el) => {
+                el.style.display = "flex";
+              });
+            }
+          });
+        });
+      }
+      const welcomeMessage = document.createElement("span");
+      welcomeMessage.className = "me-2";
+      welcomeMessage.textContent = `Welcome, ${currentUser.fullName}`;
+      const authContainer = document.querySelector("header .d-flex.align-items-center > div:last-child");
+      if (authContainer && !authContainer.querySelector("span.me-2")) {
+        authContainer.insertBefore(welcomeMessage, authContainer.firstChild);
+      }
+    } else {
+      if (registerBtn) registerBtn.style.display = "inline-block";
+      loginBtn = document.querySelector(".logout-btn") || document.querySelector(".login-btn");
+      if (loginBtn && loginBtn.classList.contains("logout-btn")) {
+        loginBtn.textContent = "Login";
+        loginBtn.classList.remove("logout-btn");
+        loginBtn.classList.add("login-btn");
+        const newLoginBtn = loginBtn.cloneNode(true);
+        loginBtn.parentNode.replaceChild(newLoginBtn, loginBtn);
+        loginBtn = newLoginBtn;
+      }
+      if (loginBtn) {
+        loginBtn.addEventListener("click", () => {
+          if (modalLogin) {
+            modalLogin.classList.add("show");
+            modalLogin.style.display = "flex";
+            toggleMusicPlayerVisibility();
+          } else {
+            Swal.fire("Error!", "Login modal not found.", "error");
+          }
+        });
+      }
+      const welcomeMessage = document.querySelector("header .d-flex.align-items-center span.me-2");
+      if (welcomeMessage) welcomeMessage.remove();
     }
-    if (e.target === modalRegister) {
+
+    const newRegisterBtn = document.querySelector(".register-btn");
+    if (newRegisterBtn) {
+      newRegisterBtn.addEventListener("click", () => {
+        if (modalRegister) {
+          modalRegister.classList.add("show");
+          modalRegister.style.display = "flex";
+          toggleMusicPlayerVisibility();
+        } else {
+          Swal.fire("Error!", "Register modal not found.", "error");
+        }
+      });
+    }
+  }
+
+  // Login Modal
+  const loginForm = document.querySelector(".formLogin");
+  const forgotPasswordLink = document.querySelector(".modalLogin .checkbox-forgot p");
+  const registerLink = document.querySelector(".formLogin a");
+
+  if (modalLogin) {
+    modalLogin.addEventListener("click", (e) => {
+      if (e.target === modalLogin) {
+        modalLogin.classList.remove("show");
+        modalLogin.style.display = "none";
+        toggleMusicPlayerVisibility();
+      }
+    });
+  }
+
+  if (loginForm) {
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!emailRegex.test(email)) {
+        Swal.fire("Error!", "Please enter a valid email address.", "error");
+        return;
+      }
+      if (!password) {
+        Swal.fire("Error!", "Please enter a password.", "error");
+        return;
+      }
+
+      const accounts = JSON.parse(localStorage.getItem("accounts")) || [];
+      const user = accounts.find((account) => account.email === email && account.password === password);
+
+      if (user) {
+        localStorage.setItem("currentUser", JSON.stringify(user));
+        Swal.fire("Success!", "Logged in successfully.", "success").then(() => {
+          modalLogin.classList.remove("show");
+          modalLogin.style.display = "none";
+          loginForm.reset();
+          toggleMusicPlayerVisibility();
+          updateAuthButtons();
+          if (user.role === "Admin") {
+            window.location.href = "Admin-page.html";
+          }
+        });
+      } else {
+        Swal.fire("Error!", "Invalid email or password.", "error");
+      }
+    });
+  }
+
+  if (forgotPasswordLink) {
+    forgotPasswordLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      Swal.fire({
+        title: "Forgot Password",
+        text: "Please contact support at shadowsgamer371@gmail.com to reset your password.",
+        icon: "info",
+      });
+    });
+  }
+
+  if (registerLink) {
+    registerLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      modalLogin.classList.remove("show");
+      modalLogin.style.display = "none";
+      if (modalRegister) {
+        modalRegister.classList.add("show");
+        modalRegister.style.display = "flex";
+        toggleMusicPlayerVisibility();
+      }
+    });
+  }
+
+  // Register Modal
+  const registerForm = document.querySelector(".formRegister");
+  const loginLink = document.querySelector(".formRegister a");
+
+  if (modalRegister) {
+    modalRegister.addEventListener("click", (e) => {
+      if (e.target === modalRegister) {
+        modalRegister.classList.remove("show");
+        modalRegister.style.display = "none";
+        toggleMusicPlayerVisibility();
+      }
+    });
+  }
+
+  if (registerForm) {
+    registerForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email1").value.trim();
+      const password1 = document.getElementById("password1").value.trim();
+      const password2 = document.getElementById("password2").value.trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+      if (!name || !email || !password1 || !password2) {
+        Swal.fire("Error!", "Please fill in all fields.", "error");
+        return;
+      }
+      if (!emailRegex.test(email)) {
+        Swal.fire("Error!", "Please enter a valid email address.", "error");
+        return;
+      }
+      if (!passwordRegex.test(password1)) {
+        Swal.fire(
+          "Error!",
+          "Password must be at least 8 characters long, include uppercase, lowercase, number, and special character.",
+          "error"
+        );
+        return;
+      }
+      if (password1 !== password2) {
+        Swal.fire("Error!", "Passwords do not match.", "error");
+        return;
+      }
+
+      const accounts = JSON.parse(localStorage.getItem("accounts")) || [];
+      if (accounts.some((account) => account.email === email)) {
+        Swal.fire("Error!", "This email is already registered.", "error");
+        return;
+      }
+
+      const newAccount = {
+        accountId: `TK${Math.floor(Math.random() * 1000000).toString().padStart(6, "0")}`,
+        fullName: name,
+        email,
+        password: password1,
+        dob: "",
+        phone: "",
+        hometown: "",
+        role: "Users",
+      };
+
+      accounts.push(newAccount);
+      localStorage.setItem("accounts", JSON.stringify(accounts));
+      localStorage.setItem("currentUser", JSON.stringify(newAccount));
+
+      Swal.fire("Success!", "Registered successfully. You are now logged in.", "success").then(() => {
+        modalRegister.classList.remove("show");
+        modalRegister.style.display = "none";
+        registerForm.reset();
+        toggleMusicPlayerVisibility();
+        updateAuthButtons();
+      });
+    });
+  }
+
+  if (loginLink) {
+    loginLink.addEventListener("click", (e) => {
+      e.preventDefault();
       modalRegister.classList.remove("show");
-      toggleMusicPlayerVisibility();
+      modalRegister.style.display = "none";
+      if (modalLogin) {
+        modalLogin.classList.add("show");
+        modalLogin.style.display = "flex";
+        toggleMusicPlayerVisibility();
+      }
+    });
+  }
+
+  // Initialize header buttons
+  updateAuthButtons();
+
+  // Music Player Logic
+  const audio = new Audio();
+  let currentSongIndex = 0;
+  let currentCategory = "top_music";
+
+  window.playSong = function (index, category) {
+    currentSongIndex = index;
+    currentCategory = category;
+    const song = songData.data
+      .find((item) => item[category])
+      [category][index];
+    audio.src = song.mp3;
+    audio.play();
+    updatePlayerUI(song);
+    document.querySelector(".play-btn i").classList.remove("bi-play-fill");
+    document.querySelector(".play-btn i").classList.add("bi-pause-fill");
+  };
+
+  function updatePlayerUI(song) {
+    document.querySelector(".player-album-img img").src = song.img;
+    document.querySelector(".player-song-info h6").textContent = song.name_music;
+    document.querySelector(".player-song-info p").textContent = song.name;
+  }
+
+  const playBtn = document.querySelector(".play-btn");
+  if (playBtn) {
+    playBtn.addEventListener("click", () => {
+      if (audio.paused) {
+        audio.play();
+        playBtn.querySelector("i").classList.remove("bi-play-fill");
+        playBtn.querySelector("i").classList.add("bi-pause-fill");
+      } else {
+        audio.pause();
+        playBtn.querySelector("i").classList.remove("bi-pause-fill");
+        playBtn.querySelector("i").classList.add("bi-play-fill");
+      }
+    });
+  }
+
+  const prevBtn = document.querySelector(".player-btn i.bi-skip-start-fill").parentNode;
+  const nextBtn = document.querySelector(".player-btn i.bi-skip-end-fill").parentNode;
+
+  if (prevBtn) {
+    prevBtn.addEventListener("click", () => {
+      currentSongIndex =
+        (currentSongIndex - 1 + songData.data.find((item) => item[currentCategory])[currentCategory].length) %
+        songData.data.find((item) => item[currentCategory])[currentCategory].length;
+      playSong(currentSongIndex, currentCategory);
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener("click", () => {
+      currentSongIndex =
+        (currentSongIndex + 1) % songData.data.find((item) => item[currentCategory])[currentCategory].length;
+      playSong(currentSongIndex, currentCategory);
+    });
+  }
+
+  audio.addEventListener("timeupdate", () => {
+    const currentTime = document.querySelector(".current-time");
+    const totalTime = document.querySelector(".total-time");
+    const progressBar = document.querySelector(".progress-bar");
+
+    if (audio.duration) {
+      const currentMinutes = Math.floor(audio.currentTime / 60);
+      const currentSeconds = Math.floor(audio.currentTime % 60);
+      const totalMinutes = Math.floor(audio.duration / 60);
+      const totalSeconds = Math.floor(audio.duration % 60);
+
+      currentTime.textContent = `${currentMinutes}:${currentSeconds < 10 ? "0" : ""}${currentSeconds}`;
+      totalTime.textContent = `${totalMinutes}:${totalSeconds < 10 ? "0" : ""}${totalSeconds}`;
+      progressBar.style.width = `${(audio.currentTime / audio.duration) * 100}%`;
     }
   });
 
-  // Scroll Buttons for Top Tracks of All Time
+  audio.addEventListener("ended", () => {
+    currentSongIndex =
+      (currentSongIndex + 1) % songData.data.find((item) => item[currentCategory])[currentCategory].length;
+    playSong(currentSongIndex, currentCategory);
+  });
+
+  // Progress bar seeking
+  const progressContainer = document.querySelector(".progress-container");
+  if (progressContainer) {
+    progressContainer.addEventListener("click", (e) => {
+      const rect = progressContainer.getBoundingClientRect();
+      const offsetX = e.clientX - rect.left;
+      const width = rect.width;
+      const seekTime = (offsetX / width) * audio.duration;
+      audio.currentTime = seekTime;
+    });
+  }
+
+  // Volume control
+  const volumeBtn = document.querySelector(".player-option-btn i.bi-volume-up").parentNode;
+  if (volumeBtn) {
+    volumeBtn.addEventListener("click", () => {
+      audio.muted = !audio.muted;
+      volumeBtn.querySelector("i").classList.toggle("bi-volume-mute");
+      volumeBtn.querySelector("i").classList.toggle("bi-volume-up");
+    });
+  }
+
+  // Search Functionality
+  const searchInput = document.querySelector(".search-input");
+  const searchBtn = document.querySelector(".search-btn");
+
+  function searchSongs() {
+    const searchTerm = searchInput.value.trim().toLowerCase();
+    const top15Items = document.querySelectorAll("#top15Row > div");
+    const topAllTimesItems = document.querySelectorAll(".topAllTimesItem");
+    const trendingItems = document.querySelectorAll(".trendingItem");
+
+    top15Items.forEach((item, index) => {
+      const title = songData.data[0].top_music[index].name_music.toLowerCase();
+      const artist = songData.data[0].top_music[index].name.toLowerCase();
+      item.style.display = title.includes(searchTerm) || artist.includes(searchTerm) ? "flex" : "none";
+    });
+
+    topAllTimesItems.forEach((item, index) => {
+      const title = songData.data[1].top_all_times[index].name_music.toLowerCase();
+      const artist = songData.data[1].top_all_times[index].name.toLowerCase();
+      item.style.display = title.includes(searchTerm) || artist.includes(searchTerm) ? "block" : "none";
+    });
+
+    trendingItems.forEach((item, index) => {
+      const title = songData.data[2].trending[index].name_music.toLowerCase();
+      const artist = songData.data[2].trending[index].name.toLowerCase();
+      item.style.display = title.includes(searchTerm) || artist.includes(searchTerm) ? "flex" : "none";
+    });
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener("input", searchSongs);
+  }
+
+  if (searchBtn) {
+    searchBtn.addEventListener("click", searchSongs);
+  }
+
+  // Carousel for Top Tracks of All Time
   const leftBtn = document.querySelector(".leftBtn");
   const rightBtn = document.querySelector(".rightBtn");
   const topAllTimesRow = document.querySelector(".topAllTimesRow");
 
-  if (leftBtn) {
+  if (leftBtn && rightBtn && topAllTimesRow) {
     leftBtn.addEventListener("click", () => {
-      topAllTimesRow.scrollBy({ left: -235, behavior: "smooth" });
+      topAllTimesRow.scrollBy({ left: -300, behavior: "smooth" });
     });
-  }
 
-  if (rightBtn) {
     rightBtn.addEventListener("click", () => {
-      topAllTimesRow.scrollBy({ left: 235, behavior: "smooth" });
-    });
-  }
-
-  // Music Player Controls
-  const playBtn = document.querySelector(".play-btn");
-  const skipStartBtn = document.querySelector(
-    ".player-btn i.bi-skip-start-fill"
-  ).parentElement;
-  const skipEndBtn = document.querySelector(
-    ".player-btn i.bi-skip-end-fill"
-  ).parentElement;
-  const muteBtn = document.querySelector(
-    ".player-option-btn i.bi-volume-up"
-  ).parentElement;
-  const progressBar = document.querySelector(".progress-bar");
-  const currentTimeEl = document.querySelector(".current-time");
-  const totalTimeEl = document.querySelector(".total-time");
-
-  let isPlaying = true;
-  let isMuted = false;
-  const audio = new Audio();
-
-  const formatTime = (seconds) => {
-    if (isNaN(seconds) || seconds === undefined) return "5:10";
-    const minutes = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
-  };
-
-  // Hàm lấy chỉ số hiện tại dựa trên id
-  const currentSongIndex = (category = "top_music") => {
-    const currentSong =
-      JSON.parse(localStorage.getItem("currentSong")) ||
-      songData.data[0].top_music[0];
-    const songs = songData.data.find((d) => d[category])[category];
-    return songs.findIndex((song) => song.id === currentSong.id);
-  };
-
-  // Hàm chuyển đến bài tiếp theo trong cùng category
-  const skipToNext = (category = "top_music") => {
-    const songs = songData.data.find((d) => d[category])[category];
-    const currentIndex = currentSongIndex(category);
-    if (currentIndex < songs.length - 1) {
-      const nextSong = songs[currentIndex + 1];
-      localStorage.setItem("currentSong", JSON.stringify(nextSong));
-      updatePlayer();
-      isPlaying = true; // Tự động phát bài mới
-    }
-  };
-
-  // Hàm chuyển về bài trước trong cùng category
-  const skipToPrevious = (category = "top_music") => {
-    const songs = songData.data.find((d) => d[category])[category];
-    const currentIndex = currentSongIndex(category);
-    if (currentIndex > 0) {
-      const previousSong = songs[currentIndex - 1];
-      localStorage.setItem("currentSong", JSON.stringify(previousSong));
-      updatePlayer();
-      isPlaying = true; // Tự động phát bài mới
-    }
-  };
-
-  // Hàm cập nhật giao diện và phát nhạc
-  const updatePlayer = () => {
-    let currentSong =
-      JSON.parse(localStorage.getItem("currentSong")) ||
-      songData.data[0].top_music[0];
-    localStorage.setItem("currentSong", JSON.stringify(currentSong));
-
-    const playerSongTitle = document.querySelector(".player-song-info h6");
-    const playerArtistName = document.querySelector(".player-song-info p");
-    const playerAlbumImg = document.querySelector(".small-img");
-
-    if (playerSongTitle) playerSongTitle.textContent = currentSong.name_music;
-    if (playerArtistName) playerArtistName.textContent = currentSong.name;
-    if (playerAlbumImg) playerAlbumImg.src = currentSong.img;
-
-    audio.src = currentSong.mp3;
-    const defaultDuration = 310;
-    if (totalTimeEl) totalTimeEl.textContent = formatTime(defaultDuration);
-
-    audio.addEventListener(
-      "loadedmetadata",
-      () => {
-        if (totalTimeEl)
-          totalTimeEl.textContent = formatTime(
-            audio.duration || defaultDuration
-          );
-      },
-      { once: true }
-    );
-
-    audio.addEventListener(
-      "error",
-      () => {
-        isPlaying = false;
-        if (playBtn) playBtn.innerHTML = '<i class="bi bi-play-fill"></i>';
-      },
-      { once: true }
-    );
-
-    audio.currentTime = 0;
-    if (progressBar) progressBar.style.width = "0%";
-    if (currentTimeEl) currentTimeEl.textContent = "0:00";
-
-    // Khôi phục trạng thái mute khi chuyển bài
-    audio.muted = isMuted;
-
-    if (isPlaying && audio.src) {
-      audio
-        .play()
-        .then(() => {
-          if (playBtn) playBtn.innerHTML = '<i class="bi bi-pause-fill"></i>';
-        })
-        .catch(() => {
-          isPlaying = false;
-          if (playBtn) playBtn.innerHTML = '<i class="bi bi-play-fill"></i>';
-        });
-    }
-  };
-
-  // Tự động phát nhạc khi tải trang
-  updatePlayer();
-
-  // Gắn sự kiện cho các nút
-  if (playBtn) {
-    playBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      isPlaying = !isPlaying;
-      if (isPlaying && audio.src) {
-        audio
-          .play()
-          .then(() => {
-            playBtn.innerHTML = '<i class="bi bi-pause-fill"></i>';
-          })
-          .catch(() => {
-            isPlaying = false;
-            playBtn.innerHTML = '<i class="bi bi-play-fill"></i>';
-          });
-      } else {
-        audio.pause();
-        playBtn.innerHTML = '<i class="bi bi-play-fill"></i>';
-      }
-    });
-  }
-
-  if (skipStartBtn) {
-    skipStartBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      const currentCategory =
-        localStorage.getItem("currentCategory") || "top_music";
-      skipToPrevious(currentCategory);
-    });
-  }
-
-  if (skipEndBtn) {
-    skipEndBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      const currentCategory =
-        localStorage.getItem("currentCategory") || "top_music";
-      skipToNext(currentCategory);
-    });
-  }
-
-  // Thêm sự kiện cho nút mute
-  if (muteBtn) {
-    muteBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      isMuted = !isMuted; // Chuyển đổi trạng thái mute
-      audio.muted = isMuted; // Cập nhật trạng thái âm thanh
-      const muteIcon = muteBtn.querySelector("i");
-      if (isMuted) {
-        muteIcon.classList.replace("bi-volume-up", "bi-volume-mute");
-      } else {
-        muteIcon.classList.replace("bi-volume-mute", "bi-volume-up");
-      }
-    });
-  }
-
-  audio.addEventListener("play", () => {
-    isPlaying = true;
-    if (playBtn) playBtn.innerHTML = '<i class="bi bi-pause-fill"></i>';
-  });
-
-  audio.addEventListener("pause", () => {
-    isPlaying = false;
-    if (playBtn) playBtn.innerHTML = '<i class="bi bi-play-fill"></i>';
-  });
-
-  audio.addEventListener("timeupdate", () => {
-    const currentTime = audio.currentTime;
-    const duration = audio.duration || 310;
-    const progressPercent = (currentTime / duration) * 100;
-    if (progressBar) progressBar.style.width = `${progressPercent}%`;
-    if (currentTimeEl) currentTimeEl.textContent = formatTime(currentTime);
-  });
-
-  // Tự động chuyển bài khi kết thúc
-  audio.addEventListener("ended", () => {
-    isPlaying = false;
-    if (playBtn) playBtn.innerHTML = '<i class="bi bi-play-fill"></i>';
-    if (progressBar) progressBar.style.width = "0%";
-    if (currentTimeEl) currentTimeEl.textContent = "0:00";
-    audio.currentTime = 0;
-    const currentCategory =
-      localStorage.getItem("currentCategory") || "top_music";
-    skipToNext(currentCategory);
-  });
-
-  // Function play song when clicked
-  window.playSong = function (index, category) {
-    let song;
-    if (category === "top_music") {
-      song = songData.data[0].top_music[index];
-    } else if (category === "top_all_times") {
-      song = songData.data[1].top_all_times[index];
-    } else if (category === "trending") {
-      song = songData.data[2].trending[index];
-    }
-
-    if (song) {
-      localStorage.setItem("currentSong", JSON.stringify(song));
-      localStorage.setItem("currentCategory", category); // Lưu category hiện tại
-      updatePlayer();
-      isPlaying = true;
-      audio
-        .play()
-        .then(() => {
-          if (playBtn) playBtn.innerHTML = '<i class="bi bi-pause-fill"></i>';
-        })
-        .catch(() => {
-          isPlaying = false;
-          if (playBtn) playBtn.innerHTML = '<i class="bi bi-play-fill"></i>';
-        });
-    }
-  };
-
-  // Search function
-  const searchInput = document.querySelector(".search-input");
-
-  if (searchInput) {
-    searchInput.addEventListener("input", () => {
-      const searchTerm = searchInput.value.trim().toLowerCase();
-
-      // Reset display
-      if (!searchTerm) {
-        document.querySelectorAll("#top15Row > div").forEach((el) => {
-          el.style.display = "flex";
-        });
-        document.querySelectorAll(".topAllTimesItem").forEach((el) => {
-          el.style.display = "block";
-        });
-        document.querySelectorAll(".trendingItem").forEach((el) => {
-          el.style.display = "flex";
-        });
-        return;
-      }
-
-      // Filter Weekly Top 15
-      const top15Items = document.querySelectorAll("#top15Row > div");
-      songData.data[0].top_music.forEach((song, index) => {
-        const matches =
-          song.name_music.toLowerCase().includes(searchTerm) ||
-          song.name.toLowerCase().includes(searchTerm);
-        if (index < top15Items.length) {
-          top15Items[index].style.display = matches ? "flex" : "none";
-        }
-      });
-
-      // Filter top_all_times
-      songData.data[1].top_all_times.forEach((song, index) => {
-        const matches =
-          song.name_music.toLowerCase().includes(searchTerm) ||
-          song.name.toLowerCase().includes(searchTerm);
-        const element = document.querySelector(
-          `.topAllTimesItem:nth-child(${index + 1})`
-        );
-        if (element) {
-          element.style.display = matches ? "block" : "none";
-        }
-      });
-
-      // Filter trending
-      songData.data[2].trending.forEach((song, index) => {
-        const matches =
-          song.name_music.toLowerCase().includes(searchTerm) ||
-          song.name.toLowerCase().includes(searchTerm);
-        const element = document.querySelector(
-          `.trendingItem:nth-child(${index + 1})`
-        );
-        if (element) {
-          element.style.display = matches ? "flex" : "none";
-        }
-      });
+      topAllTimesRow.scrollBy({ left: 300, behavior: "smooth" });
     });
   }
 });
-
-const sidebar = document.querySelector(".sidebar");
-const chevronBtn = document.querySelector(".sidebar-chevorn a");
-const mainContent = document.querySelector(".container");
-const header = document.querySelector("header");
-let isSidebarExpanded = false;
-
-if (chevronBtn) {
-  chevronBtn.addEventListener("click", () => {
-    isSidebarExpanded = !isSidebarExpanded;
-    if (isSidebarExpanded) {
-      sidebar.classList.add("expanded");
-      mainContent.classList.add("expanded");
-      header.classList.add("expanded");
-      chevronBtn
-        .querySelector("i")
-        .classList.replace("fa-chevron-right", "fa-chevron-left");
-    } else {
-      sidebar.classList.remove("expanded");
-      mainContent.classList.remove("expanded");
-      header.classList.remove("expanded");
-      chevronBtn
-        .querySelector("i")
-        .classList.replace("fa-chevron-left", "fa-chevron-right");
-    }
-  });
-}
