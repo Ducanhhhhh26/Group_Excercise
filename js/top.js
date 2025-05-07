@@ -558,62 +558,36 @@ document.addEventListener("DOMContentLoaded", () => {
   audio.addEventListener("error", () => {
     Swal.fire("Error!", "Failed to load the audio file.", "error");
   });
-
   window.playSong = function (index, category) {
+    const categoryData = songData.data.find((item) => item[category]);
     currentSongIndex = index;
     currentCategory = category;
-    const song = songData.data.find((item) => item[category])[category][index];
+    const song = categoryData[category][index];
     audio.src = song.mp3;
-
+    audio.play().then(() => {
+      document.querySelector(".play-btn i").classList.remove("bi-play-fill");
+      document.querySelector(".play-btn i").classList.add("bi-pause-fill");
+    });
     updatePlayerUI(song);
-    document.querySelector(".play-btn i").classList.remove("bi-play-fill");
-    document.querySelector(".play-btn i").classList.add("bi-pause-fill");
   };
+
+  playSong(0, "top_music");
 
   function updatePlayerUI(song) {
     document.querySelector(".player-album-img img").src = song.img;
     document.querySelector(".player-song-info h6").textContent =
       song.name_music;
     document.querySelector(".player-song-info p").textContent = song.name;
-
-    // Update song duration in the DOM
-    audio.addEventListener(
-      "loadedmetadata",
-      () => {
-        const totalMinutes = Math.floor(audio.duration / 60);
-        const totalSeconds = Math.floor(audio.duration % 60);
-        const durationText = `${totalMinutes}:${
-          totalSeconds < 10 ? "0" : ""
-        }${totalSeconds}`;
-        document
-          .querySelectorAll(`#top15Row > div, .trendingItem`)
-          .forEach((el, idx) => {
-            if (
-              songData.data.find((item) => item[currentCategory])[
-                currentCategory
-              ][idx]?.id === song.id
-            ) {
-              el.querySelector(".songDuration").textContent = durationText;
-            }
-          });
-      },
-      { once: true }
-    );
   }
 
   const playBtn = document.querySelector(".play-btn");
   if (playBtn) {
     playBtn.addEventListener("click", () => {
       if (audio.paused) {
-        audio.play().catch((err) => {
-          Swal.fire(
-            "Error!",
-            "Failed to play the audio: " + err.message,
-            "error"
-          );
+        audio.play().then(() => {
+          playBtn.querySelector("i").classList.remove("bi-play-fill");
+          playBtn.querySelector("i").classList.add("bi-pause-fill");
         });
-        playBtn.querySelector("i").classList.remove("bi-play-fill");
-        playBtn.querySelector("i").classList.add("bi-pause-fill");
       } else {
         audio.pause();
         playBtn.querySelector("i").classList.remove("bi-pause-fill");
@@ -726,7 +700,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const artist =
         songData.data[0].top_music[index]?.name.toLowerCase() || "";
       item.style.display =
-        title.includes(searchTerm) || artist.includes(signal) ? "flex" : "none";
+        title.includes(searchTerm) || artist.includes(searchTerm)
+          ? "flex"
+          : "none";
     });
 
     topAllTimesItems.forEach((item, index) => {
