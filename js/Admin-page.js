@@ -1,10 +1,9 @@
-
 document.addEventListener("DOMContentLoaded", () => {
   
   let accounts = JSON.parse(localStorage.getItem("accounts")) || [];
   let currentFilter = "all";
   let currentPage = 1;
-  const itemsPerPage = 10;
+  const itemsPerPage = 8;
   let searchQuery = "";
 
   // Initialize default admin account if none exists
@@ -45,10 +44,15 @@ document.addEventListener("DOMContentLoaded", () => {
       Artists: accounts.filter((acc) => acc.role === "Artists").length,
       Admin: accounts.filter((acc) => acc.role === "Admin").length,
     };
-    document.querySelector('[data-filter="all"] .filter-count').textContent = counts.all;
-    document.querySelector('[data-filter="Users"] .filter-count').textContent = counts.Users;
-    document.querySelector('[data-filter="Artists"] .filter-count').textContent = counts.Artists;
-    document.querySelector('[data-filter="Admin"] .filter-count').textContent = counts.Admin;
+    const allPill = document.querySelector('[data-filter="all"] .filter-count');
+    const usersPill = document.querySelector('[data-filter="Users"] .filter-count');
+    const artistsPill = document.querySelector('[data-filter="Artists"] .filter-count');
+    const adminPill = document.querySelector('[data-filter="Admin"] .filter-count');
+    
+    if (allPill) allPill.textContent = counts.all;
+    if (usersPill) usersPill.textContent = counts.Users;
+    if (artistsPill) usersPill.textContent = counts.Artists;
+    if (adminPill) adminPill.textContent = counts.Admin;
   }
 
   // Load and render accounts
@@ -69,11 +73,17 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("Filtered accounts:", filteredAccounts);
     updateFilterCounts(accounts);
     const totalItems = filteredAccounts.length;
-    const totalPages = Math.ceil(totalItems / itemsPerPage) || 1;
+    const totalPages = Math.max(1, Math.ceil(totalItems / itemsPerPage));
+    page = Math.max(1, Math.min(page, totalPages));
+    currentPage = page;
     const startIndex = (page - 1) * itemsPerPage;
     const paginatedAccounts = filteredAccounts.slice(startIndex, startIndex + itemsPerPage);
 
     const tbody = document.querySelector("table tbody");
+    if (!tbody) {
+      console.error("Table body not found!");
+      return;
+    }
     tbody.innerHTML = paginatedAccounts.length
       ? paginatedAccounts
           .map(
@@ -110,11 +120,16 @@ document.addEventListener("DOMContentLoaded", () => {
   // Update pagination
   function updatePagination(totalPages, currentPage) {
     const paginationContainer = document.querySelector(".pagination");
+    if (!paginationContainer) {
+      console.error("Pagination container not found!");
+      return;
+    }
     paginationContainer.innerHTML = "";
 
+    // Previous button
     const prevItem = document.createElement("li");
     prevItem.className = `page-item ${currentPage === 1 ? "disabled" : ""}`;
-    prevItem.innerHTML = `<a class="page-link" href="#">Previous</a>`;
+    prevItem.innerHTML = `<a class="page-link" href="#" aria-label="Previous">Previous</a>`;
     prevItem.addEventListener("click", (e) => {
       e.preventDefault();
       if (currentPage > 1) {
@@ -124,7 +139,34 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     paginationContainer.appendChild(prevItem);
 
-    for (let i = 1; i <= totalPages; i++) {
+    // Page numbers
+    const maxVisiblePages = 5;
+    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+    if (endPage - startPage + 1 < maxVisiblePages) {
+      startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
+
+    if (startPage > 1) {
+      const firstPage = document.createElement("li");
+      firstPage.className = "page-item";
+      firstPage.innerHTML = `<a class="page-link" href="#">1</a>`;
+      firstPage.addEventListener("click", (e) => {
+        e.preventDefault();
+        currentPage = 1;
+        loadAccounts();
+      });
+      paginationContainer.appendChild(firstPage);
+
+      if (startPage > 2) {
+        const ellipsis = document.createElement("li");
+        ellipsis.className = "page-item disabled";
+        ellipsis.innerHTML = `<span class="page-link">...</span>`;
+        paginationContainer.appendChild(ellipsis);
+      }
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
       const pageItem = document.createElement("li");
       pageItem.className = `page-item ${i === currentPage ? "active" : ""}`;
       pageItem.innerHTML = `<a class="page-link" href="#">${i}</a>`;
@@ -136,9 +178,29 @@ document.addEventListener("DOMContentLoaded", () => {
       paginationContainer.appendChild(pageItem);
     }
 
+    if (endPage < totalPages) {
+      if (endPage < totalPages - 1) {
+        const ellipsis = document.createElement("li");
+        ellipsis.className = "page-item disabled";
+        ellipsis.innerHTML = `<span class="page-link">...</span>`;
+        paginationContainer.appendChild(ellipsis);
+      }
+
+      const lastPage = document.createElement("li");
+      lastPage.className = "page-item";
+      lastPage.innerHTML = `<a class="page-link" href="#">${totalPages}</a>`;
+      lastPage.addEventListener("click", (e) => {
+        e.preventDefault();
+        currentPage = totalPages;
+        loadAccounts();
+      });
+      paginationContainer.appendChild(lastPage);
+    }
+
+    // Next button
     const nextItem = document.createElement("li");
     nextItem.className = `page-item ${currentPage === totalPages ? "disabled" : ""}`;
-    nextItem.innerHTML = `<a class="page-link" href="#">Next</a>`;
+    nextItem.innerHTML = `<a class="page-link" href="#" aria-label="Next">Next</a>`;
     nextItem.addEventListener("click", (e) => {
       e.preventDefault();
       if (currentPage < totalPages) {
@@ -263,7 +325,11 @@ document.addEventListener("DOMContentLoaded", () => {
       didOpen: () => {
         const uploadArea = document.querySelector(".d-flex.justify-content-center.align-items-center");
         const fileInput = document.getElementById("profile-pic");
-        uploadArea.addEventListener("click", () => fileInput.click());
+        if (uploadArea && fileInput) {
+          uploadArea.addEventListener("click", () => fileInput.click());
+        } else {
+          console.warn("Upload area or file input not found in modal!");
+        }
       },
       preConfirm: () => {
         const fullName = document.getElementById("full-name").value.trim();
@@ -436,7 +502,11 @@ document.addEventListener("DOMContentLoaded", () => {
       didOpen: () => {
         const uploadArea = document.querySelector(".d-flex.justify-content-center.align-items-center");
         const fileInput = document.getElementById("profile-pic");
-        uploadArea.addEventListener("click", () => fileInput.click());
+        if (uploadArea && fileInput) {
+          uploadArea.addEventListener("click", () => fileInput.click());
+        } else {
+          console.warn("Upload area or file input not found in modal!");
+        }
       },
       preConfirm: () => {
         const fullName = document.getElementById("full-name").value.trim();
@@ -524,9 +594,12 @@ document.addEventListener("DOMContentLoaded", () => {
     Swal.fire({
       title: "Confirm Delete",
       text: `Are you sure you want to delete ${checkboxes.length} selected accounts?`,
+      showCloseButton: true,
       showCancelButton: true,
+      focusConfirm: false,
       confirmButtonText: "Delete",
       cancelButtonText: "Cancel",
+      customClass: { popup: "custom-modal", confirmButton: "btn btn-danger", cancelButton: "btn btn-gray me-2" },
     }).then((result) => {
       if (result.isConfirmed) {
         const indices = Array.from(checkboxes)
@@ -551,13 +624,16 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Select All checkbox
-  document.getElementById("selectAll").addEventListener("change", (e) => {
-    const checkboxes = document.querySelectorAll("tbody .form-check-input");
-    checkboxes.forEach((cb) => (cb.checked = e.target.checked));
-  });
+  const selectAllCheckbox = document.getElementById("selectAll");
+  if (selectAllCheckbox) {
+    selectAllCheckbox.addEventListener("change", (e) => {
+      const checkboxes = document.querySelectorAll("tbody .form-check-input");
+      checkboxes.forEach((cb) => (cb.checked = e.target.checked));
+    });
+  } else {
+    console.error("Select All checkbox not found!");
+  }
 
-  
   // Initial load
   loadAccounts();
-
 });
