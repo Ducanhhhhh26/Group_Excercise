@@ -187,21 +187,21 @@ document.addEventListener("DOMContentLoaded", () => {
           {
             id: 23,
             name: "Ava Cornish",
-            name_music: "Dark Alley Acoustic",
+            name_music: "Until I Met You",
             img: "../assets/2.png",
             mp3: "https://samplesongs.netlify.app/Solo.mp3",
           },
           {
             id: 24,
             name: "Ava Cornish",
-            name_music: "Dark Alley Acoustic",
+            name_music: "Gimme Some Courage",
             img: "../assets/3.png",
             mp3: "https://samplesongs.netlify.app/Faded.mp3",
           },
           {
             id: 25,
             name: "Ava Cornish",
-            name_music: "Dark Alley Acoustic",
+            name_music: "Desired Games",
             img: "../assets/4.png",
             mp3: "https://samplesongs.netlify.app/Hate%20Me.mp3",
           },
@@ -210,7 +210,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ],
   };
 
-  // Đảm bảo có local storage
+  // Ensure local storage
   if (!localStorage.getItem("songData")) {
     localStorage.setItem("songData", JSON.stringify(topMusicSong));
   }
@@ -240,14 +240,14 @@ document.addEventListener("DOMContentLoaded", () => {
       isSidebarExpanded = !isSidebarExpanded;
       if (isSidebarExpanded) {
         sidebar.classList.add("expanded");
-        mainContent.classList.add("expanded");
+        mainContent?.classList.add("expanded");
         header.classList.add("expanded");
         chevronBtn
           .querySelector("i")
           .classList.replace("fa-chevron-right", "fa-chevron-left");
       } else {
         sidebar.classList.remove("expanded");
-        mainContent.classList.remove("expanded");
+        mainContent?.classList.remove("expanded");
         header.classList.remove("expanded");
         chevronBtn
           .querySelector("i")
@@ -263,20 +263,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const toggleMusicPlayerVisibility = () => {
     if (
-      modalLogin.classList.contains("show") ||
-      modalRegister.classList.contains("show")
+      (modalLogin && modalLogin.classList.contains("show")) ||
+      (modalRegister && modalRegister.classList.contains("show"))
     ) {
-      musicPlayer.classList.add("hidden");
+      musicPlayer?.classList.add("hidden");
     } else {
-      musicPlayer.classList.remove("hidden");
+      musicPlayer?.classList.remove("hidden");
     }
   };
 
   // Authentication Functions
   function updateAuthButtons() {
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    let loginBtn = document.querySelector(".login-btn");
+    const authContainer = document.querySelector(
+      "header .d-flex.align-items-center > div:last-child"
+    );
+    let loginBtn = document.querySelector(".login-btn, .logout-btn");
     const registerBtn = document.querySelector(".register-btn");
+
+    // Remove existing welcome message
+    const welcomeMessage = authContainer.querySelector("span.me-2");
+    if (welcomeMessage) welcomeMessage.remove();
 
     if (currentUser) {
       if (registerBtn) registerBtn.style.display = "none";
@@ -286,53 +293,14 @@ document.addEventListener("DOMContentLoaded", () => {
         loginBtn.classList.add("logout-btn");
         const newLoginBtn = loginBtn.cloneNode(true);
         loginBtn.parentNode.replaceChild(newLoginBtn, loginBtn);
-        newLoginBtn.addEventListener("click", () => {
-          Swal.fire({
-            title: "Are you sure?",
-            text: "You will be logged out of your account.",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Yes, log out",
-            cancelButtonText: "Cancel",
-          }).then((result) => {
-            if (result.isConfirmed) {
-              localStorage.removeItem("currentUser");
-              Swal.fire(
-                "Logged out!",
-                "You have been successfully logged out.",
-                "success"
-              );
-              updateAuthButtons();
-              // Reset search
-              const searchInput = document.querySelector(".search-input");
-              if (searchInput) searchInput.value = "";
-              document.querySelectorAll("#top15Row > div").forEach((el) => {
-                el.style.display = "flex";
-              });
-              document.querySelectorAll(".topAllTimesItem").forEach((el) => {
-                el.style.display = "block";
-              });
-              document.querySelectorAll(".trendingItem").forEach((el) => {
-                el.style.display = "flex";
-              });
-            }
-          });
-        });
+        newLoginBtn.addEventListener("click", handleLogout);
       }
-      const welcomeMessage = document.createElement("span");
-      welcomeMessage.className = "me-2";
-      welcomeMessage.textContent = `Welcome, ${currentUser.fullName}`;
-      const authContainer = document.querySelector(
-        "header .d-flex.align-items-center > div:last-child"
-      );
-      if (authContainer && !authContainer.querySelector("span.me-2")) {
-        authContainer.insertBefore(welcomeMessage, authContainer.firstChild);
-      }
+      const welcomeSpan = document.createElement("span");
+      welcomeSpan.className = "me-2";
+      welcomeSpan.textContent = `Welcome, ${currentUser.fullName}`;
+      authContainer.insertBefore(welcomeSpan, authContainer.firstChild);
     } else {
       if (registerBtn) registerBtn.style.display = "inline-block";
-      loginBtn =
-        document.querySelector(".logout-btn") ||
-        document.querySelector(".login-btn");
       if (loginBtn && loginBtn.classList.contains("logout-btn")) {
         loginBtn.textContent = "Login";
         loginBtn.classList.remove("logout-btn");
@@ -352,10 +320,6 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         });
       }
-      const welcomeMessage = document.querySelector(
-        "header .d-flex.align-items-center span.me-2"
-      );
-      if (welcomeMessage) welcomeMessage.remove();
     }
 
     const newRegisterBtn = document.querySelector(".register-btn");
@@ -370,6 +334,39 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
     }
+  }
+
+  function handleLogout() {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You will be logged out of your account.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, log out",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        localStorage.removeItem("currentUser");
+        Swal.fire(
+          "Logged out!",
+          "You have been successfully logged out.",
+          "success"
+        );
+        updateAuthButtons();
+        // Reset search
+        const searchInput = document.querySelector(".search-input");
+        if (searchInput) searchInput.value = "";
+        document.querySelectorAll("#top15Row > div").forEach((el) => {
+          el.style.display = "flex";
+        });
+        document.querySelectorAll(".topAllTimesItem").forEach((el) => {
+          el.style.display = "block";
+        });
+        document.querySelectorAll(".trendingItem").forEach((el) => {
+          el.style.display = "flex";
+        });
+      }
+    });
   }
 
   // Login Modal
@@ -556,12 +553,19 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentSongIndex = 0;
   let currentCategory = "top_music";
 
+  // Handle audio errors
+  audio.addEventListener("error", () => {
+    Swal.fire("Error!", "Failed to load the audio file.", "error");
+  });
+
   window.playSong = function (index, category) {
     currentSongIndex = index;
     currentCategory = category;
     const song = songData.data.find((item) => item[category])[category][index];
     audio.src = song.mp3;
-    audio.play();
+    audio.play().catch((err) => {
+      Swal.fire("Error!", "Failed to play the audio: " + err.message, "error");
+    });
     updatePlayerUI(song);
     document.querySelector(".play-btn i").classList.remove("bi-play-fill");
     document.querySelector(".play-btn i").classList.add("bi-pause-fill");
@@ -572,13 +576,43 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector(".player-song-info h6").textContent =
       song.name_music;
     document.querySelector(".player-song-info p").textContent = song.name;
+
+    // Update song duration in the DOM
+    audio.addEventListener(
+      "loadedmetadata",
+      () => {
+        const totalMinutes = Math.floor(audio.duration / 60);
+        const totalSeconds = Math.floor(audio.duration % 60);
+        const durationText = `${totalMinutes}:${
+          totalSeconds < 10 ? "0" : ""
+        }${totalSeconds}`;
+        document
+          .querySelectorAll(`#top15Row > div, .trendingItem`)
+          .forEach((el, idx) => {
+            if (
+              songData.data.find((item) => item[currentCategory])[
+                currentCategory
+              ][idx]?.id === song.id
+            ) {
+              el.querySelector(".songDuration").textContent = durationText;
+            }
+          });
+      },
+      { once: true }
+    );
   }
 
   const playBtn = document.querySelector(".play-btn");
   if (playBtn) {
     playBtn.addEventListener("click", () => {
       if (audio.paused) {
-        audio.play();
+        audio.play().catch((err) => {
+          Swal.fire(
+            "Error!",
+            "Failed to play the audio: " + err.message,
+            "error"
+          );
+        });
         playBtn.querySelector("i").classList.remove("bi-play-fill");
         playBtn.querySelector("i").classList.add("bi-pause-fill");
       } else {
@@ -591,10 +625,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const prevBtn = document.querySelector(
     ".player-btn i.bi-skip-start-fill"
-  ).parentNode;
+  )?.parentNode;
   const nextBtn = document.querySelector(
     ".player-btn i.bi-skip-end-fill"
-  ).parentNode;
+  )?.parentNode;
 
   if (prevBtn) {
     prevBtn.addEventListener("click", () => {
@@ -624,7 +658,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const totalTime = document.querySelector(".total-time");
     const progressBar = document.querySelector(".progress-bar");
 
-    if (audio.duration) {
+    if (audio.duration && !isNaN(audio.duration)) {
       const currentMinutes = Math.floor(audio.currentTime / 60);
       const currentSeconds = Math.floor(audio.currentTime % 60);
       const totalMinutes = Math.floor(audio.duration / 60);
@@ -665,7 +699,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Volume control
   const volumeBtn = document.querySelector(
     ".player-option-btn i.bi-volume-up"
-  ).parentNode;
+  )?.parentNode;
   if (volumeBtn) {
     volumeBtn.addEventListener("click", () => {
       audio.muted = !audio.muted;
@@ -679,24 +713,28 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchBtn = document.querySelector(".search-btn");
 
   function searchSongs() {
-    const searchTerm = searchInput.value.trim().toLowerCase();
+    const searchTerm = searchInput.value
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, " ");
     const top15Items = document.querySelectorAll("#top15Row > div");
     const topAllTimesItems = document.querySelectorAll(".topAllTimesItem");
     const trendingItems = document.querySelectorAll(".trendingItem");
 
     top15Items.forEach((item, index) => {
-      const title = songData.data[0].top_music[index].name_music.toLowerCase();
-      const artist = songData.data[0].top_music[index].name.toLowerCase();
+      const title =
+        songData.data[0].top_music[index]?.name_music.toLowerCase() || "";
+      const artist =
+        songData.data[0].top_music[index]?.name.toLowerCase() || "";
       item.style.display =
-        title.includes(searchTerm) || artist.includes(searchTerm)
-          ? "flex"
-          : "none";
+        title.includes(searchTerm) || artist.includes(signal) ? "flex" : "none";
     });
 
     topAllTimesItems.forEach((item, index) => {
       const title =
-        songData.data[1].top_all_times[index].name_music.toLowerCase();
-      const artist = songData.data[1].top_all_times[index].name.toLowerCase();
+        songData.data[1].top_all_times[index]?.name_music.toLowerCase() || "";
+      const artist =
+        songData.data[1].top_all_times[index]?.name.toLowerCase() || "";
       item.style.display =
         title.includes(searchTerm) || artist.includes(searchTerm)
           ? "block"
@@ -704,8 +742,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     trendingItems.forEach((item, index) => {
-      const title = songData.data[2].trending[index].name_music.toLowerCase();
-      const artist = songData.data[2].trending[index].name.toLowerCase();
+      const title =
+        songData.data[2].trending[index]?.name_music.toLowerCase() || "";
+      const artist = songData.data[2].trending[index]?.name.toLowerCase() || "";
       item.style.display =
         title.includes(searchTerm) || artist.includes(searchTerm)
           ? "flex"
@@ -735,4 +774,14 @@ document.addEventListener("DOMContentLoaded", () => {
       topAllTimesRow.scrollBy({ left: 300, behavior: "smooth" });
     });
   }
+
+  // Cleanup event listeners on page unload
+  window.addEventListener("unload", () => {
+    audio.pause();
+    audio.src = "";
+    // Remove event listeners (example, add more as needed)
+    if (playBtn) playBtn.removeEventListener("click", () => {});
+    if (prevBtn) prevBtn.removeEventListener("click", () => {});
+    if (nextBtn) nextBtn.removeEventListener("click", () => {});
+  });
 });
