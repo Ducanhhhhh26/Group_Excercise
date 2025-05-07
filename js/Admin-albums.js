@@ -58,7 +58,6 @@ let data = {
             "img": "/assets/artist2.jpg.png",
             "mp3": "https://samplesongs.netlify.app/Death%20Bed.mp3"
           }
-  
         ]
       },
       {
@@ -119,7 +118,6 @@ let data = {
             "img": "/assets/artist6.jpg.png",
             "mp3": "https://samplesongs.netlify.app/Hate%20Me.mp3"
           }
-  
         ]
       },
       {
@@ -323,67 +321,73 @@ let data = {
           }
         ]
       }
-  
     ]
-  }
+};
 
 document.addEventListener("DOMContentLoaded", () => {
-    // Tải danh sách album từ localStorage hoặc data
-    let albums = (() => {
+    // Tải dữ liệu từ localStorage hoặc dùng dữ liệu mặc định
+    let albumsData = (() => {
         try {
             const stored = localStorage.getItem("albums");
-            return stored ? JSON.parse(stored) : [
-                ...data.data[0].Featured_Albums.map(a => ({ ...a, type: "Featured_Albums", id: `FA${Math.floor(Math.random() * 1000000).toString().padStart(6, "0")}` })),
-                ...data.data[1].Trending_Albums.map(a => ({ ...a, type: "Trending_Albums", id: `TA${Math.floor(Math.random() * 1000000).toString().padStart(6, "0")}` })),
-                ...data.data[2].top_15_albums.map(a => ({ ...a, type: "top_15_albums", id: `T15${Math.floor(Math.random() * 1000000).toString().padStart(6, "0")}` })),
-                ...data.data[3].Albums_By_Artists.map(a => ({ ...a, type: "Albums_By_Artists", id: `ABA${Math.floor(Math.random() * 1000000).toString().padStart(6, "0")}` }))
-            ];
+            if (stored) {
+                const parsed = JSON.parse(stored);
+                // Kiểm tra cấu trúc dữ liệu
+                if (parsed && Array.isArray(parsed.data)) {
+                    return parsed;
+                }
+            }
+            return data;
         } catch (e) {
             console.error("Lỗi khi parse localStorage 'albums':", e);
-            return [
-                ...data.data[0].Featured_Albums.map(a => ({ ...a, type: "Featured_Albums", id: `FA${Math.floor(Math.random() * 1000000).toString().padStart(6, "0")}` })),
-                ...data.data[1].Trending_Albums.map(a => ({ ...a, type: "Trending_Albums", id: `TA${Math.floor(Math.random() * 1000000).toString().padStart(6, "0")}` })),
-                ...data.data[2].top_15_albums.map(a => ({ ...a, type: "top_15_albums", id: `T15${Math.floor(Math.random() * 1000000).toString().padStart(6, "0")}` })),
-                ...data.data[3].Albums_By_Artists.map(a => ({ ...a, type: "Albums_By_Artists", id: `ABA${Math.floor(Math.random() * 1000000).toString().padStart(6, "0")}` }))
-            ];
+            return data;
         }
     })();
+
+    // Lưu dữ liệu vào localStorage
+    function saveAlbums() {
+        try {
+            localStorage.setItem("albums", JSON.stringify(albumsData));
+        } catch (e) {
+            console.error("Lỗi khi lưu vào localStorage:", e);
+        }
+    }
+
+    // Làm phẳng dữ liệu để hiển thị (không lưu)
+    function flattenAlbums() {
+        if (!albumsData || !Array.isArray(albumsData.data)) {
+            console.error("Dữ liệu albumsData.data không hợp lệ:", albumsData);
+            return [];
+        }
+        return albumsData.data.flatMap((category) => {
+            const type = Object.keys(category)[0];
+            return category[type].map((album, index) => ({
+                ...album,
+                type,
+                originalCategory: type,
+                originalIndex: index
+            }));
+        });
+    }
+
     let currentFilter = "all";
     let currentPage = 1;
     const itemsPerPage = 10;
     let searchQuery = "";
 
-    // Chuẩn hóa dữ liệu album
-    function normalizeAlbums() {
-        const normalized = albums.map((album) => ({
-            id: album.id || `${album.type.slice(0, 3).toUpperCase()}${Math.floor(Math.random() * 1000000).toString().padStart(6, "0")}`,
-            name_music: album.name_music || "",
-            name: album.name || "",
-            img: album.img || "",
-            mp3: album.mp3 || "",
-            type: ["Featured_Albums", "Trending_Albums", "top_15_albums", "Albums_By_Artists"].includes(album.type) ? album.type : "Featured_Albums"
-        }));
-        try {
-            localStorage.setItem("albums", JSON.stringify(normalized));
-        } catch (e) {
-            console.error("Lỗi khi lưu vào localStorage:", e);
-        }
-        return normalized;
-    }
-
     // Cập nhật số lượng bộ lọc
-    function updateFilterCounts(albums) {
+    function updateFilterCounts(flatAlbums) {
         const filterPills = document.querySelectorAll(".filter-pill");
         if (!filterPills.length) {
             console.error("Không tìm thấy bộ lọc (.filter-pill)!");
             return;
         }
         const counts = {
-            all: albums.length,
-            Featured_Albums: albums.filter((a) => a.type === "Featured_Albums").length,
-            Trending_Albums: albums.filter((a) => a.type === "Trending_Albums").length,
-            top_15_albums: albums.filter((a) => a.type === "top_15_albums").length,
-            Albums_By_Artists: albums.filter((a) => a.type === "Albums_By_Artists").length
+            all: flatAlbums.length,
+            Featured_Albums: flatAlbums.filter((a) => a.type === "Featured_Albums").length,
+            Trending_Albums: flatAlbums.filter((a) => a.type === "Trending_Albums").length,
+            top_15_albums: flatAlbums.filter((a) => a.type === "top_15_albums").length,
+            Albums_By_Artists: flatAlbums.filter((a) => a.type === "Albums_By_Artists").length,
+            New_Releases: flatAlbums.filter((a) => a.type === "New_Releases").length
         };
         filterPills.forEach((pill) => {
             const filter = pill.getAttribute("data-filter");
@@ -398,8 +402,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Tải và hiển thị album
     function loadAlbums(filter = currentFilter, page = currentPage, query = searchQuery) {
-        albums = normalizeAlbums();
-        let filteredAlbums = filter === "all" ? albums : albums.filter((a) => a.type === filter);
+        let flatAlbums = flattenAlbums();
+        let filteredAlbums = filter === "all" ? flatAlbums : flatAlbums.filter((a) => a.type === filter);
 
         if (query) {
             filteredAlbums = filteredAlbums.filter(
@@ -410,10 +414,10 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        updateFilterCounts(albums);
+        updateFilterCounts(flatAlbums);
         const totalItems = filteredAlbums.length;
         const totalPages = Math.ceil(totalItems / itemsPerPage) || 1;
-        page = Math.max(1, Math.min(page, totalPages)); // Đảm bảo trang hợp lệ
+        page = Math.max(1, Math.min(page, totalPages));
         currentPage = page;
         const startIndex = (page - 1) * itemsPerPage;
         const paginatedAlbums = filteredAlbums.slice(startIndex, startIndex + itemsPerPage);
@@ -426,7 +430,7 @@ document.addEventListener("DOMContentLoaded", () => {
         tbody.innerHTML = paginatedAlbums.length
             ? paginatedAlbums
                   .map(
-                      (album, index) => `
+                      (album) => `
                       <tr>
                           <td><div class="form-check"><input class="form-check-input" type="checkbox" value=""></div></td>
                           <td>${album.id}</td>
@@ -437,8 +441,8 @@ document.addEventListener("DOMContentLoaded", () => {
                           <td><span class="tag">${album.type}</span></td>
                           <td>
                               <div class="d-flex">
-                                  <button class="btn btn-sm btn-link text-danger p-0 me-2 delete-btn" data-index="${albums.indexOf(album)}"><i class="bi bi-trash"></i></button>
-                                  <button class="btn btn-sm btn-link text-primary p-0 edit-btn" data-index="${albums.indexOf(album)}"><i class="bi bi-pencil"></i></button>
+                                  <button class="btn btn-sm btn-link text-danger p-0 me-2 delete-btn" data-category="${album.originalCategory}" data-index="${album.originalIndex}"><i class="bi bi-trash"></i></button>
+                                  <button class="btn btn-sm btn-link text-primary p-0 edit-btn" data-category="${album.originalCategory}" data-index="${album.originalIndex}"><i class="bi bi-pencil"></i></button>
                               </div>
                           </td>
                       </tr>
@@ -467,7 +471,6 @@ document.addEventListener("DOMContentLoaded", () => {
             e.preventDefault();
             if (currentPage > 1) {
                 currentPage--;
-
                 loadAlbums();
             }
         });
@@ -480,7 +483,6 @@ document.addEventListener("DOMContentLoaded", () => {
             pageItem.addEventListener("click", (e) => {
                 e.preventDefault();
                 currentPage = i;
-
                 loadAlbums();
             });
             paginationContainer.appendChild(pageItem);
@@ -493,7 +495,6 @@ document.addEventListener("DOMContentLoaded", () => {
             e.preventDefault();
             if (currentPage < totalPages) {
                 currentPage++;
-
                 loadAlbums();
             }
         });
@@ -585,6 +586,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     <option value="Trending_Albums">Xu hướng</option>
                                     <option value="top_15_albums">Top 15</option>
                                     <option value="Albums_By_Artists">Theo Nghệ sĩ</option>
+                                    <option value="New_Releases">Mới phát hành</option>
                                 </select>
                             </div>
                         </div>
@@ -626,15 +628,20 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    albums.push({
+                    const newAlbum = {
                         id: `${result.value.type.slice(0, 3).toUpperCase()}${Math.floor(Math.random() * 1000000).toString().padStart(6, "0")}`,
                         name_music: result.value.name_music,
                         name: result.value.name,
                         img: result.value.img,
-                        mp3: result.value.mp3,
-                        type: result.value.type
-                    });
-                    localStorage.setItem("albums", JSON.stringify(albums));
+                        mp3: result.value.mp3
+                    };
+                    const category = albumsData.data.find((cat) => cat[result.value.type]);
+                    if (category) {
+                        category[result.value.type].push(newAlbum);
+                    } else {
+                        albumsData.data.push({ [result.value.type]: [newAlbum] });
+                    }
+                    saveAlbums();
                     currentPage = 1;
                     loadAlbums();
                     Swal.fire("Thành công!", "Đã thêm album thành công.", "success");
@@ -647,8 +654,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Xử lý xóa album
     function handleDelete(event) {
-        const index = event.currentTarget.getAttribute("data-index");
-        const album = albums[index];
+        const category = event.currentTarget.getAttribute("data-category");
+        const index = parseInt(event.currentTarget.getAttribute("data-index"));
+        const album = albumsData.data.find((cat) => cat[category])[category][index];
 
         Swal.fire({
             title: "<strong>Xác nhận Xóa</strong>",
@@ -661,8 +669,8 @@ document.addEventListener("DOMContentLoaded", () => {
             customClass: { popup: "custom-modal", confirmButton: "btn btn-danger", cancelButton: "btn btn-gray me-2" }
         }).then((result) => {
             if (result.isConfirmed) {
-                albums.splice(index, 1);
-                localStorage.setItem("albums", JSON.stringify(albums));
+                albumsData.data.find((cat) => cat[category])[category].splice(index, 1);
+                saveAlbums();
                 currentPage = 1;
                 loadAlbums();
                 Swal.fire("Thành công!", "Đã xóa album thành công.", "success");
@@ -672,8 +680,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Xử lý chỉnh sửa album
     function handleEdit(event) {
-        const index = event.currentTarget.getAttribute("data-index");
-        const album = albums[index];
+        const category = event.currentTarget.getAttribute("data-category");
+        const index = parseInt(event.currentTarget.getAttribute("data-index"));
+        const album = albumsData.data.find((cat) => cat[category])[category][index];
 
         Swal.fire({
             title: "<strong>Chỉnh sửa Album</strong>",
@@ -728,7 +737,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             <label class="form-label" style="color: #333; font-size: 12px;">URL MP3</label>
                             <div class="input-group">
                                 <span class="input-group-text" style="background-color: #fff; border-right: none; border-color: #ccc;">
-                                    <i class="bi bi-music-note" style="color: #666;"></i>
+                                    <i class="bi bi-music-note" style="GfxColor: #666;"></i>
                                 </span>
                                 <input type="text" class="form-control" id="mp3" value="${album.mp3}" style="font-size: 12px; border-left: none; border-color: #ccc;" />
                             </div>
@@ -742,6 +751,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 <option value="Trending_Albums" ${album.type === "Trending_Albums" ? "selected" : ""}>Xu hướng</option>
                                 <option value="top_15_albums" ${album.type === "top_15_albums" ? "selected" : ""}>Top 15</option>
                                 <option value="Albums_By_Artists" ${album.type === "Albums_By_Artists" ? "selected" : ""}>Theo Nghệ sĩ</option>
+                                <option value="New_Releases" ${album.type === "New_Releases" ? "selected" : ""}>Mới phát hành</option>
                             </select>
                         </div>
                     </div>
@@ -783,15 +793,23 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }).then((result) => {
             if (result.isConfirmed) {
-                albums[index] = {
+                const updatedAlbum = {
                     id: album.id,
                     name_music: result.value.name_music,
                     name: result.value.name,
                     img: result.value.img,
-                    mp3: result.value.mp3,
-                    type: result.value.type
+                    mp3: result.value.mp3
                 };
-                localStorage.setItem("albums", JSON.stringify(albums));
+                const oldCategory = albumsData.data.find((cat) => cat[category]);
+                oldCategory[category].splice(index, 1);
+                const newCategory = albumsData.data.find((cat) => cat[result.value.type]) || {
+                    [result.value.type]: []
+                };
+                if (!albumsData.data.includes(newCategory)) {
+                    albumsData.data.push(newCategory);
+                }
+                newCategory[result.value.type].push(updatedAlbum);
+                saveAlbums();
                 loadAlbums();
                 Swal.fire("Thành công!", "Đã cập nhật album thành công.", "success");
             }
@@ -807,7 +825,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 pill.classList.add("active");
                 currentFilter = pill.getAttribute("data-filter");
                 currentPage = 1;
-
                 loadAlbums();
             });
         });
@@ -820,7 +837,6 @@ document.addEventListener("DOMContentLoaded", () => {
         searchInput.addEventListener("input", (e) => {
             searchQuery = e.target.value.trim();
             currentPage = 1;
-
             loadAlbums();
         });
     } else {
@@ -859,20 +875,24 @@ document.addEventListener("DOMContentLoaded", () => {
                 customClass: { popup: "custom-modal", confirmButton: "btn btn-danger", cancelButton: "btn btn-gray me-2" }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    const indices = Array.from(checkboxes)
+                    const deletions = Array.from(checkboxes)
                         .map((cb) => {
                             const deleteBtn = cb.closest("tr").querySelector(".delete-btn");
-                            return deleteBtn ? parseInt(deleteBtn.getAttribute("data-index")) : null;
+                            return deleteBtn
+                                ? {
+                                      category: deleteBtn.getAttribute("data-category"),
+                                      index: parseInt(deleteBtn.getAttribute("data-index"))
+                                  }
+                                : null;
                         })
-                        .filter((index) => index !== null);
+                        .filter((del) => del !== null);
 
-                    if (indices.length === 0) {
-                        Swal.fire("Lỗi", "Không có album hợp lệ được chọn để xóa.", "error");
-                        return;
-                    }
+                    deletions.sort((a, b) => b.index - a.index);
+                    deletions.forEach(({ category, index }) => {
+                        albumsData.data.find((cat) => cat[category])[category].splice(index, 1);
+                    });
 
-                    albums = albums.filter((_, i) => !indices.includes(i));
-                    localStorage.setItem("albums", JSON.stringify(albums));
+                    saveAlbums();
                     currentPage = 1;
                     loadAlbums();
                     Swal.fire("Thành công", "Đã xóa các album được chọn.", "success");
@@ -896,4 +916,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Tải ban đầu
     loadAlbums();
+    saveAlbums(); // Lưu dữ liệu ban đầu nếu localStorage trống
 });

@@ -231,17 +231,17 @@ function updateAuthButtons() {
       loginBtn.parentNode.replaceChild(newLoginBtn, loginBtn);
       newLoginBtn.addEventListener("click", () => {
         Swal.fire({
-          title: "Bạn có chắc chắn?",
-          text: "Bạn sẽ được đăng xuất khỏi tài khoản.",
+          title: "Are you sure?",
+          text: "You will be logged out of your account.",
           icon: "warning",
           showCancelButton: true,
-          confirmButtonText: "Có, đăng xuất",
-          cancelButtonText: "Hủy",
+          confirmButtonText: "Yes, log out",
+          cancelButtonText: "Cancel",
         }).then((result) => {
           if (result.isConfirmed) {
             localStorage.removeItem("currentUser");
-            Swal.fire("Đã đăng xuất!", "Bạn đã đăng xuất thành công.", "success");
-            updateAuthButtons();
+              Swal.fire("Logged out!", "You have been successfully logged out.", "success");
+              updateAuthButtons();
             filterContent("");
           }
         });
