@@ -224,7 +224,7 @@ function updateAuthButtons() {
   if (currentUser) {
     if (registerBtn) registerBtn.style.display = "none";
     if (loginBtn) {
-      loginBtn.textContent = "Đăng xuất";
+      loginBtn.textContent = "Log out";
       loginBtn.classList.remove("login-btn");
       loginBtn.classList.add("logout-btn");
       const newLoginBtn = loginBtn.cloneNode(true);
