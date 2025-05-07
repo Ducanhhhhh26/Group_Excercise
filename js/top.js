@@ -218,6 +218,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Load songData from localStorage
   let songData = JSON.parse(localStorage.getItem("songData")) || topMusicSong;
 
+  //Khong lam
   // Active link
   const links = document.querySelectorAll(".sidebar a");
   const currentPage = window.location.pathname.split("/").pop();
@@ -547,7 +548,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Initialize header buttons
   updateAuthButtons();
-
+  //bat dau lam
   // Music Player Logic
   const audio = new Audio();
   let currentSongIndex = 0;
@@ -563,9 +564,7 @@ document.addEventListener("DOMContentLoaded", () => {
     currentCategory = category;
     const song = songData.data.find((item) => item[category])[category][index];
     audio.src = song.mp3;
-    audio.play().catch((err) => {
-      Swal.fire("Error!", "Failed to play the audio: " + err.message, "error");
-    });
+
     updatePlayerUI(song);
     document.querySelector(".play-btn i").classList.remove("bi-play-fill");
     document.querySelector(".play-btn i").classList.add("bi-pause-fill");
