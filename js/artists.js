@@ -18,52 +18,110 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Existing artist data
-  const artistsData = [
-    [
-      { image: "../assets/song1.jpg.png", title: "Best Of Ava Cornish" },
-      { image: "../assets/song2.jpg.png", title: "Until I Met You" },
-      { image: "../assets/song3.jpg.png", title: "Gimme Some Courage" },
-      { image: "../assets/song4.jpg.png", title: "Dark Alley Acoustic" },
-      { image: "../assets/song5.jpg.png", title: "Walking Promises" },
-      { image: "../assets/song6.jpg.png", title: "Desired Games" },
-    ],
-    [
-      { image: "../assets/r_music1.jpg.png", title: "Claire Hudson" },
-      { image: "../assets/artist1.jpg.png", title: "Carl Brown" },
-      { image: "../assets/artist2.jpg.png", title: "Virginia Harris" },
-      { image: "../assets/artist3.jpg.png", title: "Max Glover" },
-      { image: "../assets/artist4.jpg.png", title: "Jennifer Kelly" },
-      { image: "../assets/artist5.jpg.png", title: "Harry Jackson" },
-      { image: "../assets/artist6.jpg.png", title: "Kevin Buckland" },
-      { image: "../assets/artist7.jpg.png", title: "Anna Ellison" },
-      { image: "../assets/artist8.jpg.png", title: "Kylie Greene" },
-      { image: "../assets/song6.jpg (1).png", title: "Sean Wilson" },
-      { image: "../assets/album4.jpg.png", title: "Jennifer Kelly" },
-      { image: "../assets/song2.jpg (1).png", title: "Steven Walker" },
-      { image: "../assets/artist9.jpg.png", title: "Olivia Paige" },
-      { image: "../assets/artist10.jpg.png", title: "Nicole Miller" },
-      { image: "../assets/artist11.jpg.png", title: "Edward Clark" },
-      { image: "../assets/artist12.jpg.png", title: "Adam Glover" },
-      { image: "../assets/artist13.jpg.png", title: "Leah Knox" },
-      { image: "../assets/song4.jpg (1).png", title: "Charles Davidson" },
-      { image: "../assets/album2.jpg.png", title: "Vanessa Hunter" },
-      { image: "../assets/album3.jpg.png", title: "Sophie Hudson" },
-    ],
+  const defaultSongs = [
+    { image: "../assets/song1.jpg.png", title: "Best Of Ava Cornish" },
+    { image: "../assets/song2.jpg.png", title: "Until I Met You" },
+    { image: "../assets/song3.jpg.png", title: "Gimme Some Courage" },
+    { image: "../assets/song4.jpg.png", title: "Dark Alley Acoustic" },
+    { image: "../assets/song5.jpg.png", title: "Walking Promises" },
+    { image: "../assets/song6.jpg.png", title: "Desired Games" },
   ];
+
+  // Danh sách hình ảnh mặc định để gán cho nghệ sĩ
+  // const defaultImages = [
+  //   "/assets/r_music1.jpg.png",
+  //   "/assets/artist1.jpg.png",
+  //   "/assets/artist2.jpg.png",
+  //   "/assets/artist3.jpg.png",
+  //   "/assets/artist4.jpg.png",
+  //   "/assets/artist5.jpg.png",
+  //   "/assets/artist6.jpg.png",
+  //   "/assets/artist7.jpg.png",
+  //   "/assets/artist8.jpg.png",
+  //   "/assets/song6.jpg (1).png",
+  //   "/assets/album4.jpg.png",
+  //   "/assets/song4.jpg (1).png",
+  //   "/assets/artist9.jpg.png",
+  //   "/assets/artist10.jpg.png",
+  //   "/assets/artist11.jpg.png",
+  //   "/assets/artist12.jpg.png",
+  //   "/assets/artist13.jpg.png",
+  //   "/assets/song3.jpg.png",
+  //   "/assets/album2.jpg.png",
+  
+   
+  // ];
+  let defaultImages = JSON.parse(localStorage.getItem("defaultImages"));
+
+if (!defaultImages) {
+  defaultImages = [
+    "/assets/r_music1.jpg.png",
+    "/assets/artist1.jpg.png",
+    "/assets/artist2.jpg.png",
+    "/assets/artist3.jpg.png",
+    "/assets/artist4.jpg.png",
+    "/assets/artist5.jpg.png",
+    "/assets/artist6.jpg.png",
+    "/assets/artist7.jpg.png",
+    "/assets/artist8.jpg.png",
+    "/assets/song6.jpg (1).png",
+    "/assets/album4.jpg.png",
+    "/assets/song4.jpg (1).png",
+    "/assets/artist9.jpg.png",
+    "/assets/artist10.jpg.png",
+    "/assets/artist11.jpg.png",
+    "/assets/artist12.jpg.png",
+    "/assets/artist13.jpg.png",
+    "/assets/song3.jpg.png",
+    "/assets/album2.jpg.png",
+  
+  ];
+  localStorage.setItem("defaultImages", JSON.stringify(defaultImages));
+}
+  // Initialize artists data in localStorage if none exists
+  let artists = JSON.parse(localStorage.getItem("artists")) || [];
+  if (artists.length === 0) {
+    const defaultArtists = [
+      { artistId: "NG000001", fullName: "Claire Hudson", email: "claire.hudson@example.com", password: "Artist@123", role: "Artists", songCount: 7 },
+      { artistId: "NG000002", fullName: "Carl Brown", email: "carl.brown@example.com", password: "Artist@123", role: "Artists", songCount: 5 },
+      { artistId: "NG000003", fullName: "Virginia Harris", email: "virginia.harris@example.com", password: "Artist@123", role: "Artists", songCount: 8 },
+      { artistId: "NG000004", fullName: "Max Glover", email: "max.glover@example.com", password: "Artist@123", role: "Artists", songCount: 4 },
+      { artistId: "NG000005", fullName: "Jennifer Kelly", email: "jennifer.kelly@example.com", password: "Artist@123", role: "Artists", songCount: 6 },
+      { artistId: "NG000006", fullName: "Harry Jackson", email: "harry.jackson@example.com", password: "Artist@123", role: "Artists", songCount: 3 },
+      { artistId: "NG000007", fullName: "Kevin Buckland", email: "kevin.buckland@example.com", password: "Artist@123", role: "Artists", songCount: 9 },
+      { artistId: "NG000008", fullName: "Anna Ellison", email: "anna.ellison@example.com", password: "Artist@123", role: "Artists", songCount: 2 },
+      { artistId: "NG000009", fullName: "Kylie Greene", email: "kylie.greene@example.com", password: "Artist@123", role: "Artists", songCount: 5 },
+      { artistId: "NG000010", fullName: "Sean Wilson", email: "sean.wilson@example.com", password: "Artist@123", role: "Artists", songCount: 7 },
+      { artistId: "NG000011", fullName: "Steven Walker", email: "steven.walker@example.com", password: "Artist@123", role: "Artists", songCount: 4 },
+      { artistId: "NG000012", fullName: "Olivia Paige", email: "olivia.paige@example.com", password: "Artist@123", role: "Artists", songCount: 6 },
+      { artistId: "NG000013", fullName: "Nicole Miller", email: "nicole.miller@example.com", password: "Artist@123", role: "Artists", songCount: 3 },
+      { artistId: "NG000014", fullName: "Edward Clark", email: "edward.clark@example.com", password: "Artist@123", role: "Artists", songCount: 8 },
+      { artistId: "NG000015", fullName: "Adam Glover", email: "adam.glover@example.com", password: "Artist@123", role: "Artists", songCount: 5 },
+      { artistId: "NG000016", fullName: "Leah Knox", email: "leah.knox@example.com", password: "Artist@123", role: "Artists", songCount: 4 },
+      { artistId: "NG000017", fullName: "Charles Davidson", email: "charles.davidson@example.com", password: "Artist@123", role: "Artists", songCount: 6 },
+      { artistId: "NG000018", fullName: "Vanessa Hunter", email: "vanessa.hunter@example.com", password: "Artist@123", role: "Artists", songCount: 7 },
+      { artistId: "NG000019", fullName: "Sophie Hudson", email: "sophie.hudson@example.com", password: "Artist@123", role: "Artists", songCount: 5 },
+    ].map((artist, index) => ({
+      ...artist,
+      image: defaultImages[index % defaultImages.length], 
+    }));
+    artists = defaultArtists;
+    localStorage.setItem("artists", JSON.stringify(artists));
+  }
 
   // Render artists for .artists-grid
   const renderArtistsSections = () => {
     const artistSections = document.querySelectorAll(".artists-grid");
-    artistSections.forEach((grid, index) => {
+    artistSections.forEach((grid) => {
       grid.innerHTML = "";
-      artistsData[index].forEach((artist) => {
+      defaultSongs.forEach((song) => {
         const artistCard = document.createElement("div");
         artistCard.classList.add("artist-card");
         const img = document.createElement("img");
-        img.src = artist.image;
-        img.alt = artist.title;
+        img.src = song.image;
+        img.alt = song.title;
         const title = document.createElement("p");
-        title.textContent = artist.title;
+        title.textContent = song.title;
         artistCard.appendChild(img);
         artistCard.appendChild(title);
         grid.appendChild(artistCard);
@@ -76,14 +134,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const artistSections2 = document.querySelectorAll(".artists-grid2");
     artistSections2.forEach((grid) => {
       grid.innerHTML = "";
-      artistsData[1].forEach((artist) => {
+      artists.forEach((artist,index) => {
         const artistCard2 = document.createElement("div");
         artistCard2.classList.add("artist-card2");
         const img = document.createElement("img");
-        img.src = artist.image;
-        img.alt = artist.title;
+        img.src = defaultImages[index];
+        console.log(defaultImages[index]);
+        img.alt = artist.fullName;
         const title2 = document.createElement("p");
-        title2.textContent = artist.title;
+        title2.textContent = artist.fullName;
         artistCard2.appendChild(img);
         artistCard2.appendChild(title2);
         grid.appendChild(artistCard2);
@@ -96,14 +155,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const artistSections = document.querySelectorAll(".artists-grid2");
     artistSections.forEach((grid) => {
       grid.innerHTML = "";
-      artistsData[1].forEach((artist) => {
+      artists.forEach((artist,index) => {
         const artistCard = document.createElement("div");
         artistCard.classList.add("artist-card2");
         const img = document.createElement("img");
-        img.src = artist.image;
-        img.alt = artist.title;
+        img.src = defaultImages[index];
+        img.alt = artist.fullName;
         const title = document.createElement("p");
-        title.textContent = artist.title;
+        title.textContent = artist.fullName;
         artistCard.appendChild(img);
         artistCard.appendChild(title);
         grid.appendChild(artistCard);
@@ -114,9 +173,8 @@ document.addEventListener("DOMContentLoaded", function () {
   // Search artists
   const searchArtists = (searchTerm) => {
     const artistSections = document.querySelectorAll(".artists-grid2");
-    const allArtists = artistsData.flat();
-    const filteredArtists = allArtists.filter((artist) =>
-      artist.title.toLowerCase().includes(searchTerm.toLowerCase())
+    const filteredArtists = artists.filter((artist) =>
+      artist.fullName.toLowerCase().includes(searchTerm.toLowerCase())
     );
     artistSections.forEach((grid) => {
       grid.innerHTML = "";
@@ -125,9 +183,9 @@ document.addEventListener("DOMContentLoaded", function () {
         artistCard.classList.add("artist-card2");
         const img = document.createElement("img");
         img.src = artist.image;
-        img.alt = artist.title;
+        img.alt = artist.fullName;
         const title = document.createElement("p");
-        title.textContent = artist.title;
+        title.textContent = artist.fullName;
         artistCard.appendChild(img);
         artistCard.appendChild(title);
         grid.appendChild(artistCard);
@@ -135,6 +193,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   };
 
+  // Search input event listener
   const searchInput = document.querySelector(".search-input");
   if (searchInput) {
     searchInput.addEventListener("input", (e) => {
@@ -146,7 +205,9 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
-
+  renderArtistsSections();
+  renderArtistsSections2();
+  renderArtistsSections1();
   // Sidebar toggle
   const sidebar = document.querySelector(".sidebar");
   const chevronBtn = document.querySelector(".sidebar-chevorn a");
