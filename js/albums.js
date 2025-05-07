@@ -325,6 +325,10 @@ let data = {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+  window.playAudio       = playAudio;
+  window.startstopaudio  = startstopaudio;
+  window.nextAudio       = nextAudio;
+  window.prevAudio       = prevAudio;
   // Initialize accounts and create default admin if none exists
   let accounts = JSON.parse(localStorage.getItem("accounts")) || [];
   const hasAdmin = accounts.some((account) => account.role === "Admin");
