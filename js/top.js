@@ -242,12 +242,16 @@ document.addEventListener("DOMContentLoaded", () => {
         sidebar.classList.add("expanded");
         mainContent.classList.add("expanded");
         header.classList.add("expanded");
-        chevronBtn.querySelector("i").classList.replace("fa-chevron-right", "fa-chevron-left");
+        chevronBtn
+          .querySelector("i")
+          .classList.replace("fa-chevron-right", "fa-chevron-left");
       } else {
         sidebar.classList.remove("expanded");
         mainContent.classList.remove("expanded");
         header.classList.remove("expanded");
-        chevronBtn.querySelector("i").classList.replace("fa-chevron-left", "fa-chevron-right");
+        chevronBtn
+          .querySelector("i")
+          .classList.replace("fa-chevron-left", "fa-chevron-right");
       }
     });
   }
@@ -293,7 +297,11 @@ document.addEventListener("DOMContentLoaded", () => {
           }).then((result) => {
             if (result.isConfirmed) {
               localStorage.removeItem("currentUser");
-              Swal.fire("Logged out!", "You have been successfully logged out.", "success");
+              Swal.fire(
+                "Logged out!",
+                "You have been successfully logged out.",
+                "success"
+              );
               updateAuthButtons();
               // Reset search
               const searchInput = document.querySelector(".search-input");
@@ -314,13 +322,17 @@ document.addEventListener("DOMContentLoaded", () => {
       const welcomeMessage = document.createElement("span");
       welcomeMessage.className = "me-2";
       welcomeMessage.textContent = `Welcome, ${currentUser.fullName}`;
-      const authContainer = document.querySelector("header .d-flex.align-items-center > div:last-child");
+      const authContainer = document.querySelector(
+        "header .d-flex.align-items-center > div:last-child"
+      );
       if (authContainer && !authContainer.querySelector("span.me-2")) {
         authContainer.insertBefore(welcomeMessage, authContainer.firstChild);
       }
     } else {
       if (registerBtn) registerBtn.style.display = "inline-block";
-      loginBtn = document.querySelector(".logout-btn") || document.querySelector(".login-btn");
+      loginBtn =
+        document.querySelector(".logout-btn") ||
+        document.querySelector(".login-btn");
       if (loginBtn && loginBtn.classList.contains("logout-btn")) {
         loginBtn.textContent = "Login";
         loginBtn.classList.remove("logout-btn");
@@ -340,7 +352,9 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         });
       }
-      const welcomeMessage = document.querySelector("header .d-flex.align-items-center span.me-2");
+      const welcomeMessage = document.querySelector(
+        "header .d-flex.align-items-center span.me-2"
+      );
       if (welcomeMessage) welcomeMessage.remove();
     }
 
@@ -360,7 +374,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Login Modal
   const loginForm = document.querySelector(".formLogin");
-  const forgotPasswordLink = document.querySelector(".modalLogin .checkbox-forgot p");
+  const forgotPasswordLink = document.querySelector(
+    ".modalLogin .checkbox-forgot p"
+  );
   const registerLink = document.querySelector(".formLogin a");
 
   if (modalLogin) {
@@ -390,7 +406,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       const accounts = JSON.parse(localStorage.getItem("accounts")) || [];
-      const user = accounts.find((account) => account.email === email && account.password === password);
+      const user = accounts.find(
+        (account) => account.email === email && account.password === password
+      );
 
       if (user) {
         localStorage.setItem("currentUser", JSON.stringify(user));
@@ -456,7 +474,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const password1 = document.getElementById("password1").value.trim();
       const password2 = document.getElementById("password2").value.trim();
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      const passwordRegex =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
       if (!name || !email || !password1 || !password2) {
         Swal.fire("Error!", "Please fill in all fields.", "error");
@@ -486,7 +505,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       const newAccount = {
-        accountId: `TK${Math.floor(Math.random() * 1000000).toString().padStart(6, "0")}`,
+        accountId: `TK${Math.floor(Math.random() * 1000000)
+          .toString()
+          .padStart(6, "0")}`,
         fullName: name,
         email,
         password: password1,
@@ -500,7 +521,11 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem("accounts", JSON.stringify(accounts));
       localStorage.setItem("currentUser", JSON.stringify(newAccount));
 
-      Swal.fire("Success!", "Registered successfully. You are now logged in.", "success").then(() => {
+      Swal.fire(
+        "Success!",
+        "Registered successfully. You are now logged in.",
+        "success"
+      ).then(() => {
         modalRegister.classList.remove("show");
         modalRegister.style.display = "none";
         registerForm.reset();
@@ -534,9 +559,7 @@ document.addEventListener("DOMContentLoaded", () => {
   window.playSong = function (index, category) {
     currentSongIndex = index;
     currentCategory = category;
-    const song = songData.data
-      .find((item) => item[category])
-      [category][index];
+    const song = songData.data.find((item) => item[category])[category][index];
     audio.src = song.mp3;
     audio.play();
     updatePlayerUI(song);
@@ -546,7 +569,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function updatePlayerUI(song) {
     document.querySelector(".player-album-img img").src = song.img;
-    document.querySelector(".player-song-info h6").textContent = song.name_music;
+    document.querySelector(".player-song-info h6").textContent =
+      song.name_music;
     document.querySelector(".player-song-info p").textContent = song.name;
   }
 
@@ -565,14 +589,22 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  const prevBtn = document.querySelector(".player-btn i.bi-skip-start-fill").parentNode;
-  const nextBtn = document.querySelector(".player-btn i.bi-skip-end-fill").parentNode;
+  const prevBtn = document.querySelector(
+    ".player-btn i.bi-skip-start-fill"
+  ).parentNode;
+  const nextBtn = document.querySelector(
+    ".player-btn i.bi-skip-end-fill"
+  ).parentNode;
 
   if (prevBtn) {
     prevBtn.addEventListener("click", () => {
       currentSongIndex =
-        (currentSongIndex - 1 + songData.data.find((item) => item[currentCategory])[currentCategory].length) %
-        songData.data.find((item) => item[currentCategory])[currentCategory].length;
+        (currentSongIndex -
+          1 +
+          songData.data.find((item) => item[currentCategory])[currentCategory]
+            .length) %
+        songData.data.find((item) => item[currentCategory])[currentCategory]
+          .length;
       playSong(currentSongIndex, currentCategory);
     });
   }
@@ -580,7 +612,9 @@ document.addEventListener("DOMContentLoaded", () => {
   if (nextBtn) {
     nextBtn.addEventListener("click", () => {
       currentSongIndex =
-        (currentSongIndex + 1) % songData.data.find((item) => item[currentCategory])[currentCategory].length;
+        (currentSongIndex + 1) %
+        songData.data.find((item) => item[currentCategory])[currentCategory]
+          .length;
       playSong(currentSongIndex, currentCategory);
     });
   }
@@ -596,15 +630,23 @@ document.addEventListener("DOMContentLoaded", () => {
       const totalMinutes = Math.floor(audio.duration / 60);
       const totalSeconds = Math.floor(audio.duration % 60);
 
-      currentTime.textContent = `${currentMinutes}:${currentSeconds < 10 ? "0" : ""}${currentSeconds}`;
-      totalTime.textContent = `${totalMinutes}:${totalSeconds < 10 ? "0" : ""}${totalSeconds}`;
-      progressBar.style.width = `${(audio.currentTime / audio.duration) * 100}%`;
+      currentTime.textContent = `${currentMinutes}:${
+        currentSeconds < 10 ? "0" : ""
+      }${currentSeconds}`;
+      totalTime.textContent = `${totalMinutes}:${
+        totalSeconds < 10 ? "0" : ""
+      }${totalSeconds}`;
+      progressBar.style.width = `${
+        (audio.currentTime / audio.duration) * 100
+      }%`;
     }
   });
 
   audio.addEventListener("ended", () => {
     currentSongIndex =
-      (currentSongIndex + 1) % songData.data.find((item) => item[currentCategory])[currentCategory].length;
+      (currentSongIndex + 1) %
+      songData.data.find((item) => item[currentCategory])[currentCategory]
+        .length;
     playSong(currentSongIndex, currentCategory);
   });
 
@@ -621,7 +663,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Volume control
-  const volumeBtn = document.querySelector(".player-option-btn i.bi-volume-up").parentNode;
+  const volumeBtn = document.querySelector(
+    ".player-option-btn i.bi-volume-up"
+  ).parentNode;
   if (volumeBtn) {
     volumeBtn.addEventListener("click", () => {
       audio.muted = !audio.muted;
@@ -643,19 +687,29 @@ document.addEventListener("DOMContentLoaded", () => {
     top15Items.forEach((item, index) => {
       const title = songData.data[0].top_music[index].name_music.toLowerCase();
       const artist = songData.data[0].top_music[index].name.toLowerCase();
-      item.style.display = title.includes(searchTerm) || artist.includes(searchTerm) ? "flex" : "none";
+      item.style.display =
+        title.includes(searchTerm) || artist.includes(searchTerm)
+          ? "flex"
+          : "none";
     });
 
     topAllTimesItems.forEach((item, index) => {
-      const title = songData.data[1].top_all_times[index].name_music.toLowerCase();
+      const title =
+        songData.data[1].top_all_times[index].name_music.toLowerCase();
       const artist = songData.data[1].top_all_times[index].name.toLowerCase();
-      item.style.display = title.includes(searchTerm) || artist.includes(searchTerm) ? "block" : "none";
+      item.style.display =
+        title.includes(searchTerm) || artist.includes(searchTerm)
+          ? "block"
+          : "none";
     });
 
     trendingItems.forEach((item, index) => {
       const title = songData.data[2].trending[index].name_music.toLowerCase();
       const artist = songData.data[2].trending[index].name.toLowerCase();
-      item.style.display = title.includes(searchTerm) || artist.includes(searchTerm) ? "flex" : "none";
+      item.style.display =
+        title.includes(searchTerm) || artist.includes(searchTerm)
+          ? "flex"
+          : "none";
     });
   }
 
