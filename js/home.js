@@ -258,7 +258,7 @@ function updateAuthButtons() {
     if (registerBtn) registerBtn.style.display = "inline-block";
     loginBtn = document.querySelector(".logout-btn") || document.querySelector(".login-btn");
     if (loginBtn && loginBtn.classList.contains("logout-btn")) {
-      loginBtn.textContent = "Đăng nhập";
+      loginBtn.textContent = "Login";
       loginBtn.classList.remove("logout-btn");
       loginBtn.classList.add("login-btn");
       const newLoginBtn = loginBtn.cloneNode(true);
