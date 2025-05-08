@@ -192,7 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Previous button
     const prevItem = document.createElement("li");
     prevItem.className = `page-item ${currentPage === 1 ? "disabled" : ""}`;
-    prevItem.innerHTML = `<a class="page-link" href="#" aria-label="Previous">Trước</a>`;
+    prevItem.innerHTML = `<a class="page-link" href="#" aria-label="Previous"><i class="bi bi-chevron-left"></i></a>`;
     prevItem.addEventListener("click", (e) => {
         e.preventDefault();
         if (currentPage > 1) {
@@ -259,7 +259,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Next button
     const nextItem = document.createElement("li");
     nextItem.className = `page-item ${currentPage === totalPages ? "disabled" : ""}`;
-    nextItem.innerHTML = `<a class="page-link" href="#" aria-label="Next">Tiếp</a>`;
+    nextItem.innerHTML = `<a class="page-link" href="#" aria-label="Next"><i class="bi bi-chevron-right"></i></a>`;
     nextItem.addEventListener("click", (e) => {
         e.preventDefault();
         if (currentPage < totalPages) {
@@ -303,63 +303,52 @@ document.addEventListener("DOMContentLoaded", () => {
   if (addButton) {
     addButton.addEventListener("click", () => {
       Swal.fire({
-        title: "<strong>Thêm Nghệ sĩ</strong>",
+        title: "<strong>Add Artist</strong>",
         html: `
           <div class="container" style="text-align: left; font-family: Arial, sans-serif;">
             <div class="row mb-2">
               <div class="col-12">
-                <h6 style="color: #333; font-size: 14px; font-weight: bold;">Thông tin chung</h6>
-                <p style="color: #666; font-size: 12px;">Cập nhật thông tin nghệ sĩ</p>
+                <h6 style="color: #333; font-size: 14px; font-weight: bold;">Artist Information</h6>
+                <p style="color: #666; font-size: 12px;">Add new artist information</p>
               </div>
             </div>
             <div class="row mb-3">
               <div class="col-12 text-center">
                 <div class="d-flex justify-content-center align-items-center" style="height: 80px; width: 80px; border-radius: 50%; background-color: #e0e0e0; margin: 0 auto;">
-                  <img id="preview-img" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: none;" />
-                  <span id="upload-text" style="color: #666; font-size: 12px; text-align: center;">Nhấn để tải lên</span>
+                  <span style="color: #666; font-size: 12px; text-align: center;">Click to upload</span>
                 </div>
-                <p style="color: #666; font-size: 10px; margin-top: 5px;">SVG, PNG, JPG hoặc GIF (tối đa 400x400px)</p>
-                <input type="file" id="profile-pic" accept="image/*" style="display: none;" />
+                <p style="color: #666; font-size: 10px; margin-top: 5px;">SVG, PNG, JPG or GIF (max. 400x400px)</p>
+                <input type="file" id="artist-img" accept="image/*" style="display: none;" />
               </div>
             </div>
             <div class="row mb-2">
               <div class="col-6">
-                <label class="form-label" style="color: #333; font-size: 12px;">Tên nghệ sĩ</label>
+                <label class="form-label" style="color: #333; font-size: 12px;">Artist Name</label>
                 <div class="input-group">
                   <span class="input-group-text" style="background-color: #fff; border-right: none; border-color: #ccc;">
                     <i class="bi bi-person-fill" style="color: #666;"></i>
                   </span>
-                  <input type="text" class="form-control" id="full-name" placeholder="Tên nghệ sĩ" style="font-size: 12px; border-left: none; border-color: #ccc;" />
+                  <input type="text" class="form-control" id="name" placeholder="Artist Name" style="font-size: 12px; border-left: none; border-color: #ccc;" />
                 </div>
               </div>
               <div class="col-6">
-                <label class="form-label" style="color: #333; font-size: 12px;">Số bài hát</label>
+                <label class="form-label" style="color: #333; font-size: 12px;">Image URL</label>
                 <div class="input-group">
                   <span class="input-group-text" style="background-color: #fff; border-right: none; border-color: #ccc;">
-                    <i class="bi bi-music-note" style="color: #666;"></i>
+                    <i class="bi bi-image" style="color: #666;"></i>
                   </span>
-                  <input type="number" class="form-control" id="song-count" placeholder="Số bài hát" style="font-size: 12px; border-left: none; border-color: #ccc;" />
+                  <input type="text" class="form-control" id="img" placeholder="Image URL" style="font-size: 12px; border-left: none; border-color: #ccc;" />
                 </div>
               </div>
             </div>
             <div class="row mb-2">
               <div class="col-6">
-                <label class="form-label" style="color: #333; font-size: 12px;">Email</label>
-                <div class="input-group">
-                  <span class="input-group-text" style="background-color: #fff; border-right: none; border-color: #ccc;">
-                    <i class="bi bi-envelope-fill" style="color: #666;"></i>
-                  </span>
-                  <input type="email" class="form-control" id="email" placeholder="Địa chỉ Email" style="font-size: 12px; border-left: none; border-color: #ccc;" />
-                </div>
-              </div>
-              <div class="col-6">
-                <label class="form-label" style="color: #333; font-size: 12px;">Mật khẩu</label>
-                <div class="input-group">
-                  <span class="input-group-text" style="background-color: #fff; border-right: none; border-color: #ccc;">
-                    <i class="bi bi-lock-fill" style="color: #666;"></i>
-                  </span>
-                  <input type="password" class="form-control" id="password" placeholder="Mật khẩu" style="font-size: 12px; border-left: none; border-color: #ccc;" />
-                </div>
+                <label class="form-label" style="color: #333; font-size: 12px;">Type</label>
+                <select class="form-select" id="type" style="font-size: 12px; border-color: #ccc;">
+                  <option value="Featured_Artists">Featured</option>
+                  <option value="Trending_Artists">Trending</option>
+                  <option value="Top_Artists">Top Artists</option>
+                </select>
               </div>
             </div>
           </div>
@@ -367,12 +356,12 @@ document.addEventListener("DOMContentLoaded", () => {
         showCloseButton: true,
         showCancelButton: true,
         focusConfirm: false,
-        confirmButtonText: "Thêm Nghệ sĩ",
-        cancelButtonText: "Hủy",
+        confirmButtonText: "Add Artist",
+        cancelButtonText: "Cancel",
         customClass: { popup: "custom-modal", confirmButton: "btn btn-primary", cancelButton: "btn btn-gray me-2" },
         didOpen: () => {
           const uploadArea = document.querySelector(".d-flex.justify-content-center.align-items-center");
-          const fileInput = document.getElementById("profile-pic");
+          const fileInput = document.getElementById("artist-img");
           const previewImg = document.getElementById("preview-img");
           const uploadText = document.getElementById("upload-text");
           if (uploadArea && fileInput) {
@@ -392,11 +381,11 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         },
         preConfirm: async () => {
-          const fullName = document.getElementById("full-name").value.trim();
+          const fullName = document.getElementById("name").value.trim();
           const email = document.getElementById("email").value.trim();
           const songCount = parseInt(document.getElementById("song-count").value) || 0;
           const password = document.getElementById("password").value.trim();
-          const fileInput = document.getElementById("profile-pic");
+          const fileInput = document.getElementById("artist-img");
           const image = fileInput.files[0] ? await processImage(fileInput.files[0]) : null;
           const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
           const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -441,7 +430,7 @@ document.addEventListener("DOMContentLoaded", () => {
           localStorage.setItem("artists", JSON.stringify(artists));
           currentPage = 1;
           loadArtists();
-          Swal.fire("Thành công!", "Đã thêm nghệ sĩ thành công.", "success");
+          Swal.fire("Success!", "Artist added successfully.", "success");
         }
       });
     });
@@ -455,21 +444,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const artist = artists[index];
 
     Swal.fire({
-      title: "<strong>Xác nhận Xóa</strong>",
-      html: `<p style="color: #333; font-size: 14px;">Bạn có chắc muốn xóa nghệ sĩ <strong>${artist.fullName}</strong>?</p>`,
+      title: "<strong>Confirm Delete</strong>",
+      html: `<p style="color: #333; font-size: 14px;">Are you sure you want to delete artist <strong>${artist.fullName}</strong>?</p>`,
       showCloseButton: true,
       showCancelButton: true,
       focusConfirm: false,
-      confirmButtonText: "Xóa",
-      cancelButtonText: "Hủy",
-      customClass: { popup: "custom-modal", confirmButton: "btn btn-danger", cancelButton: "btn btn-gray me-2" },
+      confirmButtonText: "Delete",
+      cancelButtonText: "Cancel",
+      customClass: { popup: "custom-modal", confirmButton: "btn btn-danger", cancelButton: "btn btn-gray me-2" }
     }).then((result) => {
       if (result.isConfirmed) {
         artists.splice(index, 1);
         localStorage.setItem("artists", JSON.stringify(artists));
         currentPage = 1;
         loadArtists();
-        Swal.fire("Thành công!", "Đã xóa nghệ sĩ thành công.", "success");
+        Swal.fire("Success!", "Artist deleted successfully.", "success");
       }
     });
   }
@@ -480,13 +469,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const artist = artists[index];
 
     Swal.fire({
-      title: "<strong>Chỉnh sửa Nghệ sĩ</strong>",
+      title: "<strong>Edit Artist</strong>",
       html: `
         <div class="container" style="text-align: left; font-family: Arial, sans-serif;">
           <div class="row mb-2">
             <div class="col-12">
-              <h6 style="color: #333; font-size: 14px; font-weight: bold;">Thông tin chung</h6>
-              <p style="color: #666; font-size: 12px;">Cập nhật thông tin nghệ sĩ</p>
+              <h6 style="color: #333; font-size: 14px; font-weight: bold;">Artist Information</h6>
+              <p style="color: #666; font-size: 12px;">Update artist information</p>
             </div>
           </div>
           <div class="row mb-3">
@@ -535,8 +524,8 @@ document.addEventListener("DOMContentLoaded", () => {
       showCloseButton: true,
       showCancelButton: true,
       focusConfirm: false,
-      confirmButtonText: "Lưu",
-      cancelButtonText: "Hủy",
+      confirmButtonText: "Save",
+      cancelButtonText: "Cancel",
       customClass: { popup: "custom-modal", confirmButton: "btn btn-primary", cancelButton: "btn btn-gray me-2" },
       didOpen: () => {
         const uploadArea = document.querySelector(".d-flex.justify-content-center.align-items-center");
@@ -599,8 +588,8 @@ document.addEventListener("DOMContentLoaded", () => {
           image,
         };
         localStorage.setItem("artists", JSON.stringify(artists));
-        loadArtists();
-        Swal.fire("Thành công!", "Đã cập nhật nghệ sĩ thành công.", "success");
+        loadArtists(currentFilter, currentPage, searchQuery);
+        Swal.fire("Success!", "Artist updated successfully.", "success");
       }
     });
   }
@@ -655,17 +644,17 @@ document.addEventListener("DOMContentLoaded", () => {
     deleteSelectedBtn.addEventListener("click", () => {
       const checkboxes = document.querySelectorAll("tbody .form-check-input:checked");
       if (checkboxes.length === 0) {
-        Swal.fire("Cảnh báo", "Vui lòng chọn ít nhất một nghệ sĩ.", "warning");
+        Swal.fire("Warning", "Please select at least one artist.", "warning");
         return;
       }
 
       Swal.fire({
-        title: "Xác nhận Xóa",
-        text: `Bạn có chắc muốn xóa ${checkboxes.length} nghệ sĩ đã chọn?`,
+        title: "Confirm Delete",
+        text: `Are you sure you want to delete ${checkboxes.length} selected artists?`,
         showCancelButton: true,
-        confirmButtonText: "Xóa",
-        cancelButtonText: "Hủy",
-        customClass: { popup: "custom-modal", confirmButton: "btn btn-danger", cancelButton: "btn btn-gray me-2" },
+        confirmButtonText: "Delete",
+        cancelButtonText: "Cancel",
+        customClass: { popup: "custom-modal", confirmButton: "btn btn-danger", cancelButton: "btn btn-gray me-2" }
       }).then((result) => {
         if (result.isConfirmed) {
           const indices = Array.from(checkboxes)
@@ -684,7 +673,7 @@ document.addEventListener("DOMContentLoaded", () => {
           localStorage.setItem("artists", JSON.stringify(artists));
           currentPage = 1;
           loadArtists();
-          Swal.fire("Thành công", "Đã xóa các nghệ sĩ được chọn.", "success");
+          Swal.fire("Success", "Selected artists deleted.", "success");
         }
       });
     });
