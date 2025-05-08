@@ -72,8 +72,8 @@ if (!localStorage.getItem("musicData")) {
 }
 
 // Tải musicData từ localStorage nếu có
-if (localStorage.getItem('musicData')) {
-  musicData = JSON.parse(localStorage.getItem('musicData'));
+if (localStorage.getItem("musicData")) {
+  musicData = JSON.parse(localStorage.getItem("musicData"));
 }
 
 // Khởi tạo tài khoản và tạo admin mặc định nếu chưa có
@@ -94,429 +94,28 @@ if (!hasAdmin) {
   localStorage.setItem("accounts", JSON.stringify(accounts));
 }
 
-// Chọn các phần tử DOM
-const searchInput = document.querySelector(".search-input");
-const searchBtn = document.querySelector(".search-btn");
-const clearBtn = document.querySelector(".clear-btn");
-const searchMessage = document.querySelector(".search-message");
-const recentlyPlayedGrid = document.querySelector(".recently-played .album-grid");
-const chartsGrid = document.querySelector(".charts-section .charts-grid");
-const releasesContainer = document.querySelector(".releases");
-const featuredArtistsGrid = document.querySelector(".featured-artists .album-grid");
-const featuredAlbumsGrid = document.querySelector(".featured-albums .album-grid");
-const sidebar = document.querySelector('.sidebar');
-const chevronBtn = document.querySelector('.sidebar-chevorn a');
-const mainContent = document.querySelector('.container');
-const header = document.querySelector('header');
-const modalLogin = document.querySelector(".modalLogin");
-const loginForm = document.querySelector(".formLogin");
-const forgotPasswordLink = document.querySelector(".forgot-password");
-const registerLink = document.querySelector(".formLogin .register-link");
-const modalRegister = document.querySelector(".modalRegister");
-const registerForm = document.querySelector(".formRegister");
-const loginLink = document.querySelector(".formRegister .login-link");
-
-// Chức năng tìm kiếm đơn giản
-searchInput.addEventListener("input", () => {
-  clearBtn.style.display = searchInput.value ? "block" : "none";
-});
-
-searchBtn.addEventListener("click", () => {
-  const query = searchInput.value.toLowerCase().trim();
-  filterContent(query);
-});
-
-clearBtn.addEventListener("click", () => {
-  searchInput.value = "";
-  clearBtn.style.display = "none";
-  searchMessage.style.display = "none";
-  filterContent("");
-});
-
-function filterContent(query) {
-  const data = JSON.parse(localStorage.getItem("musicData")) || musicData;
-  const albumItems = data.albums.filter(
-    (item) => query === "" || item.title.toLowerCase().includes(query) || item.artist.toLowerCase().includes(query)
-  );
-  const renderAlbumGrid = (grid, items, maxItems = items.length) =>
-    (grid.innerHTML = items
-      .slice(0, maxItems)
-      .map(
-        (item, index) => `
-          <div class="album-item" data-index="${index}">
-            <img src="${item.image}" alt="Album Cover">
-            <div class="album-info">
-              <div class="album-title">${item.title}</div>
-              <div class="album-artist">${item.artist}</div>
-            </div>
-          </div>
-        `
-      )
-      .join(""));
-  renderAlbumGrid(recentlyPlayedGrid, albumItems, 11);
-  renderAlbumGrid(featuredArtistsGrid, albumItems, 6);
-  renderAlbumGrid(featuredAlbumsGrid, albumItems, 7);
-
-  const chartItems = data.top15.filter(
-    (item) => query === "" || item.title.toLowerCase().includes(query) || item.artist.toLowerCase().includes(query)
-  );
-  chartsGrid.innerHTML = `
-    <div class="chart-column">
-      ${chartItems
-        .slice(0, 5)
-        .map(
-          (item, index) => `
-            <div class="chart-item" data-index="${index}">
-              <div class="chart-number">${(index + 1).toString().padStart(2, "0")}</div>
-              <div class="chart-thumbnail">
-                <img src="${item.image}" alt="Song Thumbnail">
-              </div>
-              <div class="chart-info">
-                <div class="chart-title">${item.title}</div>
-                <div class="chart-artist">${item.artist}</div>
-              </div>
-              <div class="chart-buttons">
-                <button><i class="fas fa-play"></i></button>
-              </div>
-            </div>
-          `
-        )
-        .join("")}
-    </div>
-    <div class="chart-column">
-      ${chartItems
-        .slice(5, 10)
-        .map(
-          (item, index) => `
-            <div class="chart-item" data-index="${index + 5}">
-              <div class="chart-number">${(index + 6).toString().padStart(2, "0")}</div>
-              <div class="chart-thumbnail">
-                <img src="${item.image}" alt="Song Thumbnail">
-              </div>
-              <div class="chart-info">
-                <div class="chart-title">${item.title}</div>
-                <div class="chart-artist">${item.artist}</div>
-              </div>
-              <div class="chart-buttons">
-                <button><i class="fas fa-play"></i></button>
-              </div>
-            </div>
-          `
-        )
-        .join("")}
-    </div>
-    <div class="chart-column">
-      ${chartItems
-        .slice(10, 15)
-        .map(
-          (item, index) => `
-            <div class="chart-item" data-index="${index + 10}">
-              <div class="chart-number">${(index + 11).toString().padStart(2, "0")}</div>
-              <div class="chart-thumbnail">
-                <img src="${item.image}" alt="Song Thumbnail">
-              </div>
-              <div class="chart-info">
-                <div class="chart-title">${item.title}</div>
-                <div class="chart-artist">${item.artist}</div>
-              </div>
-              <div class="chart-buttons">
-                <button><i class="fas fa-play"></i></button>
-              </div>
-            </div>
-          `
-        )
-        .join("")}
-    </div>
-  `;
-
-  searchMessage.style.display = (albumItems.length === 0 && chartItems.length === 0 && query !== "") ? "block" : "none";
-  searchMessage.textContent = query !== "" && (albumItems.length === 0 && chartItems.length === 0) ? "Không tìm thấy kết quả." : "";
-}
-
-// Chức năng xác thực người dùng
-function updateAuthButtons() {
-  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-  let loginBtn = document.querySelector(".login-btn");
-  const registerBtn = document.querySelector(".register-btn");
-
-  if (currentUser) {
-    if (registerBtn) registerBtn.style.display = "none";
-    if (loginBtn) {
-      loginBtn.textContent = "Log out";
-      loginBtn.classList.remove("login-btn");
-      loginBtn.classList.add("logout-btn");
-      const newLoginBtn = loginBtn.cloneNode(true);
-      loginBtn.parentNode.replaceChild(newLoginBtn, loginBtn);
-      newLoginBtn.addEventListener("click", () => {
-        Swal.fire({
-          title: "Are you sure?",
-          text: "You will be logged out of your account.",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonText: "Yes, log out",
-          cancelButtonText: "Cancel",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            localStorage.removeItem("currentUser");
-            Swal.fire("Logged out!", "You have been successfully logged out.", "success");
-            updateAuthButtons();
-            filterContent("");
-          }
-        });
-      });
-    }
-    const welcomeMessage = document.createElement("span");
-    welcomeMessage.className = "me-2";
-    welcomeMessage.textContent = `Chào, ${currentUser.fullName}`;
-    const authContainer = document.querySelector("header .d-flex.align-items-center > div:last-child");
-    if (authContainer && !authContainer.querySelector("span.me-2")) {
-      authContainer.insertBefore(welcomeMessage, authContainer.firstChild);
-    }
-  } else {
-    if (registerBtn) registerBtn.style.display = "inline-block";
-    loginBtn = document.querySelector(".logout-btn") || document.querySelector(".login-btn");
-    if (loginBtn && loginBtn.classList.contains("logout-btn")) {
-      loginBtn.textContent = "Login";
-      loginBtn.classList.remove("logout-btn");
-      loginBtn.classList.add("login-btn");
-      const newLoginBtn = loginBtn.cloneNode(true);
-      loginBtn.parentNode.replaceChild(newLoginBtn, loginBtn);
-      loginBtn = newLoginBtn;
-    }
-    if (loginBtn) {
-      loginBtn.addEventListener("click", () => {
-        if (modalLogin) {
-          modalLogin.classList.add("show");
-          modalLogin.style.display = "flex";
-          console.log("Modal đăng nhập được hiển thị");
-        } else {
-          console.error("Không tìm thấy modal đăng nhập!");
-          Swal.fire("Lỗi!", "Không tìm thấy modal đăng nhập. Vui lòng kiểm tra cấu trúc HTML.", "error");
-        }
-      });
-    } else {
-      console.error("Không tìm thấy nút đăng nhập!");
-    }
-    const welcomeMessage = document.querySelector("header .d-flex.align-items-center span.me-2");
-    if (welcomeMessage) welcomeMessage.remove();
-  }
-
-  const newRegisterBtn = document.querySelector(".register-btn");
-  if (newRegisterBtn) {
-    newRegisterBtn.addEventListener("click", () => {
-      if (modalRegister) {
-        modalRegister.classList.add("show");
-        modalRegister.style.display = "flex";
-        console.log("Modal đăng ký được hiển thị");
-      } else {
-        console.error("Không tìm thấy modal đăng ký!");
-        Swal.fire("Lỗi!", "Không tìm thấy modal đăng ký. Vui lòng kiểm tra cấu trúc HTML.", "error");
-      }
-    });
-  }
-}
-
-// Xử lý modal đăng nhập
-if (modalLogin) {
-  modalLogin.addEventListener("click", (e) => {
-    if (e.target === modalLogin) {
-      modalLogin.classList.remove("show");
-      modalLogin.style.display = "none";
-    }
-  });
-} else {
-  console.error("Không tìm thấy phần tử modal đăng nhập!");
-}
-
-// Xử ly gửi form đăng nhập
-if (loginForm) {
-  loginForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value.trim();
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!emailRegex.test(email)) {
-      Swal.fire("Lỗi!", "Vui lòng nhập địa chỉ email hợp lệ.", "error");
-      return;
-    }
-    if (!password) {
-      Swal.fire("Lỗi!", "Vui lòng nhập mật khẩu.", "error");
-      return;
-    }
-
-    const accounts = JSON.parse(localStorage.getItem("accounts")) || [];
-    const user = accounts.find((account) => account.email === email && account.password === password);
-
-    if (user) {
-      localStorage.setItem("currentUser", JSON.stringify(user));
-      Swal.fire("Thành công!", "Đăng nhập thành công.", "success").then(() => {
-        modalLogin.classList.remove("show");
-        modalLogin.style.display = "none";
-        loginForm.reset();
-        updateAuthButtons();
-        if (user.role === "Admin") {
-          window.location.href = "Admin-page.html";
-        }
-      });
-    } else {
-      Swal.fire("Lỗi!", "Email hoặc mật khẩu không đúng.", "error");
-    }
-  });
-}
-
-// Xử lý liên kết quên mật khẩu
-if (forgotPasswordLink) {
-  forgotPasswordLink.addEventListener("click", (e) => {
-    e.preventDefault();
-    Swal.fire({
-      title: "Quên mật khẩu",
-      text: "Vui lòng liên hệ hỗ trợ tại shadowsgamer371@gmail.com để đặt lại mật khẩu.",
-      icon: "info",
-    });
-  });
-}
-
-// Chuyển sang modal đăng ký từ modal đăng nhập
-if (registerLink) {
-  registerLink.addEventListener("click", (e) => {
-    e.preventDefault();
-    modalLogin.classList.remove("show");
-    modalLogin.style.display = "none";
-    if (modalRegister) {
-      modalRegister.classList.add("show");
-      modalRegister.style.display = "flex";
-    }
-  });
-}
-
-// Xử lý modal đăng ký
-if (modalRegister) {
-  modalRegister.addEventListener("click", (e) => {
-    if (e.target === modalRegister) {
-      modalRegister.classList.remove("show");
-      modalRegister.style.display = "none";
-    }
-  });
-}
-
-// Xử lý gửi form đăng ký
-if (registerForm) {
-  registerForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const name = document.getElementById("name").value.trim();
-    const email = document.getElementById("email1").value.trim();
-    const password1 = document.getElementById("password1").value.trim();
-    const password2 = document.getElementById("password2").value.trim();
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
-    if (!name || !email || !password1 || !password2) {
-      Swal.fire("Lỗi!", "Vui lòng điền đầy đủ tất cả các trường.", "error");
-      return;
-    }
-    if (!emailRegex.test(email)) {
-      Swal.fire("Lỗi!", "Vui lòng nhập địa chỉ email hợp lệ.", "error");
-      return;
-    }
-    if (!passwordRegex.test(password1)) {
-      Swal.fire(
-        "Lỗi!",
-        "Mật khẩu phải dài ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt.",
-        "error"
-      );
-      return;
-    }
-    if (password1 !== password2) {
-      Swal.fire("Lỗi!", "Mật khẩu không khớp.", "error");
-      return;
-    }
-
-    const accounts = JSON.parse(localStorage.getItem("accounts")) || [];
-    if (accounts.some((account) => account.email === email)) {
-      Swal.fire("Lỗi!", "Email này đã được đăng ký.", "error");
-      return;
-    }
-
-    const newAccount = {
-      accountId: `TK${Math.floor(Math.random() * 1000000).toString().padStart(6, "0")}`,
-      fullName: name,
-      email,
-      password: password1,
-      dob: "",
-      phone: "",
-      hometown: "",
-      role: "Users",
-    };
-
-    accounts.push(newAccount);
-    localStorage.setItem("accounts", JSON.stringify(accounts));
-    localStorage.setItem("currentUser", JSON.stringify(newAccount));
-
-    Swal.fire("Thành công!", "Đăng ký thành công. Bạn đã được đăng nhập.", "success").then(() => {
-      modalRegister.classList.remove("show");
-      modalRegister.style.display = "none";
-      registerForm.reset();
-      updateAuthButtons();
-    });
-  });
-}
-
-// Chuyển sang modal đăng nhập từ modal đăng ký
-if (loginLink) {
-  loginLink.addEventListener("click", (e) => {
-    e.preventDefault();
-    modalRegister.classList.remove("show");
-    modalRegister.style.display = "none";
-    if (modalLogin) {
-      modalLogin.classList.add("show");
-      modalLogin.style.display = "flex";
-    }
-  });
-}
-
-// Chức năng thanh bên
-let isSidebarExpanded = false;
-
-if (chevronBtn) {
-  chevronBtn.addEventListener("click", () => {
-    isSidebarExpanded = !isSidebarExpanded;
-    if (isSidebarExpanded) {
-      sidebar.classList.add("expanded");
-      mainContent.classList.add("expanded");
-      header.classList.add("expanded");
-      chevronBtn
-        .querySelector("i")
-        .classList.replace("fa-chevron-right", "fa-chevron-left");
-    } else {
-      sidebar.classList.remove("expanded");
-      mainContent.classList.remove("expanded");
-      header.classList.remove("expanded");
-      chevronBtn
-        .querySelector("i")
-        .classList.replace("fa-chevron-left", "fa-chevron-right");
-    }
-  });
-}
-
-const links = document.querySelectorAll(".sidebar a");
-const currentPage = window.location.pathname.split("/").pop();
-links.forEach((link) => {
-  const linkPage = link.getAttribute("href");
-  if (linkPage === currentPage) {
-    link.classList.add("active");
-  }
-});
-
-// Chức năng trình phát âm thanh
-document.addEventListener("DOMContentLoaded", function () {
-  let musicData = JSON.parse(localStorage.getItem("musicData")) || {
-    played: [],
-    top15: [],
-    artist: [],
-    releases: [],
-    albums: [],
-  };
+document.addEventListener("DOMContentLoaded", () => {
+  // Chọn các phần tử DOM
+  const searchInput = document.querySelector(".search-input");
+  const searchBtn = document.querySelector(".search-btn");
+  const clearBtn = document.querySelector(".clear-btn");
+  const searchMessage = document.querySelector(".search-message");
+  const recentlyPlayedGrid = document.querySelector(".recently-played .album-grid");
+  const chartsGrid = document.querySelector(".charts-section .charts-grid");
+  const releasesContainer = document.querySelector(".releases");
+  const featuredArtistsGrid = document.querySelector(".featured-artists .album-grid");
+  const featuredAlbumsGrid = document.querySelector(".featured-albums .album-grid");
+  const sidebar = document.querySelector(".sidebar");
+  const chevronBtn = document.querySelector(".sidebar-chevorn a");
+  const mainContent = document.querySelector(".container");
+  const header = document.querySelector("header");
+  const modalLogin = document.querySelector(".modalLogin");
+  const loginForm = document.querySelector(".formLogin");
+  const forgotPasswordLink = document.querySelector(".forgot-password");
+  const registerLink = document.querySelector(".formLogin .register-link");
+  const modalRegister = document.querySelector(".modalRegister");
+  const registerForm = document.querySelector(".formRegister");
+  const loginLink = document.querySelector(".formRegister .login-link");
   const audioPlayer = document.getElementById("audio-player");
   const playBtn = document.querySelector(".play-btn");
   const skipBackwardBtn = document.querySelector(".skip-backward-btn");
@@ -525,13 +124,453 @@ document.addEventListener("DOMContentLoaded", function () {
   const playerAlbumImg = document.querySelector(".player-album-img img");
   const playerSongTitle = document.querySelector(".player-song-info h6");
   const playerSongArtist = document.querySelector(".player-song-info p");
+
+  // Khởi tạo trạng thái trình phát
   let isPlaying = false;
   let isMuted = false;
   let currentSongIndex = -1;
-  let currentPlaylist = musicData.albums; // Default playlist
-  let playlistType = "albums"; // Track playlist type: "albums" or "top15"
+  let currentPlaylist = musicData.albums;
+  let playlistType = "albums";
 
-  // Hàm phát bài hát
+  // Chức năng tìm kiếm
+  if (searchInput && clearBtn && searchMessage && searchBtn) {
+    searchInput.addEventListener("input", () => {
+      clearBtn.style.display = searchInput.value ? "block" : "none";
+    });
+
+    searchBtn.addEventListener("click", () => {
+      const query = searchInput.value.toLowerCase().trim();
+      filterContent(query);
+    });
+
+    clearBtn.addEventListener("click", () => {
+      searchInput.value = "";
+      clearBtn.style.display = "none";
+      searchMessage.style.display = "none";
+      filterContent("");
+    });
+  }
+
+  function filterContent(query) {
+    const data = JSON.parse(localStorage.getItem("musicData")) || musicData;
+    const albumItems = data.albums.filter(
+      (item) =>
+        query === "" ||
+        item.title.toLowerCase().includes(query) ||
+        item.artist.toLowerCase().includes(query)
+    );
+    const renderAlbumGrid = (grid, items, maxItems = items.length) => {
+      if (grid) {
+        grid.innerHTML = items
+          .slice(0, maxItems)
+          .map(
+            (item, index) => `
+              <div class="album-item" data-index="${index}">
+                <img src="${item.image}" alt="Album Cover">
+                <div class="album-info">
+                  <div class="album-title">${item.title}</div>
+                  <div class="album-artist">${item.artist}</div>
+                </div>
+              </div>
+            `
+          )
+          .join("");
+      }
+    };
+
+    renderAlbumGrid(recentlyPlayedGrid, albumItems, 11);
+    renderAlbumGrid(featuredArtistsGrid, albumItems, 6);
+    renderAlbumGrid(featuredAlbumsGrid, albumItems, 7);
+
+    const chartItems = data.top15.filter(
+      (item) =>
+        query === "" ||
+        item.title.toLowerCase().includes(query) ||
+        item.artist.toLowerCase().includes(query)
+    );
+    if (chartsGrid) {
+      chartsGrid.innerHTML = `
+        <div class="chart-column">
+          ${chartItems
+            .slice(0, 5)
+            .map(
+              (item, index) => `
+                <div class="chart-item" data-index="${index}">
+                  <div class="chart-number">${(index + 1)
+                    .toString()
+                    .padStart(2, "0")}</div>
+                  <div class="chart-thumbnail">
+                    <img src="${item.image}" alt="Song Thumbnail">
+                  </div>
+                  <div class="chart-info">
+                    <div class="chart-title">${item.title}</div>
+                    <div class="chart-artist">${item.artist}</div>
+                  </div>
+                  <div class="chart-buttons">
+                    <button><i class="fas fa-play"></i></button>
+                  </div>
+                </div>
+              `
+            )
+            .join("")}
+        </div>
+        <div class="chart-column">
+          ${chartItems
+            .slice(5, 10)
+            .map(
+              (item, index) => `
+                <div class="chart-item" data-index="${index + 5}">
+                  <div class="chart-number">${(index + 6)
+                    .toString()
+                    .padStart(2, "0")}</div>
+                  <div class="chart-thumbnail">
+                    <img src="${item.image}" alt="Song Thumbnail">
+                  </div>
+                  <div class="chart-info">
+                    <div class="chart-title">${item.title}</div>
+                    <div class="chart-artist">${item.artist}</div>
+                  </div>
+                  <div class="chart-buttons">
+                    <button><i class="fas fa-play"></i></button>
+                  </div>
+                </div>
+              `
+            )
+            .join("")}
+        </div>
+        <div class="chart-column">
+          ${chartItems
+            .slice(10, 15)
+            .map(
+              (item, index) => `
+                <div class="chart-item" data-index="${index + 10}">
+                  <div class="chart-number">${(index + 11)
+                    .toString()
+                    .padStart(2, "0")}</div>
+                  <div class="chart-thumbnail">
+                    <img src="${item.image}" alt="Song Thumbnail">
+                  </div>
+                  <div class="chart-info">
+                    <div class="chart-title">${item.title}</div>
+                    <div class="chart-artist">${item.artist}</div>
+                  </div>
+                  <div class="chart-buttons">
+                    <button><i class="fas fa-play"></i></button>
+                  </div>
+                </div>
+              `
+            )
+            .join("")}
+        </div>
+      `;
+    }
+
+    if (searchMessage) {
+      searchMessage.style.display =
+        albumItems.length === 0 && chartItems.length === 0 && query !== ""
+          ? "block"
+          : "none";
+      searchMessage.textContent =
+        query !== "" && (albumItems.length === 0 && chartItems.length === 0)
+          ? "Không tìm thấy kết quả."
+          : "";
+    }
+  }
+
+  // Chức năng xác thực người dùng
+  function updateAuthButtons() {
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    let loginBtn = document.querySelector(".login-btn");
+    const registerBtn = document.querySelector(".register-btn");
+
+    if (currentUser) {
+      if (registerBtn) registerBtn.style.display = "none";
+      if (loginBtn) {
+        loginBtn.textContent = "Log out";
+        loginBtn.classList.remove("login-btn");
+        loginBtn.classList.add("logout-btn");
+        const newLoginBtn = loginBtn.cloneNode(true);
+        loginBtn.parentNode.replaceChild(newLoginBtn, loginBtn);
+        newLoginBtn.addEventListener("click", () => {
+          Swal.fire({
+            title: "Are you sure?",
+            text: "You will be logged out of your account.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, log out",
+            cancelButtonText: "Cancel",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              localStorage.removeItem("currentUser");
+              Swal.fire(
+                "Logged out!",
+                "You have been successfully logged out.",
+                "success"
+              );
+              updateAuthButtons();
+              filterContent("");
+            }
+          });
+        });
+      }
+      const welcomeMessage = document.createElement("span");
+      welcomeMessage.className = "me-2";
+      welcomeMessage.textContent = `Chào, ${currentUser.fullName}`;
+      const authContainer = document.querySelector(
+        "header .d-flex.align-items-center > div:last-child"
+      );
+      if (authContainer && !authContainer.querySelector("span.me-2")) {
+        authContainer.insertBefore(welcomeMessage, authContainer.firstChild);
+      }
+    } else {
+      if (registerBtn) registerBtn.style.display = "inline-block";
+      loginBtn =
+        document.querySelector(".logout-btn") ||
+        document.querySelector(".login-btn");
+      if (loginBtn && loginBtn.classList.contains("logout-btn")) {
+        loginBtn.textContent = "Login";
+        loginBtn.classList.remove("logout-btn");
+        loginBtn.classList.add("login-btn");
+        const newLoginBtn = loginBtn.cloneNode(true);
+        loginBtn.parentNode.replaceChild(newLoginBtn, loginBtn);
+        loginBtn = newLoginBtn;
+      }
+      if (loginBtn) {
+        loginBtn.addEventListener("click", () => {
+          if (modalLogin) {
+            modalLogin.classList.add("show");
+            modalLogin.style.display = "flex";
+          } else {
+            Swal.fire(
+              "Lỗi!",
+              "Không tìm thấy modal đăng nhập. Vui lòng kiểm tra cấu trúc HTML.",
+              "error"
+            );
+          }
+        });
+      }
+      const welcomeMessage = document.querySelector(
+        "header .d-flex.align-items-center span.me-2"
+      );
+      if (welcomeMessage) welcomeMessage.remove();
+    }
+
+    const newRegisterBtn = document.querySelector(".register-btn");
+    if (newRegisterBtn) {
+      newRegisterBtn.addEventListener("click", () => {
+        if (modalRegister) {
+          modalRegister.classList.add("show");
+          modalRegister.style.display = "flex";
+        } else {
+          Swal.fire(
+            "Lỗi!",
+            "Không tìm thấy modal đăng ký. Vui lòng kiểm tra cấu trúc HTML.",
+            "error"
+          );
+        }
+      });
+    }
+  }
+
+  // Xử lý modal đăng nhập
+  if (modalLogin) {
+    modalLogin.addEventListener("click", (e) => {
+      if (e.target === modalLogin) {
+        modalLogin.classList.remove("show");
+        modalLogin.style.display = "none";
+      }
+    });
+  }
+
+  // Xử lý gửi form đăng nhập
+  if (loginForm) {
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email")?.value.trim();
+      const password = document.getElementById("password")?.value.trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!emailRegex.test(email)) {
+        Swal.fire("Lỗi!", "Vui lòng nhập địa chỉ email hợp lệ.", "error");
+        return;
+      }
+      if (!password) {
+        Swal.fire("Lỗi!", "Vui lòng nhập mật khẩu.", "error");
+        return;
+      }
+
+      const accounts = JSON.parse(localStorage.getItem("accounts")) || [];
+      const user = accounts.find(
+        (account) => account.email === email && account.password === password
+      );
+
+      if (user) {
+        localStorage.setItem("currentUser", JSON.stringify(user));
+        Swal.fire("Thành công!", "Đăng nhập thành công.", "success").then(() => {
+          modalLogin.classList.remove("show");
+          modalLogin.style.display = "none";
+          loginForm.reset();
+          updateAuthButtons();
+          if (user.role === "Admin") {
+            window.location.href = "Admin-page.html";
+          }
+        });
+      } else {
+        Swal.fire("Lỗi!", "Email hoặc mật khẩu không đúng.", "error");
+      }
+    });
+  }
+
+  // Xử lý liên kết quên mật khẩu
+  if (forgotPasswordLink) {
+    forgotPasswordLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      Swal.fire({
+        title: "Quên mật khẩu",
+        text: "Vui lòng liên hệ hỗ trợ tại shadowsgamer371@gmail.com để đặt lại mật khẩu.",
+        icon: "info",
+      });
+    });
+  }
+
+  // Chuyển sang modal đăng ký từ modal đăng nhập
+  if (registerLink) {
+    registerLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      modalLogin.classList.remove("show");
+      modalLogin.style.display = "none";
+      if (modalRegister) {
+        modalRegister.classList.add("show");
+        modalRegister.style.display = "flex";
+      }
+    });
+  }
+
+  // Xử lý modal đăng ký
+  if (modalRegister) {
+    modalRegister.addEventListener("click", (e) => {
+      if (e.target === modalRegister) {
+        modalRegister.classList.remove("show");
+        modalRegister.style.display = "none";
+      }
+    });
+  }
+
+  // Xử lý gửi form đăng ký
+  if (registerForm) {
+    registerForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = document.getElementById("name")?.value.trim();
+      const email = document.getElementById("email1")?.value.trim();
+      const password1 = document.getElementById("password1")?.value.trim();
+      const password2 = document.getElementById("password2")?.value.trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const passwordRegex =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+      if (!name || !email || !password1 || !password2) {
+        Swal.fire("Lỗi!", "Vui lòng điền đầy đủ tất cả các trường.", "error");
+        return;
+      }
+      if (!emailRegex.test(email)) {
+        Swal.fire("Lỗi!", "Vui lòng nhập địa chỉ email hợp lệ.", "error");
+        return;
+      }
+      if (!passwordRegex.test(password1)) {
+        Swal.fire(
+          "Lỗi!",
+          "Mật khẩu phải dài ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt.",
+          "error"
+        );
+        return;
+      }
+      if (password1 !== password2) {
+        Swal.fire("Lỗi!", "Mật khẩu không khớp.", "error");
+        return;
+      }
+
+      const accounts = JSON.parse(localStorage.getItem("accounts")) || [];
+      if (accounts.some((account) => account.email === email)) {
+        Swal.fire("Lỗi!", "Email này đã được đăng ký.", "error");
+        return;
+      }
+
+      const newAccount = {
+        accountId: `TK${Math.floor(Math.random() * 1000000)
+          .toString()
+          .padStart(6, "0")}`,
+        fullName: name,
+        email,
+        password: password1,
+        dob: "",
+        phone: "",
+        hometown: "",
+        role: "Users",
+      };
+
+      accounts.push(newAccount);
+      localStorage.setItem("accounts", JSON.stringify(accounts));
+      localStorage.setItem("currentUser", JSON.stringify(newAccount));
+
+      Swal.fire(
+        "Thành công!",
+        "Đăng ký thành công. Bạn đã được đăng nhập.",
+        "success"
+      ).then(() => {
+        modalRegister.classList.remove("show");
+        modalRegister.style.display = "none";
+        registerForm.reset();
+        updateAuthButtons();
+      });
+    });
+  }
+
+  // Chuyển sang modal đăng nhập từ modal đăng ký
+  if (loginLink) {
+    loginLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      modalRegister.classList.remove("show");
+      modalRegister.style.display = "none";
+      if (modalLogin) {
+        modalLogin.classList.add("show");
+        modalLogin.style.display = "flex";
+      }
+    });
+  }
+
+  // Chức năng thanh bên
+  let isSidebarExpanded = false;
+  if (chevronBtn && sidebar && mainContent && header) {
+    chevronBtn.addEventListener("click", () => {
+      isSidebarExpanded = !isSidebarExpanded;
+      if (isSidebarExpanded) {
+        sidebar.classList.add("expanded");
+        mainContent.classList.add("expanded");
+        header.classList.add("expanded");
+        chevronBtn
+          .querySelector("i")
+          .classList.replace("fa-chevron-right", "fa-chevron-left");
+      } else {
+        sidebar.classList.remove("expanded");
+        mainContent.classList.remove("expanded");
+        header.classList.remove("expanded");
+        chevronBtn
+          .querySelector("i")
+          .classList.replace("fa-chevron-left", "fa-chevron-right");
+      }
+    });
+  }
+
+  const links = document.querySelectorAll(".sidebar a");
+  const currentPage = window.location.pathname.split("/").pop();
+  links.forEach((link) => {
+    const linkPage = link.getAttribute("href");
+    if (linkPage === currentPage) {
+      link.classList.add("active");
+    }
+  });
+
+  // Chức năng trình phát âm thanh
   async function playSong(song, index, playlist, type) {
     if (!song || !song.mp3 || !song.image || !song.title || !song.artist) {
       console.error("Dữ liệu bài hát không hợp lệ:", song);
@@ -541,97 +580,120 @@ document.addEventListener("DOMContentLoaded", function () {
     currentSongIndex = index;
     currentPlaylist = playlist;
     playlistType = type;
-    playerAlbumImg.src = song.image;
-    playerSongTitle.textContent = song.title;
-    playerSongArtist.textContent = song.artist;
-    audioPlayer.src = song.mp3;
+    if (playerAlbumImg && playerSongTitle && playerSongArtist && audioPlayer) {
+      playerAlbumImg.src = song.image;
+      playerSongTitle.textContent = song.title;
+      playerSongArtist.textContent = song.artist;
+      audioPlayer.src = song.mp3;
 
-    audioPlayer.play().then(() => {
-      isPlaying = true;
-      playBtn.querySelector("i").classList.replace("bi-play-fill", "bi-pause-fill");
-    }).catch((error) => {
-      console.error("Lỗi khi phát bài hát:", error);
-      Swal.fire("Lỗi!", "Không thể phát bài hát. Có thể do định dạng không được hỗ trợ hoặc lỗi mạng.", "error");
+      audioPlayer.play().then(() => {
+        isPlaying = true;
+        if (playBtn) {
+          playBtn.querySelector("i").classList.replace("bi-play-fill", "bi-pause-fill");
+        }
+      }).catch((error) => {
+        console.error("Lỗi khi phát bài hát:", error);
+        let errorMessage = "Không thể phát bài hát. Vui lòng kiểm tra kết nối mạng hoặc thử lại.";
+        if (error.name === "NotAllowedError") {
+          errorMessage = "Trình duyệt không cho phép tự động phát âm thanh. Vui lòng nhấp vào nút phát.";
+        } else if (error.name === "NotSupportedError") {
+          errorMessage = "Định dạng file âm thanh không được hỗ trợ.";
+        }
+        Swal.fire("Lỗi!", errorMessage, "error");
+      });
+    }
+  }
+
+  if (playBtn) {
+    playBtn.addEventListener("click", () => {
+      if (isPlaying) {
+        audioPlayer.pause();
+        isPlaying = false;
+        playBtn.querySelector("i").classList.replace("bi-pause-fill", "bi-play-fill");
+      } else {
+        audioPlayer.play().then(() => {
+          isPlaying = true;
+          playBtn.querySelector("i").classList.replace("bi-play-fill", "bi-pause-fill");
+        }).catch((error) => {
+          console.error("Lỗi khi phát bài hát:", error);
+          Swal.fire("Lỗi!", "Bạn chưa chọn bài hát. Vui lòng thử lại.", "error");
+        });
+      }
     });
   }
 
-  // Xử lý nút phát/tạm dừng
-  playBtn.addEventListener("click", () => {
-    if (isPlaying) {
-      audioPlayer.pause();
-      isPlaying = false;
-      playBtn.querySelector("i").classList.replace("bi-pause-fill", "bi-play-fill");
-    } else {
-      audioPlayer.play().then(() => {
-        isPlaying = true;
-        playBtn.querySelector("i").classList.replace("bi-play-fill", "bi-pause-fill");
-      }).catch((error) => {
-        console.error("Lỗi khi phát bài hát:", error);
-        Swal.fire("Lỗi!", "Bạn chưa chọn bài hát. Vui lòng thử lại.", "error");
-      });
-    }
-  });
-
-  // Xử lý nút skip bài trước
-  skipBackwardBtn.addEventListener("click", () => {
-    if (currentSongIndex > 0) {
-      playSong(currentPlaylist[currentSongIndex - 1], currentSongIndex - 1, currentPlaylist, playlistType);
-    } else {
-      Swal.fire("Thông báo", "Đây là bài hát đầu tiên trong danh sách.", "info");
-    }
-  });
-
-  // Xử lý nút skip bài sau
-  skipForwardBtn.addEventListener("click", () => {
-    if (currentSongIndex < currentPlaylist.length - 1) {
-      playSong(currentPlaylist[currentSongIndex + 1], currentSongIndex + 1, currentPlaylist, playlistType);
-    } else {
-      Swal.fire("Thông báo", "Đây là bài hát cuối cùng trong danh sách.", "info");
-    }
-  });
-
-  // Xử lý nút tắt/bật âm lượng
-  muteBtn.addEventListener("click", () => {
-    isMuted = !isMuted;
-    audioPlayer.muted = isMuted;
-    muteBtn.querySelector("i").classList.toggle("bi-volume-up-fill", !isMuted);
-    muteBtn.querySelector("i").classList.toggle("bi-volume-mute-fill", isMuted);
-  });
-
-
-
-
-
-
-  
-  const chartsContainer = document.querySelector('.charts-section');
-if (chartsContainer) {
-  chartsContainer.addEventListener('click', async (e) => {
-    const chartItem = e.target.closest('.chart-item');
-    if (chartItem) {
-      const indexAttr = chartItem.getAttribute('data-index');
-      const index = indexAttr !== null ? parseInt(indexAttr, 10) : -1;
-
-      if (!Number.isInteger(index) || index < 0 || index >= musicData.top15.length) {
-        console.error("Chỉ số bài hát không hợp lệ hoặc bị thiếu data-index:", index, chartItem);
-        Swal.fire("Lỗi!", "Không tìm thấy bài hát trong bảng xếp hạng.", "error");
-        return;
-      }
-
-      const song = musicData.top15[index];
-      console.log('Nhấp vào mục bảng xếp hạng:', index, song);
-
-      if (song) {
-        playSong(song, index, musicData.top15, "top15");
+  if (skipBackwardBtn) {
+    skipBackwardBtn.addEventListener("click", () => {
+      if (currentSongIndex > 0) {
+        playSong(
+          currentPlaylist[currentSongIndex - 1],
+          currentSongIndex - 1,
+          currentPlaylist,
+          playlistType
+        );
       } else {
-        console.error("Không tìm thấy bài hát tại chỉ số:", index);
-        Swal.fire("Lỗi!", "Không tìm thấy bài hát trong bảng xếp hạng.", "error");
+        Swal.fire("Thông báo", "Đây là bài hát đầu tiên trong danh sách.", "info");
       }
-    }
-  });
-}
+    });
+  }
 
-  // Xử lý nhấp vào album
+  if (skipForwardBtn) {
+    skipForwardBtn.addEventListener("click", () => {
+      if (currentSongIndex < currentPlaylist.length - 1) {
+        playSong(
+          currentPlaylist[currentSongIndex + 1],
+          currentSongIndex + 1,
+          currentPlaylist,
+          playlistType
+        );
+      } else {
+        Swal.fire("Thông báo", "Đây là bài hát cuối cùng trong danh sách.", "info");
+      }
+    });
+  }
+
+  if (muteBtn) {
+    muteBtn.addEventListener("click", () => {
+      isMuted = !isMuted;
+      audioPlayer.muted = isMuted;
+      muteBtn.querySelector("i").classList.toggle("bi-volume-up-fill", !isMuted);
+      muteBtn.querySelector("i").classList.toggle("bi-volume-mute-fill", isMuted);
+    });
+  }
+
+  const chartsContainer = document.querySelector(".charts-section");
+  if (chartsContainer) {
+    chartsContainer.addEventListener("click", async (e) => {
+      const chartItem = e.target.closest(".chart-item");
+      if (chartItem) {
+        const indexAttr = chartItem.getAttribute("data-index");
+        const index = indexAttr !== null ? parseInt(indexAttr, 10) : -1;
+
+        if (
+          !Number.isInteger(index) ||
+          index < 0 ||
+          index >= musicData.top15.length
+        ) {
+          console.error(
+            "Chỉ số bài hát không hợp lệ hoặc bị thiếu data-index:",
+            index,
+            chartItem
+          );
+          Swal.fire("Lỗi!", "Không tìm thấy bài hát trong bảng xếp hạng.", "error");
+          return;
+        }
+
+        const song = musicData.top15[index];
+        if (song) {
+          playSong(song, index, musicData.top15, "top15");
+        } else {
+          console.error("Không tìm thấy bài hát tại chỉ số:", index);
+          Swal.fire("Lỗi!", "Không tìm thấy bài hát trong bảng xếp hạng.", "error");
+        }
+      }
+    });
+  }
+
   ["recently-played", "featured-artists", "featured-albums"].forEach((section) => {
     const container = document.querySelector(`.${section} .album-grid`);
     if (container) {
@@ -639,13 +701,16 @@ if (chartsContainer) {
         const albumItem = e.target.closest(".album-item");
         if (albumItem) {
           const index = parseInt(albumItem.dataset.index, 10);
-          if (isNaN(index) || index < 0 || index >= musicData.albums.length) {
+          if (
+            isNaN(index) ||
+            index < 0 ||
+            index >= musicData.albums.length
+          ) {
             console.error("Chỉ số album không hợp lệ:", index);
             Swal.fire("Lỗi!", "Không tìm thấy bài hát trong album.", "error");
             return;
           }
           const song = musicData.albums[index];
-          console.log("Nhấp vào mục album:", index, song);
           if (song) {
             playSong(song, index, musicData.albums, "albums");
           } else {
@@ -657,73 +722,46 @@ if (chartsContainer) {
     }
   });
 
-  // Kiểm tra dữ liệu musicData ban đầu
-  console.log("musicData khởi tạo:", musicData);
+  // Chức năng carousel
+  const setupCarousel = (section) => {
+    const grid = document.querySelector(`.${section} .album-grid`);
+    const prevBtn = document.querySelector(
+      `.${section} .carousel-controls button:first-child`
+    );
+    const nextBtn = document.querySelector(
+      `.${section} .carousel-controls button:last-child`
+    );
+
+    if (grid && prevBtn && nextBtn) {
+      let index = 0;
+      const totalItems = grid.children.length;
+
+      const getVisibleItems = () => {
+        const gridWidth = grid.offsetWidth;
+        const itemWidth = grid.children[0]?.offsetWidth || 1;
+        return Math.floor(gridWidth / itemWidth);
+      };
+
+      nextBtn.addEventListener("click", () => {
+        const visibleItems = getVisibleItems();
+        if (index < totalItems - visibleItems) {
+          index++;
+          grid.style.transform = `translateX(-${index * (100 / visibleItems)}%)`;
+        }
+      });
+
+      prevBtn.addEventListener("click", () => {
+        if (index > 0) {
+          index--;
+          grid.style.transform = `translateX(-${index * (100 / getVisibleItems())}%)`;
+        }
+      });
+    }
+  };
+
+  ["recently-played", "featured-artists", "featured-albums"].forEach(setupCarousel);
+
+  // Khởi tạo giao diện
+  updateAuthButtons();
+  filterContent("");
 });
-
-// Chức năng carousel
-document.addEventListener('DOMContentLoaded', () => {
-  const recentlyPlayedGrid = document.querySelector('.recently-played .album-grid');
-  const recentlyPlayedPrev = document.querySelector('.recently-played .carousel-controls button:first-child');
-  const recentlyPlayedNext = document.querySelector('.recently-played .carousel-controls button:last-child');
-  let recentlyPlayedIndex = 0;
-  const totalRecentlyPlayedItems = recentlyPlayedGrid.children.length;
-
-  recentlyPlayedNext.addEventListener('click', () => {
-    if (recentlyPlayedIndex < totalRecentlyPlayedItems - 6) {
-      recentlyPlayedIndex++;
-      recentlyPlayedGrid.style.transform = `translateX(-${recentlyPlayedIndex * (100 / 6)}%)`;
-    }
-  });
-
-  recentlyPlayedPrev.addEventListener('click', () => {
-    if (recentlyPlayedIndex > 0) {
-      recentlyPlayedIndex--;
-      recentlyPlayedGrid.style.transform = `translateX(-${recentlyPlayedIndex * (100 / 6)}%)`;
-    }
-  });
-
-  const featuredArtistsGrid = document.querySelector('.featured-artists .album-grid');
-  const featuredArtistsPrev = document.querySelector('.featured-artists .carousel-controls button:first-child');
-  const featuredArtistsNext = document.querySelector('.featured-artists .carousel-controls button:last-child');
-  let featuredArtistsIndex = 0;
-  const totalFeaturedArtistsItems = featuredArtistsGrid.children.length;
-
-  featuredArtistsNext.addEventListener('click', () => {
-    if (featuredArtistsIndex < totalFeaturedArtistsItems - 6) {
-      featuredArtistsIndex++;
-      featuredArtistsGrid.style.transform = `translateX(-${featuredArtistsIndex * (100 / 6)}%)`;
-    }
-  });
-
-  featuredArtistsPrev.addEventListener('click', () => {
-    if (featuredArtistsIndex > 0) {
-      featuredArtistsIndex--;
-      featuredArtistsGrid.style.transform = `translateX(-${featuredArtistsIndex * (100 / 6)}%)`;
-    }
-  });
-
-  const featuredAlbumsGrid = document.querySelector('.featured-albums .album-grid');
-  const featuredAlbumsPrev = document.querySelector('.featured-albums .carousel-controls button:first-child');
-  const featuredAlbumsNext = document.querySelector('.featured-albums .carousel-controls button:last-child');
-  let featuredAlbumsIndex = 0;
-  const totalFeaturedAlbumsItems = featuredAlbumsGrid.children.length;
-
-  featuredAlbumsNext.addEventListener('click', () => {
-    if (featuredAlbumsIndex < totalFeaturedAlbumsItems - 6) {
-      featuredAlbumsIndex++;
-      featuredAlbumsGrid.style.transform = `translateX(-${featuredAlbumsIndex * (100 / 6)}%)`;
-    }
-  });
-
-  featuredAlbumsPrev.addEventListener('click', () => {
-    if (featuredAlbumsIndex > 0) {
-      featuredAlbumsIndex--;
-      featuredAlbumsGrid.style.transform = `translateX(-${featuredAlbumsIndex * (100 / 6)}%)`;
-    }
-  });
-});
-
-// Khởi tạo giao diện
-updateAuthButtons();
-filterContent("");

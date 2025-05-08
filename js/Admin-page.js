@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
       hometown: account.hometown || "",
       role: ["Users", "Artists", "Admin"].includes(account.role) ? account.role : "Users",
       password: account.password || "",
+      avatar: account.img || "",
     }));
     localStorage.setItem("accounts", JSON.stringify(normalized));
     return normalized;
@@ -134,7 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Previous button
     const prevItem = document.createElement("li");
     prevItem.className = `page-item ${currentPage === 1 ? "disabled" : ""}`;
-    prevItem.innerHTML = `<a class="page-link" href="#" aria-label="Previous">Previous</a>`;
+    prevItem.innerHTML = `<a class="page-link" href="#" aria-label="Previous"><i class="bi bi-chevron-left"></i></a>`;
     prevItem.addEventListener("click", (e) => {
       e.preventDefault();
       if (currentPage > 1) {
@@ -201,7 +202,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Next button
     const nextItem = document.createElement("li");
     nextItem.className = `page-item ${currentPage === totalPages ? "disabled" : ""}`;
-    nextItem.innerHTML = `<a class="page-link" href="#" aria-label="Next">Next</a>`;
+    nextItem.innerHTML = `<a class="page-link" href="#" aria-label="Next"><i class="bi bi-chevron-right"></i></a>`;
     nextItem.addEventListener("click", (e) => {
       e.preventDefault();
       if (currentPage < totalPages) {

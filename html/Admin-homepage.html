@@ -3,10 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Albums</title>
-    <link rel="icon" href="../assets/favicon.ico" type="image/x-icon">
-
-    <link rel="stylesheet" href="/CSS/Admin-albums.css" />
+    <title>Admin Homepage</title>
+    <link rel="stylesheet" href="/CSS/Admin-homepage.css" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -14,7 +12,6 @@
       crossorigin="anonymous"
     />
     <link
-    
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"
     />
@@ -34,13 +31,13 @@
           <a href="Admin-page.html" class="sidebar-item">
             <i class="bi bi-person-fill"></i> Users
           </a>
-          <a href="Admin-albums.html" class="sidebar-item active">
+          <a href="Admin-albums.html" class="sidebar-item">
             <i class="bi bi-music-note-list"></i> Albums
           </a>
           <a href="Admin-artists.html" class="sidebar-item">
             <i class="bi bi-mic"></i> Artists
           </a>
-          <a href="Admin-homepage.html" class="sidebar-item">
+          <a href="Admin-homepage.html" class="sidebar-item active">
             <i class="bi bi-house"></i> Homepage
           </a>
           <a href="Admin-top.html" class="sidebar-item">
@@ -50,9 +47,7 @@
             <button class="btn btn-danger logout-btn" style="margin-top: 280px;margin-left: 10px;">Đăng xuất</button>
           </div>
         </div>
-        
       </div>
-      
     </div>
 
     <div class="main-content">
@@ -61,18 +56,18 @@
           <li class="breadcrumb-item">
             <a href="index.html"><i class="bi bi-house"></i></a>
           </li>
-          <li class="breadcrumb-item"><a href="#">Albums</a></li>
+          <li class="breadcrumb-item"><a href="#">Homepage</a></li>
           <li class="breadcrumb-item active" aria-current="page">
-            Danh sách Albums
+            Quản lý Homepage
           </li>
         </ol>
       </nav>
 
       <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="mb-0">Danh sách Albums</h2>
+        <h2 class="mb-0">Quản lý Homepage</h2>
         <div class="d-flex">
           <button class="btn btn-primary">
-            <i class="bi bi-plus-lg me-1"></i> Thêm Album
+            <i class="bi bi-plus-lg me-1"></i> Thêm Section
           </button>
         </div>
       </div>
@@ -82,17 +77,17 @@
           <div class="filter-pill active" data-filter="all">
             Tất cả <span class="filter-count">0</span>
           </div>
-          <div class="filter-pill" data-filter="Featured_Albums">
+          <div class="filter-pill" data-filter="Featured">
             Featured <span class="filter-count">0</span>
           </div>
-          <div class="filter-pill" data-filter="Trending_Albums">
+          <div class="filter-pill" data-filter="Trending">
             Trending <span class="filter-count">0</span>
           </div>
-          <div class="filter-pill" data-filter="top_15_albums">
-            Top 15 <span class="filter-count">0</span>
+          <div class="filter-pill" data-filter="New_Releases">
+            New Releases <span class="filter-count">0</span>
           </div>
-          <div class="filter-pill" data-filter="Albums_By_Artists">
-            By Artists <span class="filter-count">0</span>
+          <div class="filter-pill" data-filter="Top_Charts">
+            Top Charts <span class="filter-count">0</span>
           </div>
         </div>
       </div>
@@ -134,12 +129,12 @@
                     />
                   </div>
                 </th>
-                <th>Album ID</th>
-                <th>Tên Album</th>
-                <th>Artist</th>
+                <th>ID</th>
+                <th>Tiêu đề</th>
+                <th>Mô tả</th>
                 <th>Hình ảnh</th>
-                <th>Link MP3</th>
                 <th>Loại</th>
+                <th>Vị trí</th>
                 <th width="80"></th>
               </tr>
             </thead>
@@ -157,5 +152,6 @@
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="/js/Admin-albums.js"></script>
+    <script src="/js/Admin-homepage.js"></script>
+  </body>
 </html>
