@@ -113,43 +113,46 @@ document.addEventListener("DOMContentLoaded", () => {
       );
     }
 
-    console.log("Số nghệ sĩ được lọc:", filteredArtists.length);
     updateFilterCounts(artists);
     const totalItems = filteredArtists.length;
     const totalPages = Math.ceil(totalItems / itemsPerPage) || 1;
-    page = Math.max(1, Math.min(page, totalPages));
-    currentPage = page;
+    
+    // Reset to page 1 if current page is greater than total pages
+    if (page > totalPages) {
+        page = 1;
+        currentPage = 1;
+    }
+    
     const startIndex = (page - 1) * itemsPerPage;
     const paginatedArtists = filteredArtists.slice(startIndex, startIndex + itemsPerPage);
 
     const tbody = document.querySelector("table tbody");
     if (!tbody) {
-      console.error("Không tìm thấy phần thân bảng (table tbody)!");
-      return;
+        console.error("Không tìm thấy phần thân bảng (table tbody)!");
+        return;
     }
     tbody.innerHTML = paginatedArtists.length
-      ? paginatedArtists
-          .map(
-            (artist, index) => `
-            <tr>
-                <td><div class="form-check"><input class="form-check-input" type="checkbox" value=""></div></td>
-                <td>${artist.artistId}</td>
-                <td>${artist.fullName}</td>
-                <td>${artist.email}</td>
-                <td>${artist.songCount}</td>
-                <td>
-                    <div class="d-flex">
-                        <button class="btn btn-sm btn-link text-danger p-0 me-2 delete-btn" data-index="${artists.indexOf(artist)}"><i class="bi bi-trash"></i></button>
-                        <button class="btn btn-sm btn-link text-primary p-0 edit-btn" data-index="${artists.indexOf(artist)}"><i class="bi bi-pencil"></i></button>
-                    </div>
-                </td>
-            </tr>
-        `
-          )
-          .join("")
-      : '<tr><td colspan="6" class="text-center">Không tìm thấy nghệ sĩ.</td></tr>';
+        ? paginatedArtists
+            .map(
+                (artist, index) => `
+                <tr>
+                    <td><div class="form-check"><input class="form-check-input" type="checkbox" value=""></div></td>
+                    <td>${artist.artistId}</td>
+                    <td>${artist.fullName}</td>
+                    <td>${artist.email}</td>
+                    <td>${artist.songCount}</td>
+                    <td>
+                        <div class="d-flex">
+                            <button class="btn btn-sm btn-link text-danger p-0 me-2 delete-btn" data-index="${artists.indexOf(artist)}"><i class="bi bi-trash"></i></button>
+                            <button class="btn btn-sm btn-link text-primary p-0 edit-btn" data-index="${artists.indexOf(artist)}"><i class="bi bi-pencil"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            `
+            )
+            .join("")
+        : '<tr><td colspan="6" class="text-center">Không tìm thấy nghệ sĩ.</td></tr>';
 
-    console.log("Đang hiển thị trang:", page, "của", totalPages, "với", paginatedArtists.length, "nghệ sĩ");
     updatePagination(totalPages, page);
     attachButtonListeners();
     renderArtistsSections2(); // Gọi hàm render để hiển thị trong .artists-grid2
@@ -181,54 +184,89 @@ document.addEventListener("DOMContentLoaded", () => {
   function updatePagination(totalPages, currentPage) {
     const paginationContainer = document.querySelector(".pagination");
     if (!paginationContainer) {
-      console.error("Không tìm thấy container phân trang (.pagination)!");
-      return;
+        console.error("Không tìm thấy container phân trang (.pagination)!");
+        return;
     }
     paginationContainer.innerHTML = "";
-    console.log("Cập nhật phân trang: tổng số trang =", totalPages, "trang hiện tại =", currentPage);
 
+    // Previous button
     const prevItem = document.createElement("li");
     prevItem.className = `page-item ${currentPage === 1 ? "disabled" : ""}`;
     prevItem.innerHTML = `<a class="page-link" href="#" aria-label="Previous">Trước</a>`;
     prevItem.addEventListener("click", (e) => {
-      e.preventDefault();
-      if (currentPage > 1) {
-        currentPage--;
-        console.log("Chuyển đến trang trước:", currentPage);
-        loadArtists();
-      }
+        e.preventDefault();
+        if (currentPage > 1) {
+            loadArtists(currentFilter, currentPage - 1, searchQuery);
+        }
     });
     paginationContainer.appendChild(prevItem);
 
-    for (let i = 1; i <= totalPages; i++) {
-      const pageItem = document.createElement("li");
-      pageItem.className = `page-item ${i === currentPage ? "active" : ""}`;
-      pageItem.innerHTML = `<a class="page-link" href="#" aria-label="Page ${i}">${i}</a>`;
-      pageItem.addEventListener("click", (e) => {
-        e.preventDefault();
-        if (i !== currentPage) {
-          currentPage = i;
-          console.log("Chuyển đến trang:", currentPage);
-          loadArtists();
-        }
-      });
-      paginationContainer.appendChild(pageItem);
+    // Page numbers
+    const maxVisiblePages = 5;
+    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+    if (endPage - startPage + 1 < maxVisiblePages) {
+        startPage = Math.max(1, endPage - maxVisiblePages + 1);
     }
 
+    if (startPage > 1) {
+        const firstPage = document.createElement("li");
+        firstPage.className = "page-item";
+        firstPage.innerHTML = `<a class="page-link" href="#">1</a>`;
+        firstPage.addEventListener("click", (e) => {
+            e.preventDefault();
+            loadArtists(currentFilter, 1, searchQuery);
+        });
+        paginationContainer.appendChild(firstPage);
+
+        if (startPage > 2) {
+            const ellipsis = document.createElement("li");
+            ellipsis.className = "page-item disabled";
+            ellipsis.innerHTML = `<span class="page-link">...</span>`;
+            paginationContainer.appendChild(ellipsis);
+        }
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+        const pageItem = document.createElement("li");
+        pageItem.className = `page-item ${i === currentPage ? "active" : ""}`;
+        pageItem.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+        pageItem.addEventListener("click", (e) => {
+            e.preventDefault();
+            loadArtists(currentFilter, i, searchQuery);
+        });
+        paginationContainer.appendChild(pageItem);
+    }
+
+    if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+            const ellipsis = document.createElement("li");
+            ellipsis.className = "page-item disabled";
+            ellipsis.innerHTML = `<span class="page-link">...</span>`;
+            paginationContainer.appendChild(ellipsis);
+        }
+
+        const lastPage = document.createElement("li");
+        lastPage.className = "page-item";
+        lastPage.innerHTML = `<a class="page-link" href="#">${totalPages}</a>`;
+        lastPage.addEventListener("click", (e) => {
+            e.preventDefault();
+            loadArtists(currentFilter, totalPages, searchQuery);
+        });
+        paginationContainer.appendChild(lastPage);
+    }
+
+    // Next button
     const nextItem = document.createElement("li");
     nextItem.className = `page-item ${currentPage === totalPages ? "disabled" : ""}`;
     nextItem.innerHTML = `<a class="page-link" href="#" aria-label="Next">Tiếp</a>`;
     nextItem.addEventListener("click", (e) => {
-      e.preventDefault();
-      if (currentPage < totalPages) {
-        currentPage++;
-        console.log("Chuyển đến trang tiếp theo:", currentPage);
-        loadArtists();
-      }
+        e.preventDefault();
+        if (currentPage < totalPages) {
+            loadArtists(currentFilter, currentPage + 1, searchQuery);
+        }
     });
     paginationContainer.appendChild(nextItem);
-
-    console.log("Đã tạo phân trang với", totalPages, "trang");
   }
 
   // Gắn sự kiện cho nút
