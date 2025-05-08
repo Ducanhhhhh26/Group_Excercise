@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
       hometown: account.hometown || "",
       role: ["Users", "Artists", "Admin"].includes(account.role) ? account.role : "Users",
       password: account.password || "",
+      avatar: account.img || "",
     }));
     localStorage.setItem("accounts", JSON.stringify(normalized));
     return normalized;

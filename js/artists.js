@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
       phone: "0123456789",
       hometown: "Hà Nội",
       role: "Admin",
+      avatar: "",
     };
     accounts.push(defaultAdmin);
     localStorage.setItem("accounts", JSON.stringify(accounts));
@@ -27,30 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
     { image: "../assets/song6.jpg.png", title: "Desired Games" },
   ];
 
-  // Danh sách hình ảnh mặc định để gán cho nghệ sĩ
-  // const defaultImages = [
-  //   "/assets/r_music1.jpg.png",
-  //   "/assets/artist1.jpg.png",
-  //   "/assets/artist2.jpg.png",
-  //   "/assets/artist3.jpg.png",
-  //   "/assets/artist4.jpg.png",
-  //   "/assets/artist5.jpg.png",
-  //   "/assets/artist6.jpg.png",
-  //   "/assets/artist7.jpg.png",
-  //   "/assets/artist8.jpg.png",
-  //   "/assets/song6.jpg (1).png",
-  //   "/assets/album4.jpg.png",
-  //   "/assets/song4.jpg (1).png",
-  //   "/assets/artist9.jpg.png",
-  //   "/assets/artist10.jpg.png",
-  //   "/assets/artist11.jpg.png",
-  //   "/assets/artist12.jpg.png",
-  //   "/assets/artist13.jpg.png",
-  //   "/assets/song3.jpg.png",
-  //   "/assets/album2.jpg.png",
-  
-   
-  // ];
+
   let defaultImages = JSON.parse(localStorage.getItem("defaultImages"));
 
 if (!defaultImages) {
