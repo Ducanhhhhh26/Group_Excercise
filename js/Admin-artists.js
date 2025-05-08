@@ -305,16 +305,16 @@ if (addButton) {
     Swal.fire({
       title: "<strong>Thêm Nghệ Sĩ</strong>",
       html: `
-        <div class="container" style="text-align: left; font-family: Arial, sans-serif;">
-          <div class="row mb-2">
+        <div class="container" style="text-align: center; font-family: Arial, sans-serif;">
+          <div class="row mb-3">
             <div class="col-12">
               <h6 style="color: #333; font-size: 14px; font-weight: bold;">Thông Tin Nghệ Sĩ</h6>
               <p style="color: #666; font-size: 12px;">Thêm thông tin nghệ sĩ mới</p>
             </div>
           </div>
-          <div class="row mb-3">
-            <div class="col-12 text-center">
-              <div class="d-flex justify-content-center align-items-center" style="height: 80px; width: 80px; border-radius: 50%; background-color: #e0e0e0; margin: 0 auto; position: relative; cursor: pointer;">
+          <div class="row mb-4">
+            <div class="col-12">
+              <div class="d-flex justify-content-center align-items-center" style="height: 100px; width: 100px; border-radius: 50%; background-color: #e0e0e0; margin: 0 auto; position: relative; cursor: pointer;">
                 <img id="preview-img" style="display: none; height: 100%; width: 100%; border-radius: 50%; object-fit: cover;" />
                 <span id="upload-text" style="color: #666; font-size: 12px; text-align: center;">Nhấn để tải lên</span>
               </div>
@@ -322,10 +322,10 @@ if (addButton) {
               <input type="file" id="artist-img" accept="image/*" style="display: none;" />
             </div>
           </div>
-          <div class="row mb-2">
-            <div class="col-6">
+          <div class="row mb-3">
+            <div class="col-12">
               <label class="form-label" style="color: #333; font-size: 12px;">Tên Nghệ Sĩ</label>
-              <div class="input-group">
+              <div class="input-group" style="max-width: 300px; margin: 0 auto;">
                 <span class="input-group-text" style="background-color: #fff; border-right: none; border-color: #ccc;">
                   <i class="bi bi-person-fill" style="color: #666;"></i>
                 </span>
@@ -333,10 +333,10 @@ if (addButton) {
               </div>
             </div>
           </div>
-          <div class="row mb-2">
-            <div class="col-6">
+          <div class="row mb-3">
+            <div class="col-12">
               <label class="form-label" style="color: #333; font-size: 12px;">Loại</label>
-              <select class="form-select" id="type" style="font-size: 12px; border-color: #ccc;">
+              <select class="form-select" id="type" style="font-size: 12px; border-color: #ccc; max-width: 300px; margin: 0 auto;">
                 <option value="Featured_Artists">Nổi Bật</option>
                 <option value="Trending_Artists">Xu Hướng</option>
                 <option value="Top_Artists">Hàng Đầu</option>
