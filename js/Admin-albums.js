@@ -371,39 +371,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let currentFilter = "all";
     let currentPage = 1;
-    const itemsPerPage = 10;
+    const itemsPerPage = 8;
     let searchQuery = "";
 
-    // Cập nhật số lượng bộ lọc
-    function updateFilterCounts(flatAlbums) {
-        const filterPills = document.querySelectorAll(".filter-pill");
-        if (!filterPills.length) {
-            console.error("Không tìm thấy bộ lọc (.filter-pill)!");
-            return;
-        }
-        const counts = {
-            all: flatAlbums.length,
-            Featured_Albums: flatAlbums.filter((a) => a.type === "Featured_Albums").length,
-            Trending_Albums: flatAlbums.filter((a) => a.type === "Trending_Albums").length,
-            top_15_albums: flatAlbums.filter((a) => a.type === "top_15_albums").length,
-            Albums_By_Artists: flatAlbums.filter((a) => a.type === "Albums_By_Artists").length,
-            New_Releases: flatAlbums.filter((a) => a.type === "New_Releases").length
-        };
-        filterPills.forEach((pill) => {
-            const filter = pill.getAttribute("data-filter");
-            const countSpan = pill.querySelector(".filter-count");
-            if (countSpan) {
-                countSpan.textContent = counts[filter] || 0;
-            } else {
-                console.warn(`Không tìm thấy span .filter-count cho bộ lọc: ${filter}`);
-            }
-        });
-    }
-
-    // Tải và hiển thị album
+    // Load and render albums
     function loadAlbums(filter = currentFilter, page = currentPage, query = searchQuery) {
-        let flatAlbums = flattenAlbums();
-        let filteredAlbums = filter === "all" ? flatAlbums : flatAlbums.filter((a) => a.type === filter);
+        console.log("Loading albums with filter:", filter, "page:", page, "query:", query);
+        let filteredAlbums = filter === "all" ? flattenAlbums() : flattenAlbums().filter((a) => a.type === filter);
 
         if (query) {
             filteredAlbums = filteredAlbums.filter(
@@ -414,88 +388,152 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        updateFilterCounts(flatAlbums);
+        updateFilterCounts(flattenAlbums());
         const totalItems = filteredAlbums.length;
-        const totalPages = Math.ceil(totalItems / itemsPerPage) || 1;
-        page = Math.max(1, Math.min(page, totalPages));
-        currentPage = page;
+        const totalPages = Math.max(1, Math.ceil(totalItems / itemsPerPage));
+        
+        // Reset to page 1 if current page is greater than total pages
+        if (page > totalPages) {
+            page = 1;
+            currentPage = 1;
+        }
+        
         const startIndex = (page - 1) * itemsPerPage;
         const paginatedAlbums = filteredAlbums.slice(startIndex, startIndex + itemsPerPage);
 
         const tbody = document.querySelector("table tbody");
         if (!tbody) {
-            console.error("Không tìm thấy phần thân bảng (table tbody)!");
+            console.error("Table body not found!");
             return;
         }
         tbody.innerHTML = paginatedAlbums.length
             ? paginatedAlbums
-                  .map(
-                      (album) => `
-                      <tr>
-                          <td><div class="form-check"><input class="form-check-input" type="checkbox" value=""></div></td>
-                          <td>${album.id}</td>
-                          <td>${album.name_music}</td>
-                          <td>${album.name}</td>
-                          <td><img src="${album.img}" alt="${album.name_music}" style="width: 50px; height: 50px;"></td>
-                          <td><a href="${album.mp3}" target="_blank">Link</a></td>
-                          <td><span class="tag">${album.type}</span></td>
-                          <td>
-                              <div class="d-flex">
-                                  <button class="btn btn-sm btn-link text-danger p-0 me-2 delete-btn" data-category="${album.originalCategory}" data-index="${album.originalIndex}"><i class="bi bi-trash"></i></button>
-                                  <button class="btn btn-sm btn-link text-primary p-0 edit-btn" data-category="${album.originalCategory}" data-index="${album.originalIndex}"><i class="bi bi-pencil"></i></button>
-                              </div>
-                          </td>
-                      </tr>
-                  `
-                  )
-                  .join("")
-            : '<tr><td colspan="8" class="text-center">Không tìm thấy album.</td></tr>';
+                .map(
+                    (album) => `
+                    <tr>
+                        <td><div class="form-check"><input class="form-check-input" type="checkbox" value=""></div></td>
+                        <td>${album.id}</td>
+                        <td>${album.name_music}</td>
+                        <td>${album.name}</td>
+                        <td><img src="${album.img}" alt="${album.name_music}" style="width: 50px; height: 50px;"></td>
+                        <td><a href="${album.mp3}" target="_blank">Link</a></td>
+                        <td><span class="tag">${album.type}</span></td>
+                        <td>
+                            <div class="d-flex">
+                                <button class="btn btn-sm btn-link text-danger p-0 me-2 delete-btn" data-category="${album.originalCategory}" data-index="${album.originalIndex}"><i class="bi bi-trash"></i></button>
+                                <button class="btn btn-sm btn-link text-primary p-0 edit-btn" data-category="${album.originalCategory}" data-index="${album.originalIndex}"><i class="bi bi-pencil"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                `
+                )
+                .join("")
+            : '<tr><td colspan="8" class="text-center">No albums found.</td></tr>';
 
         updatePagination(totalPages, page);
         attachButtonListeners();
     }
 
-    // Cập nhật phân trang
+    // Update filter counts
+    function updateFilterCounts(albums) {
+        const counts = {
+            all: albums.length,
+            Featured_Albums: albums.filter((album) => album.type === "Featured_Albums").length,
+            Trending_Albums: albums.filter((album) => album.type === "Trending_Albums").length,
+            top_15_albums: albums.filter((album) => album.type === "top_15_albums").length,
+            Albums_By_Artists: albums.filter((album) => album.type === "Albums_By_Artists").length,
+        };
+
+        Object.keys(counts).forEach(filter => {
+            const pill = document.querySelector(`[data-filter="${filter}"] .filter-count`);
+            if (pill) pill.textContent = counts[filter];
+        });
+    }
+
+    // Update pagination
     function updatePagination(totalPages, currentPage) {
         const paginationContainer = document.querySelector(".pagination");
         if (!paginationContainer) {
-            console.error("Không tìm thấy container phân trang (.pagination)!");
+            console.error("Pagination container not found!");
             return;
         }
         paginationContainer.innerHTML = "";
 
+        // Previous button
         const prevItem = document.createElement("li");
         prevItem.className = `page-item ${currentPage === 1 ? "disabled" : ""}`;
-        prevItem.innerHTML = `<a class="page-link" href="#">Trước</a>`;
+        prevItem.innerHTML = `<a class="page-link" href="#" aria-label="Previous"><i class="bi bi-chevron-left"></i></a>`;
         prevItem.addEventListener("click", (e) => {
             e.preventDefault();
             if (currentPage > 1) {
-                currentPage--;
-                loadAlbums();
+                loadAlbums(currentFilter, currentPage - 1, searchQuery);
             }
         });
         paginationContainer.appendChild(prevItem);
 
-        for (let i = 1; i <= totalPages; i++) {
+        // Page numbers
+        const maxVisiblePages = 5;
+        let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+        let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+        if (endPage - startPage + 1 < maxVisiblePages) {
+            startPage = Math.max(1, endPage - maxVisiblePages + 1);
+        }
+
+        if (startPage > 1) {
+            const firstPage = document.createElement("li");
+            firstPage.className = "page-item";
+            firstPage.innerHTML = `<a class="page-link" href="#">1</a>`;
+            firstPage.addEventListener("click", (e) => {
+                e.preventDefault();
+                loadAlbums(currentFilter, 1, searchQuery);
+            });
+            paginationContainer.appendChild(firstPage);
+
+            if (startPage > 2) {
+                const ellipsis = document.createElement("li");
+                ellipsis.className = "page-item disabled";
+                ellipsis.innerHTML = `<span class="page-link">...</span>`;
+                paginationContainer.appendChild(ellipsis);
+            }
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
             const pageItem = document.createElement("li");
             pageItem.className = `page-item ${i === currentPage ? "active" : ""}`;
             pageItem.innerHTML = `<a class="page-link" href="#">${i}</a>`;
             pageItem.addEventListener("click", (e) => {
                 e.preventDefault();
-                currentPage = i;
-                loadAlbums();
+                loadAlbums(currentFilter, i, searchQuery);
             });
             paginationContainer.appendChild(pageItem);
         }
 
+        if (endPage < totalPages) {
+            if (endPage < totalPages - 1) {
+                const ellipsis = document.createElement("li");
+                ellipsis.className = "page-item disabled";
+                ellipsis.innerHTML = `<span class="page-link">...</span>`;
+                paginationContainer.appendChild(ellipsis);
+            }
+
+            const lastPage = document.createElement("li");
+            lastPage.className = "page-item";
+            lastPage.innerHTML = `<a class="page-link" href="#">${totalPages}</a>`;
+            lastPage.addEventListener("click", (e) => {
+                e.preventDefault();
+                loadAlbums(currentFilter, totalPages, searchQuery);
+            });
+            paginationContainer.appendChild(lastPage);
+        }
+
+        // Next button
         const nextItem = document.createElement("li");
         nextItem.className = `page-item ${currentPage === totalPages ? "disabled" : ""}`;
-        nextItem.innerHTML = `<a class="page-link" href="#">Tiếp</a>`;
+        nextItem.innerHTML = `<a class="page-link" href="#" aria-label="Next"><i class="bi bi-chevron-right"></i></a>`;
         nextItem.addEventListener("click", (e) => {
             e.preventDefault();
             if (currentPage < totalPages) {
-                currentPage++;
-                loadAlbums();
+                loadAlbums(currentFilter, currentPage + 1, searchQuery);
             }
         });
         paginationContainer.appendChild(nextItem);
@@ -520,73 +558,73 @@ document.addEventListener("DOMContentLoaded", () => {
     if (addButton) {
         addButton.addEventListener("click", () => {
             Swal.fire({
-                title: "<strong>Thêm Album</strong>",
+                title: "<strong>Add Album</strong>",
                 html: `
                     <div class="container" style="text-align: left; font-family: Arial, sans-serif;">
                         <div class="row mb-2">
                             <div class="col-12">
-                                <h6 style="color: #333; font-size: 14px; font-weight: bold;">Thông tin Album</h6>
-                                <p style="color: #666; font-size: 12px;">Thêm thông tin album mới</p>
+                                <h6 style="color: #333; font-size: 14px; font-weight: bold;">Album Information</h6>
+                                <p style="color: #666; font-size: 12px;">Add new album information</p>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-12 text-center">
                                 <div class="d-flex justify-content-center align-items-center" style="height: 80px; width: 80px; border-radius: 50%; background-color: #e0e0e0; margin: 0 auto;">
-                                    <span style="color: #666; font-size: 12px; text-align: center;">Nhấn để tải lên</span>
+                                    <span style="color: #666; font-size: 12px; text-align: center;">Click to upload</span>
                                 </div>
-                                <p style="color: #666; font-size: 10px; margin-top: 5px;">SVG, PNG, JPG hoặc GIF (tối đa 400x400px)</p>
+                                <p style="color: #666; font-size: 10px; margin-top: 5px;">SVG, PNG, JPG or GIF (max. 400x400px)</p>
                                 <input type="file" id="album-img" accept="image/*" style="display: none;" />
                             </div>
                         </div>
                         <div class="row mb-2">
                             <div class="col-6">
-                                <label class="form-label" style="color: #333; font-size: 12px;">Tên Album</label>
+                                <label class="form-label" style="color: #333; font-size: 12px;">Album Name</label>
                                 <div class="input-group">
                                     <span class="input-group-text" style="background-color: #fff; border-right: none; border-color: #ccc;">
                                         <i class="bi bi-music-note-list" style="color: #666;"></i>
                                     </span>
-                                    <input type="text" class="form-control" id="name_music" placeholder="Tên Album" style="font-size: 12px; border-left: none; border-color: #ccc;" />
+                                    <input type="text" class="form-control" id="name_music" placeholder="Album Name" style="font-size: 12px; border-left: none; border-color: #ccc;" />
                                 </div>
                             </div>
                             <div class="col-6">
-                                <label class="form-label" style="color: #333; font-size: 12px;">Nghệ sĩ</label>
+                                <label class="form-label" style="color: #333; font-size: 12px;">Artist</label>
                                 <div class="input-group">
                                     <span class="input-group-text" style="background-color: #fff; border-right: none; border-color: #ccc;">
                                         <i class="bi bi-person-fill" style="color: #666;"></i>
                                     </span>
-                                    <input type="text" class="form-control" id="name" placeholder="Tên Nghệ sĩ" style="font-size: 12px; border-left: none; border-color: #ccc;" />
+                                    <input type="text" class="form-control" id="name" placeholder="Artist Name" style="font-size: 12px; border-left: none; border-color: #ccc;" />
                                 </div>
                             </div>
                         </div>
                         <div class="row mb-2">
                             <div class="col-6">
-                                <label class="form-label" style="color: #333; font-size: 12px;">URL Hình ảnh</label>
+                                <label class="form-label" style="color: #333; font-size: 12px;">Image URL</label>
                                 <div class="input-group">
                                     <span class="input-group-text" style="background-color: #fff; border-right: none; border-color: #ccc;">
                                         <i class="bi bi-image" style="color: #666;"></i>
                                     </span>
-                                    <input type="text" class="form-control" id="img" placeholder="URL Hình ảnh" style="font-size: 12px; border-left: none; border-color: #ccc;" />
+                                    <input type="text" class="form-control" id="img" placeholder="Image URL" style="font-size: 12px; border-left: none; border-color: #ccc;" />
                                 </div>
                             </div>
                             <div class="col-6">
-                                <label class="form-label" style="color: #333; font-size: 12px;">URL MP3</label>
+                                <label class="form-label" style="color: #333; font-size: 12px;">MP3 URL</label>
                                 <div class="input-group">
                                     <span class="input-group-text" style="background-color: #fff; border-right: none; border-color: #ccc;">
                                         <i class="bi bi-music-note" style="color: #666;"></i>
                                     </span>
-                                    <input type="text" class="form-control" id="mp3" placeholder="URL MP3" style="font-size: 12px; border-left: none; border-color: #ccc;" />
+                                    <input type="text" class="form-control" id="mp3" placeholder="MP3 URL" style="font-size: 12px; border-left: none; border-color: #ccc;" />
                                 </div>
                             </div>
                         </div>
                         <div class="row mb-2">
                             <div class="col-6">
-                                <label class="form-label" style="color: #333; font-size: 12px;">Loại</label>
+                                <label class="form-label" style="color: #333; font-size: 12px;">Type</label>
                                 <select class="form-select" id="type" style="font-size: 12px; border-color: #ccc;">
-                                    <option value="Featured_Albums">Nổi bật</option>
-                                    <option value="Trending_Albums">Xu hướng</option>
+                                    <option value="Featured_Albums">Featured</option>
+                                    <option value="Trending_Albums">Trending</option>
                                     <option value="top_15_albums">Top 15</option>
-                                    <option value="Albums_By_Artists">Theo Nghệ sĩ</option>
-                                    <option value="New_Releases">Mới phát hành</option>
+                                    <option value="Albums_By_Artists">By Artists</option>
+                                    <option value="New_Releases">New Releases</option>
                                 </select>
                             </div>
                         </div>
@@ -595,8 +633,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 showCloseButton: true,
                 showCancelButton: true,
                 focusConfirm: false,
-                confirmButtonText: "Thêm Album",
-                cancelButtonText: "Hủy",
+                confirmButtonText: "Add Album",
+                cancelButtonText: "Cancel",
                 customClass: { popup: "custom-modal", confirmButton: "btn btn-primary", cancelButton: "btn btn-gray me-2" },
                 didOpen: () => {
                     const uploadArea = document.querySelector(".d-flex.justify-content-center.align-items-center");
@@ -618,11 +656,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         Swal.showValidationMessage("Tất cả các trường đều bắt buộc.");
                         return false;
                     }
-                    const urlRegex = /^(https?:\/\/[^\s$.?#].[^\s]*)$/;
-                    if (!urlRegex.test(img) || !urlRegex.test(mp3)) {
-                        Swal.showValidationMessage("Vui lòng nhập URL hợp lệ cho Hình ảnh và MP3.");
-                        return false;
-                    }
+                    
 
                     return { name_music, name, img, mp3, type };
                 }
@@ -644,7 +678,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     saveAlbums();
                     currentPage = 1;
                     loadAlbums();
-                    Swal.fire("Thành công!", "Đã thêm album thành công.", "success");
+                    Swal.fire("Success!", "Album added successfully.", "success");
                 }
             });
         });
@@ -659,13 +693,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const album = albumsData.data.find((cat) => cat[category])[category][index];
 
         Swal.fire({
-            title: "<strong>Xác nhận Xóa</strong>",
-            html: `<p style="color: #333; font-size: 14px;">Bạn có chắc muốn xóa album <strong>${album.name_music}</strong>?</p>`,
+            title: "<strong>Confirm Delete</strong>",
+            html: `<p style="color: #333; font-size: 14px;">Are you sure you want to delete album <strong>${album.name_music}</strong>?</p>`,
             showCloseButton: true,
             showCancelButton: true,
             focusConfirm: false,
-            confirmButtonText: "Xóa",
-            cancelButtonText: "Hủy",
+            confirmButtonText: "Delete",
+            cancelButtonText: "Cancel",
             customClass: { popup: "custom-modal", confirmButton: "btn btn-danger", cancelButton: "btn btn-gray me-2" }
         }).then((result) => {
             if (result.isConfirmed) {
@@ -673,7 +707,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 saveAlbums();
                 currentPage = 1;
                 loadAlbums();
-                Swal.fire("Thành công!", "Đã xóa album thành công.", "success");
+                Swal.fire("Success!", "Album deleted successfully.", "success");
             }
         });
     }
@@ -685,27 +719,27 @@ document.addEventListener("DOMContentLoaded", () => {
         const album = albumsData.data.find((cat) => cat[category])[category][index];
 
         Swal.fire({
-            title: "<strong>Chỉnh sửa Album</strong>",
+            title: "<strong>Edit Album</strong>",
             html: `
                 <div class="container" style="text-align: left; font-family: Arial, sans-serif;">
                     <div class="row mb-2">
                         <div class="col-12">
-                            <h6 style="color: #333; font-size: 14px; font-weight: bold;">Thông tin Album</h6>
-                            <p style="color: #666; font-size: 12px;">Cập nhật thông tin album</p>
+                            <h6 style="color: #333; font-size: 14px; font-weight: bold;">Album Information</h6>
+                            <p style="color: #666; font-size: 12px;">Update album information</p>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-12 text-center">
                             <div class="d-flex justify-content-center align-items-center" style="height: 80px; width: 80px; border-radius: 50%; background-color: #e0e0e0; margin: 0 auto;">
-                                <span style="color: #666; font-size: 12px; text-align: center;">Nhấn để tải lên</span>
+                                <span style="color: #666; font-size: 12px; text-align: center;">Click to upload</span>
                             </div>
-                            <p style="color: #666; font-size: 10px; margin-top: 5px;">SVG, PNG, JPG hoặc GIF (tối đa 400x400px)</p>
+                            <p style="color: #666; font-size: 10px; margin-top: 5px;">SVG, PNG, JPG or GIF (max. 400x400px)</p>
                             <input type="file" id="album-img" accept="image/*" style="display: none;" />
                         </div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-6">
-                            <label class="form-label" style="color: #333; font-size: 12px;">Tên Album</label>
+                            <label class="form-label" style="color: #333; font-size: 12px;">Album Name</label>
                             <div class="input-group">
                                 <span class="input-group-text" style="background-color: #fff; border-right: none; border-color: #ccc;">
                                     <i class="bi bi-music-note-list" style="color: #666;"></i>
@@ -714,7 +748,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             </div>
                         </div>
                         <div class="col-6">
-                            <label class="form-label" style="color: #333; font-size: 12px;">Nghệ sĩ</label>
+                            <label class="form-label" style="color: #333; font-size: 12px;">Artist</label>
                             <div class="input-group">
                                 <span class="input-group-text" style="background-color: #fff; border-right: none; border-color: #ccc;">
                                     <i class="bi bi-person-fill" style="color: #666;"></i>
@@ -725,7 +759,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                     <div class="row mb-2">
                         <div class="col-6">
-                            <label class="form-label" style="color: #333; font-size: 12px;">URL Hình ảnh</label>
+                            <label class="form-label" style="color: #333; font-size: 12px;">Image URL</label>
                             <div class="input-group">
                                 <span class="input-group-text" style="background-color: #fff; border-right: none; border-color: #ccc;">
                                     <i class="bi bi-image" style="color: #666;"></i>
@@ -734,10 +768,10 @@ document.addEventListener("DOMContentLoaded", () => {
                             </div>
                         </div>
                         <div class="col-6">
-                            <label class="form-label" style="color: #333; font-size: 12px;">URL MP3</label>
+                            <label class="form-label" style="color: #333; font-size: 12px;">MP3 URL</label>
                             <div class="input-group">
                                 <span class="input-group-text" style="background-color: #fff; border-right: none; border-color: #ccc;">
-                                    <i class="bi bi-music-note" style="GfxColor: #666;"></i>
+                                    <i class="bi bi-music-note" style="color: #666;"></i>
                                 </span>
                                 <input type="text" class="form-control" id="mp3" value="${album.mp3}" style="font-size: 12px; border-left: none; border-color: #ccc;" />
                             </div>
@@ -745,13 +779,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                     <div class="row mb-2">
                         <div class="col-6">
-                            <label class="form-label" style="color: #333; font-size: 12px;">Loại</label>
+                            <label class="form-label" style="color: #333; font-size: 12px;">Type</label>
                             <select class="form-select" id="type" style="font-size: 12px; border-color: #ccc;">
-                                <option value="Featured_Albums" ${album.type === "Featured_Albums" ? "selected" : ""}>Nổi bật</option>
-                                <option value="Trending_Albums" ${album.type === "Trending_Albums" ? "selected" : ""}>Xu hướng</option>
+                                <option value="Featured_Albums" ${album.type === "Featured_Albums" ? "selected" : ""}>Featured</option>
+                                <option value="Trending_Albums" ${album.type === "Trending_Albums" ? "selected" : ""}>Trending</option>
                                 <option value="top_15_albums" ${album.type === "top_15_albums" ? "selected" : ""}>Top 15</option>
-                                <option value="Albums_By_Artists" ${album.type === "Albums_By_Artists" ? "selected" : ""}>Theo Nghệ sĩ</option>
-                                <option value="New_Releases" ${album.type === "New_Releases" ? "selected" : ""}>Mới phát hành</option>
+                                <option value="Albums_By_Artists" ${album.type === "Albums_By_Artists" ? "selected" : ""}>By Artists</option>
+                                <option value="New_Releases" ${album.type === "New_Releases" ? "selected" : ""}>New Releases</option>
                             </select>
                         </div>
                     </div>
@@ -760,8 +794,8 @@ document.addEventListener("DOMContentLoaded", () => {
             showCloseButton: true,
             showCancelButton: true,
             focusConfirm: false,
-            confirmButtonText: "Lưu",
-            cancelButtonText: "Hủy",
+            confirmButtonText: "Save",
+            cancelButtonText: "Cancel",
             customClass: { popup: "custom-modal", confirmButton: "btn btn-primary", cancelButton: "btn btn-gray me-2" },
             didOpen: () => {
                 const uploadArea = document.querySelector(".d-flex.justify-content-center.align-items-center");
@@ -783,11 +817,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     Swal.showValidationMessage("Tất cả các trường đều bắt buộc.");
                     return false;
                 }
-                const urlRegex = /^(https?:\/\/[^\s$.?#].[^\s]*)$/;
-                if (!urlRegex.test(img) || !urlRegex.test(mp3)) {
-                    Swal.showValidationMessage("Vui lòng nhập URL hợp lệ cho Hình ảnh và MP3.");
-                    return false;
-                }
+                
 
                 return { name_music, name, img, mp3, type };
             }
@@ -800,18 +830,27 @@ document.addEventListener("DOMContentLoaded", () => {
                     img: result.value.img,
                     mp3: result.value.mp3
                 };
-                const oldCategory = albumsData.data.find((cat) => cat[category]);
-                oldCategory[category].splice(index, 1);
-                const newCategory = albumsData.data.find((cat) => cat[result.value.type]) || {
-                    [result.value.type]: []
-                };
-                if (!albumsData.data.includes(newCategory)) {
-                    albumsData.data.push(newCategory);
+
+                // If the type hasn't changed, just update the album in place
+                if (result.value.type === category) {
+                    albumsData.data.find((cat) => cat[category])[category][index] = updatedAlbum;
+                } else {
+                    // If the type has changed, remove from old category and add to new category
+                    const oldCategory = albumsData.data.find((cat) => cat[category]);
+                    oldCategory[category].splice(index, 1);
+                    
+                    const newCategory = albumsData.data.find((cat) => cat[result.value.type]) || {
+                        [result.value.type]: []
+                    };
+                    if (!albumsData.data.includes(newCategory)) {
+                        albumsData.data.push(newCategory);
+                    }
+                    newCategory[result.value.type].push(updatedAlbum);
                 }
-                newCategory[result.value.type].push(updatedAlbum);
+
                 saveAlbums();
-                loadAlbums();
-                Swal.fire("Thành công!", "Đã cập nhật album thành công.", "success");
+                loadAlbums(currentFilter, currentPage, searchQuery);
+                Swal.fire("Success!", "Album updated successfully.", "success");
             }
         });
     }
@@ -862,16 +901,16 @@ document.addEventListener("DOMContentLoaded", () => {
         deleteSelectedBtn.addEventListener("click", () => {
             const checkboxes = document.querySelectorAll("tbody .form-check-input:checked");
             if (checkboxes.length === 0) {
-                Swal.fire("Cảnh báo", "Vui lòng chọn ít nhất một album.", "warning");
+                Swal.fire("Warning", "Please select at least one album.", "warning");
                 return;
             }
 
             Swal.fire({
-                title: "Xác nhận Xóa",
-                text: `Bạn có chắc muốn xóa ${checkboxes.length} album đã chọn?`,
+                title: "Confirm Delete",
+                text: `Are you sure you want to delete ${checkboxes.length} selected albums?`,
                 showCancelButton: true,
-                confirmButtonText: "Xóa",
-                cancelButtonText: "Hủy",
+                confirmButtonText: "Delete",
+                cancelButtonText: "Cancel",
                 customClass: { popup: "custom-modal", confirmButton: "btn btn-danger", cancelButton: "btn btn-gray me-2" }
             }).then((result) => {
                 if (result.isConfirmed) {
@@ -895,7 +934,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     saveAlbums();
                     currentPage = 1;
                     loadAlbums();
-                    Swal.fire("Thành công", "Đã xóa các album được chọn.", "success");
+                    Swal.fire("Success", "Selected albums deleted.", "success");
                 }
             });
         });

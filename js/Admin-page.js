@@ -74,8 +74,13 @@ document.addEventListener("DOMContentLoaded", () => {
     updateFilterCounts(accounts);
     const totalItems = filteredAccounts.length;
     const totalPages = Math.max(1, Math.ceil(totalItems / itemsPerPage));
-    page = Math.max(1, Math.min(page, totalPages));
-    currentPage = page;
+    
+    // Reset to page 1 if current page is greater than total pages
+    if (page > totalPages) {
+      page = 1;
+      currentPage = 1;
+    }
+    
     const startIndex = (page - 1) * itemsPerPage;
     const paginatedAccounts = filteredAccounts.slice(startIndex, startIndex + itemsPerPage);
 
@@ -129,12 +134,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // Previous button
     const prevItem = document.createElement("li");
     prevItem.className = `page-item ${currentPage === 1 ? "disabled" : ""}`;
-    prevItem.innerHTML = `<a class="page-link" href="#" aria-label="Previous">Previous</a>`;
+    prevItem.innerHTML = `<a class="page-link" href="#" aria-label="Previous"><i class="bi bi-chevron-left"></i></a>`;
     prevItem.addEventListener("click", (e) => {
       e.preventDefault();
       if (currentPage > 1) {
-        currentPage--;
-        loadAccounts();
+        loadAccounts(currentFilter, currentPage - 1, searchQuery);
       }
     });
     paginationContainer.appendChild(prevItem);
@@ -153,8 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
       firstPage.innerHTML = `<a class="page-link" href="#">1</a>`;
       firstPage.addEventListener("click", (e) => {
         e.preventDefault();
-        currentPage = 1;
-        loadAccounts();
+        loadAccounts(currentFilter, 1, searchQuery);
       });
       paginationContainer.appendChild(firstPage);
 
@@ -172,8 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
       pageItem.innerHTML = `<a class="page-link" href="#">${i}</a>`;
       pageItem.addEventListener("click", (e) => {
         e.preventDefault();
-        currentPage = i;
-        loadAccounts();
+        loadAccounts(currentFilter, i, searchQuery);
       });
       paginationContainer.appendChild(pageItem);
     }
@@ -191,8 +193,7 @@ document.addEventListener("DOMContentLoaded", () => {
       lastPage.innerHTML = `<a class="page-link" href="#">${totalPages}</a>`;
       lastPage.addEventListener("click", (e) => {
         e.preventDefault();
-        currentPage = totalPages;
-        loadAccounts();
+        loadAccounts(currentFilter, totalPages, searchQuery);
       });
       paginationContainer.appendChild(lastPage);
     }
@@ -200,12 +201,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // Next button
     const nextItem = document.createElement("li");
     nextItem.className = `page-item ${currentPage === totalPages ? "disabled" : ""}`;
-    nextItem.innerHTML = `<a class="page-link" href="#" aria-label="Next">Next</a>`;
+    nextItem.innerHTML = `<a class="page-link" href="#" aria-label="Next"><i class="bi bi-chevron-right"></i></a>`;
     nextItem.addEventListener("click", (e) => {
       e.preventDefault();
       if (currentPage < totalPages) {
-        currentPage++;
-        loadAccounts();
+        loadAccounts(currentFilter, currentPage + 1, searchQuery);
       }
     });
     paginationContainer.appendChild(nextItem);
@@ -545,28 +545,35 @@ document.addEventListener("DOMContentLoaded", () => {
           password: account.password,
         };
         localStorage.setItem("accounts", JSON.stringify(accounts));
-        loadAccounts();
+        loadAccounts(currentFilter, currentPage, searchQuery);
         Swal.fire("Success!", "Account updated successfully.", "success");
       }
     });
   }
 
-  // Filter and search
-  document.querySelectorAll(".filter-pill").forEach((pill) => {
-    pill.addEventListener("click", () => {
-      document.querySelectorAll(".filter-pill").forEach((p) => p.classList.remove("active"));
-      pill.classList.add("active");
-      currentFilter = pill.getAttribute("data-filter");
+  // Add filter event listeners
+  document.querySelectorAll('.filter-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      // Remove active class from all pills
+      document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+      // Add active class to clicked pill
+      pill.classList.add('active');
+      // Update current filter and reset to page 1
+      currentFilter = pill.dataset.filter;
       currentPage = 1;
-      loadAccounts();
+      loadAccounts(currentFilter, 1, searchQuery);
     });
   });
 
-  document.querySelector(".form-control[placeholder='Tìm kiếm']").addEventListener("input", (e) => {
-    searchQuery = e.target.value.trim();
-    currentPage = 1;
-    loadAccounts();
-  });
+  // Add search event listener
+  const searchInput = document.querySelector('input[type="text"]');
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value;
+      currentPage = 1; // Reset to page 1 when searching
+      loadAccounts(currentFilter, 1, searchQuery);
+    });
+  }
 
   // Logout
   const logoutBtn = document.querySelector(".logout-btn");

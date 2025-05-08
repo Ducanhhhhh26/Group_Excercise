@@ -113,43 +113,46 @@ document.addEventListener("DOMContentLoaded", () => {
       );
     }
 
-    console.log("Số nghệ sĩ được lọc:", filteredArtists.length);
     updateFilterCounts(artists);
     const totalItems = filteredArtists.length;
     const totalPages = Math.ceil(totalItems / itemsPerPage) || 1;
-    page = Math.max(1, Math.min(page, totalPages));
-    currentPage = page;
+    
+    // Reset to page 1 if current page is greater than total pages
+    if (page > totalPages) {
+        page = 1;
+        currentPage = 1;
+    }
+    
     const startIndex = (page - 1) * itemsPerPage;
     const paginatedArtists = filteredArtists.slice(startIndex, startIndex + itemsPerPage);
 
     const tbody = document.querySelector("table tbody");
     if (!tbody) {
-      console.error("Không tìm thấy phần thân bảng (table tbody)!");
-      return;
+        console.error("Không tìm thấy phần thân bảng (table tbody)!");
+        return;
     }
     tbody.innerHTML = paginatedArtists.length
-      ? paginatedArtists
-          .map(
-            (artist, index) => `
-            <tr>
-                <td><div class="form-check"><input class="form-check-input" type="checkbox" value=""></div></td>
-                <td>${artist.artistId}</td>
-                <td>${artist.fullName}</td>
-                <td>${artist.email}</td>
-                <td>${artist.songCount}</td>
-                <td>
-                    <div class="d-flex">
-                        <button class="btn btn-sm btn-link text-danger p-0 me-2 delete-btn" data-index="${artists.indexOf(artist)}"><i class="bi bi-trash"></i></button>
-                        <button class="btn btn-sm btn-link text-primary p-0 edit-btn" data-index="${artists.indexOf(artist)}"><i class="bi bi-pencil"></i></button>
-                    </div>
-                </td>
-            </tr>
-        `
-          )
-          .join("")
-      : '<tr><td colspan="6" class="text-center">Không tìm thấy nghệ sĩ.</td></tr>';
+        ? paginatedArtists
+            .map(
+                (artist, index) => `
+                <tr>
+                    <td><div class="form-check"><input class="form-check-input" type="checkbox" value=""></div></td>
+                    <td>${artist.artistId}</td>
+                    <td>${artist.fullName}</td>
+                    <td>${artist.email}</td>
+                    <td>${artist.songCount}</td>
+                    <td>
+                        <div class="d-flex">
+                            <button class="btn btn-sm btn-link text-danger p-0 me-2 delete-btn" data-index="${artists.indexOf(artist)}"><i class="bi bi-trash"></i></button>
+                            <button class="btn btn-sm btn-link text-primary p-0 edit-btn" data-index="${artists.indexOf(artist)}"><i class="bi bi-pencil"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            `
+            )
+            .join("")
+        : '<tr><td colspan="6" class="text-center">Không tìm thấy nghệ sĩ.</td></tr>';
 
-    console.log("Đang hiển thị trang:", page, "của", totalPages, "với", paginatedArtists.length, "nghệ sĩ");
     updatePagination(totalPages, page);
     attachButtonListeners();
     renderArtistsSections2(); // Gọi hàm render để hiển thị trong .artists-grid2
@@ -181,54 +184,89 @@ document.addEventListener("DOMContentLoaded", () => {
   function updatePagination(totalPages, currentPage) {
     const paginationContainer = document.querySelector(".pagination");
     if (!paginationContainer) {
-      console.error("Không tìm thấy container phân trang (.pagination)!");
-      return;
+        console.error("Không tìm thấy container phân trang (.pagination)!");
+        return;
     }
     paginationContainer.innerHTML = "";
-    console.log("Cập nhật phân trang: tổng số trang =", totalPages, "trang hiện tại =", currentPage);
 
+    // Previous button
     const prevItem = document.createElement("li");
     prevItem.className = `page-item ${currentPage === 1 ? "disabled" : ""}`;
-    prevItem.innerHTML = `<a class="page-link" href="#" aria-label="Previous">Trước</a>`;
+    prevItem.innerHTML = `<a class="page-link" href="#" aria-label="Previous"><i class="bi bi-chevron-left"></i></a>`;
     prevItem.addEventListener("click", (e) => {
-      e.preventDefault();
-      if (currentPage > 1) {
-        currentPage--;
-        console.log("Chuyển đến trang trước:", currentPage);
-        loadArtists();
-      }
+        e.preventDefault();
+        if (currentPage > 1) {
+            loadArtists(currentFilter, currentPage - 1, searchQuery);
+        }
     });
     paginationContainer.appendChild(prevItem);
 
-    for (let i = 1; i <= totalPages; i++) {
-      const pageItem = document.createElement("li");
-      pageItem.className = `page-item ${i === currentPage ? "active" : ""}`;
-      pageItem.innerHTML = `<a class="page-link" href="#" aria-label="Page ${i}">${i}</a>`;
-      pageItem.addEventListener("click", (e) => {
-        e.preventDefault();
-        if (i !== currentPage) {
-          currentPage = i;
-          console.log("Chuyển đến trang:", currentPage);
-          loadArtists();
-        }
-      });
-      paginationContainer.appendChild(pageItem);
+    // Page numbers
+    const maxVisiblePages = 5;
+    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+    if (endPage - startPage + 1 < maxVisiblePages) {
+        startPage = Math.max(1, endPage - maxVisiblePages + 1);
     }
 
+    if (startPage > 1) {
+        const firstPage = document.createElement("li");
+        firstPage.className = "page-item";
+        firstPage.innerHTML = `<a class="page-link" href="#">1</a>`;
+        firstPage.addEventListener("click", (e) => {
+            e.preventDefault();
+            loadArtists(currentFilter, 1, searchQuery);
+        });
+        paginationContainer.appendChild(firstPage);
+
+        if (startPage > 2) {
+            const ellipsis = document.createElement("li");
+            ellipsis.className = "page-item disabled";
+            ellipsis.innerHTML = `<span class="page-link">...</span>`;
+            paginationContainer.appendChild(ellipsis);
+        }
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+        const pageItem = document.createElement("li");
+        pageItem.className = `page-item ${i === currentPage ? "active" : ""}`;
+        pageItem.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+        pageItem.addEventListener("click", (e) => {
+            e.preventDefault();
+            loadArtists(currentFilter, i, searchQuery);
+        });
+        paginationContainer.appendChild(pageItem);
+    }
+
+    if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+            const ellipsis = document.createElement("li");
+            ellipsis.className = "page-item disabled";
+            ellipsis.innerHTML = `<span class="page-link">...</span>`;
+            paginationContainer.appendChild(ellipsis);
+        }
+
+        const lastPage = document.createElement("li");
+        lastPage.className = "page-item";
+        lastPage.innerHTML = `<a class="page-link" href="#">${totalPages}</a>`;
+        lastPage.addEventListener("click", (e) => {
+            e.preventDefault();
+            loadArtists(currentFilter, totalPages, searchQuery);
+        });
+        paginationContainer.appendChild(lastPage);
+    }
+
+    // Next button
     const nextItem = document.createElement("li");
     nextItem.className = `page-item ${currentPage === totalPages ? "disabled" : ""}`;
-    nextItem.innerHTML = `<a class="page-link" href="#" aria-label="Next">Tiếp</a>`;
+    nextItem.innerHTML = `<a class="page-link" href="#" aria-label="Next"><i class="bi bi-chevron-right"></i></a>`;
     nextItem.addEventListener("click", (e) => {
-      e.preventDefault();
-      if (currentPage < totalPages) {
-        currentPage++;
-        console.log("Chuyển đến trang tiếp theo:", currentPage);
-        loadArtists();
-      }
+        e.preventDefault();
+        if (currentPage < totalPages) {
+            loadArtists(currentFilter, currentPage + 1, searchQuery);
+        }
     });
     paginationContainer.appendChild(nextItem);
-
-    console.log("Đã tạo phân trang với", totalPages, "trang");
   }
 
   // Gắn sự kiện cho nút
@@ -262,154 +300,115 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Thêm nghệ sĩ
   const addButton = document.querySelector(".btn-primary");
-  if (addButton) {
-    addButton.addEventListener("click", () => {
-      Swal.fire({
-        title: "<strong>Thêm Nghệ sĩ</strong>",
-        html: `
-          <div class="container" style="text-align: left; font-family: Arial, sans-serif;">
-            <div class="row mb-2">
-              <div class="col-12">
-                <h6 style="color: #333; font-size: 14px; font-weight: bold;">Thông tin chung</h6>
-                <p style="color: #666; font-size: 12px;">Cập nhật thông tin nghệ sĩ</p>
-              </div>
+if (addButton) {
+  addButton.addEventListener("click", () => {
+    Swal.fire({
+      title: "<strong>Thêm Nghệ Sĩ</strong>",
+      html: `
+        <div class="container" style="text-align: left; font-family: Arial, sans-serif;">
+          <div class="row mb-2">
+            <div class="col-12">
+              <h6 style="color: #333; font-size: 14px; font-weight: bold;">Thông Tin Nghệ Sĩ</h6>
+              <p style="color: #666; font-size: 12px;">Thêm thông tin nghệ sĩ mới</p>
             </div>
-            <div class="row mb-3">
-              <div class="col-12 text-center">
-                <div class="d-flex justify-content-center align-items-center" style="height: 80px; width: 80px; border-radius: 50%; background-color: #e0e0e0; margin: 0 auto;">
-                  <img id="preview-img" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: none;" />
-                  <span id="upload-text" style="color: #666; font-size: 12px; text-align: center;">Nhấn để tải lên</span>
-                </div>
-                <p style="color: #666; font-size: 10px; margin-top: 5px;">SVG, PNG, JPG hoặc GIF (tối đa 400x400px)</p>
-                <input type="file" id="profile-pic" accept="image/*" style="display: none;" />
+          </div>
+          <div class="row mb-3">
+            <div class="col-12 text-center">
+              <div class="d-flex justify-content-center align-items-center" style="height: 80px; width: 80px; border-radius: 50%; background-color: #e0e0e0; margin: 0 auto; position: relative; cursor: pointer;">
+                <img id="preview-img" style="display: none; height: 100%; width: 100%; border-radius: 50%; object-fit: cover;" />
+                <span id="upload-text" style="color: #666; font-size: 12px; text-align: center;">Nhấn để tải lên</span>
               </div>
+              <p style="color: #666; font-size: 10px; margin-top: 5px;">SVG, PNG, JPG hoặc GIF (tối đa 400x400px)</p>
+              <input type="file" id="artist-img" accept="image/*" style="display: none;" />
             </div>
-            <div class="row mb-2">
-              <div class="col-6">
-                <label class="form-label" style="color: #333; font-size: 12px;">Tên nghệ sĩ</label>
-                <div class="input-group">
-                  <span class="input-group-text" style="background-color: #fff; border-right: none; border-color: #ccc;">
-                    <i class="bi bi-person-fill" style="color: #666;"></i>
-                  </span>
-                  <input type="text" class="form-control" id="full-name" placeholder="Tên nghệ sĩ" style="font-size: 12px; border-left: none; border-color: #ccc;" />
-                </div>
-              </div>
-              <div class="col-6">
-                <label class="form-label" style="color: #333; font-size: 12px;">Số bài hát</label>
-                <div class="input-group">
-                  <span class="input-group-text" style="background-color: #fff; border-right: none; border-color: #ccc;">
-                    <i class="bi bi-music-note" style="color: #666;"></i>
-                  </span>
-                  <input type="number" class="form-control" id="song-count" placeholder="Số bài hát" style="font-size: 12px; border-left: none; border-color: #ccc;" />
-                </div>
-              </div>
-            </div>
-            <div class="row mb-2">
-              <div class="col-6">
-                <label class="form-label" style="color: #333; font-size: 12px;">Email</label>
-                <div class="input-group">
-                  <span class="input-group-text" style="background-color: #fff; border-right: none; border-color: #ccc;">
-                    <i class="bi bi-envelope-fill" style="color: #666;"></i>
-                  </span>
-                  <input type="email" class="form-control" id="email" placeholder="Địa chỉ Email" style="font-size: 12px; border-left: none; border-color: #ccc;" />
-                </div>
-              </div>
-              <div class="col-6">
-                <label class="form-label" style="color: #333; font-size: 12px;">Mật khẩu</label>
-                <div class="input-group">
-                  <span class="input-group-text" style="background-color: #fff; border-right: none; border-color: #ccc;">
-                    <i class="bi bi-lock-fill" style="color: #666;"></i>
-                  </span>
-                  <input type="password" class="form-control" id="password" placeholder="Mật khẩu" style="font-size: 12px; border-left: none; border-color: #ccc;" />
-                </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-6">
+              <label class="form-label" style="color: #333; font-size: 12px;">Tên Nghệ Sĩ</label>
+              <div class="input-group">
+                <span class="input-group-text" style="background-color: #fff; border-right: none; border-color: #ccc;">
+                  <i class="bi bi-person-fill" style="color: #666;"></i>
+                </span>
+                <input type="text" class="form-control" id="name" placeholder="Tên Nghệ Sĩ" style="font-size: 12px; border-left: none; border-color: #ccc;" />
               </div>
             </div>
           </div>
-        `,
-        showCloseButton: true,
-        showCancelButton: true,
-        focusConfirm: false,
-        confirmButtonText: "Thêm Nghệ sĩ",
-        cancelButtonText: "Hủy",
-        customClass: { popup: "custom-modal", confirmButton: "btn btn-primary", cancelButton: "btn btn-gray me-2" },
-        didOpen: () => {
-          const uploadArea = document.querySelector(".d-flex.justify-content-center.align-items-center");
-          const fileInput = document.getElementById("profile-pic");
-          const previewImg = document.getElementById("preview-img");
-          const uploadText = document.getElementById("upload-text");
-          if (uploadArea && fileInput) {
-            uploadArea.addEventListener("click", () => fileInput.click());
-            fileInput.addEventListener("change", async () => {
-              if (fileInput.files[0]) {
-                const base64 = await processImage(fileInput.files[0]);
-                if (base64) {
-                  previewImg.src = base64;
-                  previewImg.style.display = "block";
-                  uploadText.style.display = "none";
-                }
+          <div class="row mb-2">
+            <div class="col-6">
+              <label class="form-label" style="color: #333; font-size: 12px;">Loại</label>
+              <select class="form-select" id="type" style="font-size: 12px; border-color: #ccc;">
+                <option value="Featured_Artists">Nổi Bật</option>
+                <option value="Trending_Artists">Xu Hướng</option>
+                <option value="Top_Artists">Hàng Đầu</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      `,
+      showCloseButton: true,
+      showCancelButton: true,
+      focusConfirm: false,
+      confirmButtonText: "Thêm Nghệ Sĩ",
+      cancelButtonText: "Hủy",
+      customClass: { popup: "custom-modal", confirmButton: "btn btn-primary", cancelButton: "btn btn-gray me-2" },
+      didOpen: () => {
+        const uploadArea = document.querySelector(".d-flex.justify-content-center.align-items-center");
+        const fileInput = document.getElementById("artist-img");
+        const previewImg = document.getElementById("preview-img");
+        const uploadText = document.getElementById("upload-text");
+
+        if (uploadArea && fileInput && previewImg && uploadText) {
+          uploadArea.addEventListener("click", () => fileInput.click());
+          fileInput.addEventListener("change", async () => {
+            if (fileInput.files[0]) {
+              const base64 = await processImage(fileInput.files[0]);
+              if (base64) {
+                previewImg.src = base64;
+                previewImg.style.display = "block";
+                uploadText.style.display = "none";
               }
-            });
-          } else {
-            console.warn("Không tìm thấy khu vực tải lên trong modal!");
-          }
-        },
-        preConfirm: async () => {
-          const fullName = document.getElementById("full-name").value.trim();
-          const email = document.getElementById("email").value.trim();
-          const songCount = parseInt(document.getElementById("song-count").value) || 0;
-          const password = document.getElementById("password").value.trim();
-          const fileInput = document.getElementById("profile-pic");
-          const image = fileInput.files[0] ? await processImage(fileInput.files[0]) : null;
-          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-          const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
-          if (!fullName || !email || !password) {
-            Swal.showValidationMessage("Tên, Email và Mật khẩu là bắt buộc.");
-            return false;
-          }
-          if (!emailRegex.test(email)) {
-            Swal.showValidationMessage("Vui lòng nhập địa chỉ email hợp lệ.");
-            return false;
-          }
-          if (!passwordRegex.test(password)) {
-            Swal.showValidationMessage(
-              "Mật khẩu phải dài ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt."
-            );
-            return false;
-          }
-          if (artists.some((art) => art.email === email)) {
-            Swal.showValidationMessage("Email này đã được đăng ký.");
-            return false;
-          }
-
-          return { fullName, email, songCount, password, image };
-        },
-      }).then((result) => {
-        if (result.isConfirmed) {
-          let image = result.value.image || defaultImages[Math.floor(Math.random() * defaultImages.length)] || placeholderImage;
-          if (result.value.image) {
-            defaultImages.push(image);
-            localStorage.setItem("defaultImages", JSON.stringify(defaultImages));
-          }
-          artists.push({
-            artistId: `NG${Math.floor(Math.random() * 1000000).toString().padStart(6, "0")}`,
-            fullName: result.value.fullName,
-            email: result.value.email,
-            songCount: result.value.songCount,
-            role: "Artists",
-            password: result.value.password,
-            image,
+            }
           });
-          localStorage.setItem("artists", JSON.stringify(artists));
-          currentPage = 1;
-          loadArtists();
-          Swal.fire("Thành công!", "Đã thêm nghệ sĩ thành công.", "success");
+        } else {
+          console.warn("Không tìm thấy khu vực tải lên hoặc các phần tử liên quan trong modal!");
         }
-      });
+      },
+      preConfirm: async () => {
+        const fullName = document.getElementById("name").value.trim();
+        const type = document.getElementById("type").value;
+        const fileInput = document.getElementById("artist-img");
+        const image = fileInput.files[0] ? await processImage(fileInput.files[0]) : null;
+
+        if (!fullName) {
+          Swal.showValidationMessage("Tên nghệ sĩ là bắt buộc.");
+          return false;
+        }
+
+        return { fullName, type, image };
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        let image = result.value.image || defaultImages[Math.floor(Math.random() * defaultImages.length)] || placeholderImage;
+        if (result.value.image) {
+          defaultImages.push(image);
+          localStorage.setItem("defaultImages", JSON.stringify(defaultImages));
+        }
+        artists.push({
+          artistId: `NG${Math.floor(Math.random() * 1000000).toString().padStart(6, "0")}`,
+          fullName: result.value.fullName,
+          type: result.value.type,
+          image,
+        });
+        localStorage.setItem("artists", JSON.stringify(artists));
+        currentPage = 1;
+        loadArtists();
+        Swal.fire("Thành Công!", "Nghệ sĩ đã được thêm thành công.", "success");
+      }
     });
-  } else {
-    console.error("Không tìm thấy nút Thêm Nghệ sĩ (.btn-primary)!");
-  }
+  });
+} else {
+  console.error("Không tìm thấy nút Thêm Nghệ Sĩ (.btn-primary)!");
+}
 
   // Xóa nghệ sĩ
   function handleDelete(event) {
@@ -417,21 +416,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const artist = artists[index];
 
     Swal.fire({
-      title: "<strong>Xác nhận Xóa</strong>",
-      html: `<p style="color: #333; font-size: 14px;">Bạn có chắc muốn xóa nghệ sĩ <strong>${artist.fullName}</strong>?</p>`,
+      title: "<strong>Confirm Delete</strong>",
+      html: `<p style="color: #333; font-size: 14px;">Are you sure you want to delete artist <strong>${artist.fullName}</strong>?</p>`,
       showCloseButton: true,
       showCancelButton: true,
       focusConfirm: false,
-      confirmButtonText: "Xóa",
-      cancelButtonText: "Hủy",
-      customClass: { popup: "custom-modal", confirmButton: "btn btn-danger", cancelButton: "btn btn-gray me-2" },
+      confirmButtonText: "Delete",
+      cancelButtonText: "Cancel",
+      customClass: { popup: "custom-modal", confirmButton: "btn btn-danger", cancelButton: "btn btn-gray me-2" }
     }).then((result) => {
       if (result.isConfirmed) {
         artists.splice(index, 1);
         localStorage.setItem("artists", JSON.stringify(artists));
         currentPage = 1;
         loadArtists();
-        Swal.fire("Thành công!", "Đã xóa nghệ sĩ thành công.", "success");
+        Swal.fire("Success!", "Artist deleted successfully.", "success");
       }
     });
   }
@@ -442,13 +441,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const artist = artists[index];
 
     Swal.fire({
-      title: "<strong>Chỉnh sửa Nghệ sĩ</strong>",
+      title: "<strong>Edit Artist</strong>",
       html: `
         <div class="container" style="text-align: left; font-family: Arial, sans-serif;">
           <div class="row mb-2">
             <div class="col-12">
-              <h6 style="color: #333; font-size: 14px; font-weight: bold;">Thông tin chung</h6>
-              <p style="color: #666; font-size: 12px;">Cập nhật thông tin nghệ sĩ</p>
+              <h6 style="color: #333; font-size: 14px; font-weight: bold;">Artist Information</h6>
+              <p style="color: #666; font-size: 12px;">Update artist information</p>
             </div>
           </div>
           <div class="row mb-3">
@@ -497,8 +496,8 @@ document.addEventListener("DOMContentLoaded", () => {
       showCloseButton: true,
       showCancelButton: true,
       focusConfirm: false,
-      confirmButtonText: "Lưu",
-      cancelButtonText: "Hủy",
+      confirmButtonText: "Save",
+      cancelButtonText: "Cancel",
       customClass: { popup: "custom-modal", confirmButton: "btn btn-primary", cancelButton: "btn btn-gray me-2" },
       didOpen: () => {
         const uploadArea = document.querySelector(".d-flex.justify-content-center.align-items-center");
@@ -561,8 +560,8 @@ document.addEventListener("DOMContentLoaded", () => {
           image,
         };
         localStorage.setItem("artists", JSON.stringify(artists));
-        loadArtists();
-        Swal.fire("Thành công!", "Đã cập nhật nghệ sĩ thành công.", "success");
+        loadArtists(currentFilter, currentPage, searchQuery);
+        Swal.fire("Success!", "Artist updated successfully.", "success");
       }
     });
   }
@@ -617,17 +616,17 @@ document.addEventListener("DOMContentLoaded", () => {
     deleteSelectedBtn.addEventListener("click", () => {
       const checkboxes = document.querySelectorAll("tbody .form-check-input:checked");
       if (checkboxes.length === 0) {
-        Swal.fire("Cảnh báo", "Vui lòng chọn ít nhất một nghệ sĩ.", "warning");
+        Swal.fire("Warning", "Please select at least one artist.", "warning");
         return;
       }
 
       Swal.fire({
-        title: "Xác nhận Xóa",
-        text: `Bạn có chắc muốn xóa ${checkboxes.length} nghệ sĩ đã chọn?`,
+        title: "Confirm Delete",
+        text: `Are you sure you want to delete ${checkboxes.length} selected artists?`,
         showCancelButton: true,
-        confirmButtonText: "Xóa",
-        cancelButtonText: "Hủy",
-        customClass: { popup: "custom-modal", confirmButton: "btn btn-danger", cancelButton: "btn btn-gray me-2" },
+        confirmButtonText: "Delete",
+        cancelButtonText: "Cancel",
+        customClass: { popup: "custom-modal", confirmButton: "btn btn-danger", cancelButton: "btn btn-gray me-2" }
       }).then((result) => {
         if (result.isConfirmed) {
           const indices = Array.from(checkboxes)
@@ -646,7 +645,7 @@ document.addEventListener("DOMContentLoaded", () => {
           localStorage.setItem("artists", JSON.stringify(artists));
           currentPage = 1;
           loadArtists();
-          Swal.fire("Thành công", "Đã xóa các nghệ sĩ được chọn.", "success");
+          Swal.fire("Success", "Selected artists deleted.", "success");
         }
       });
     });

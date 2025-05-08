@@ -138,8 +138,13 @@ document.addEventListener("DOMContentLoaded", () => {
       updateFilterCounts(flatTracks);
       const totalItems = filteredTracks.length;
       const totalPages = Math.ceil(totalItems / itemsPerPage) || 1;
-      page = Math.max(1, Math.min(page, totalPages));
-      currentPage = page;
+      
+      // Reset to page 1 if current page is greater than total pages
+      if (page > totalPages) {
+          page = 1;
+          currentPage = 1;
+      }
+      
       const startIndex = (page - 1) * itemsPerPage;
       const paginatedTracks = filteredTracks.slice(startIndex, startIndex + itemsPerPage);
 
@@ -183,38 +188,81 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       paginationContainer.innerHTML = "";
 
+      // Previous button
       const prevItem = document.createElement("li");
       prevItem.className = `page-item ${currentPage === 1 ? "disabled" : ""}`;
-      prevItem.innerHTML = `<a class="page-link" href="#" aria-label="Previous">Trước</a>`;
+      prevItem.innerHTML = `<a class="page-link" href="#" aria-label="Previous"><i class="bi bi-chevron-left"></i></a>`;
       prevItem.addEventListener("click", (e) => {
           e.preventDefault();
           if (currentPage > 1) {
-              currentPage--;
-              loadTracks();
+              loadTracks(currentFilter, currentPage - 1, searchQuery);
           }
       });
       paginationContainer.appendChild(prevItem);
 
-      for (let i = 1; i <= totalPages; i++) {
+      // Page numbers
+      const maxVisiblePages = 5;
+      let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+      let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+      if (endPage - startPage + 1 < maxVisiblePages) {
+          startPage = Math.max(1, endPage - maxVisiblePages + 1);
+      }
+
+      if (startPage > 1) {
+          const firstPage = document.createElement("li");
+          firstPage.className = "page-item";
+          firstPage.innerHTML = `<a class="page-link" href="#">1</a>`;
+          firstPage.addEventListener("click", (e) => {
+              e.preventDefault();
+              loadTracks(currentFilter, 1, searchQuery);
+          });
+          paginationContainer.appendChild(firstPage);
+
+          if (startPage > 2) {
+              const ellipsis = document.createElement("li");
+              ellipsis.className = "page-item disabled";
+              ellipsis.innerHTML = `<span class="page-link">...</span>`;
+              paginationContainer.appendChild(ellipsis);
+          }
+      }
+
+      for (let i = startPage; i <= endPage; i++) {
           const pageItem = document.createElement("li");
           pageItem.className = `page-item ${i === currentPage ? "active" : ""}`;
-          pageItem.innerHTML = `<a class="page-link" href="#" aria-label="Page ${i}">${i}</a>`;
+          pageItem.innerHTML = `<a class="page-link" href="#">${i}</a>`;
           pageItem.addEventListener("click", (e) => {
               e.preventDefault();
-              currentPage = i;
-              loadTracks();
+              loadTracks(currentFilter, i, searchQuery);
           });
           paginationContainer.appendChild(pageItem);
       }
 
+      if (endPage < totalPages) {
+          if (endPage < totalPages - 1) {
+              const ellipsis = document.createElement("li");
+              ellipsis.className = "page-item disabled";
+              ellipsis.innerHTML = `<span class="page-link">...</span>`;
+              paginationContainer.appendChild(ellipsis);
+          }
+
+          const lastPage = document.createElement("li");
+          lastPage.className = "page-item";
+          lastPage.innerHTML = `<a class="page-link" href="#">${totalPages}</a>`;
+          lastPage.addEventListener("click", (e) => {
+              e.preventDefault();
+              loadTracks(currentFilter, totalPages, searchQuery);
+          });
+          paginationContainer.appendChild(lastPage);
+      }
+
+      // Next button
       const nextItem = document.createElement("li");
       nextItem.className = `page-item ${currentPage === totalPages ? "disabled" : ""}`;
-      nextItem.innerHTML = `<a class="page-link" href="#" aria-label="Next">Tiếp</a>`;
+      nextItem.innerHTML = `<a class="page-link" href="#" aria-label="Next"><i class="bi bi-chevron-right"></i></a>`;
       nextItem.addEventListener("click", (e) => {
           e.preventDefault();
           if (currentPage < totalPages) {
-              currentPage++;
-              loadTracks();
+              loadTracks(currentFilter, currentPage + 1, searchQuery);
           }
       });
       paginationContainer.appendChild(nextItem);
@@ -496,17 +544,26 @@ document.addEventListener("DOMContentLoaded", () => {
                   img: result.value.img,
                   mp3: result.value.mp3
               };
-              const oldCategory = tracksData.data.find((cat) => cat[category]);
-              oldCategory[category].splice(index, 1);
-              const newCategory = tracksData.data.find((cat) => cat[result.value.listType]) || {
-                  [result.value.listType]: []
-              };
-              if (!tracksData.data.includes(newCategory)) {
-                  tracksData.data.push(newCategory);
+
+              // If the type hasn't changed, just update the track in place
+              if (result.value.listType === category) {
+                  tracksData.data.find((cat) => cat[category])[category][index] = updatedTrack;
+              } else {
+                  // If the type has changed, remove from old category and add to new category
+                  const oldCategory = tracksData.data.find((cat) => cat[category]);
+                  oldCategory[category].splice(index, 1);
+                  
+                  const newCategory = tracksData.data.find((cat) => cat[result.value.listType]) || {
+                      [result.value.listType]: []
+                  };
+                  if (!tracksData.data.includes(newCategory)) {
+                      tracksData.data.push(newCategory);
+                  }
+                  newCategory[result.value.listType].push(updatedTrack);
               }
-              newCategory[result.value.listType].push(updatedTrack);
+
               saveTracks();
-              loadTracks();
+              loadTracks(currentFilter, currentPage, searchQuery);
               Swal.fire("Thành công!", "Đã cập nhật bài hát thành công.", "success");
           }
       });
