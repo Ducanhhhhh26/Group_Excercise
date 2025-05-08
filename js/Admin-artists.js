@@ -292,7 +292,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     return new Promise((resolve) => {
       const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
+      reader.onload = () => resolve(reader.result); 
       reader.onerror = () => resolve(null);
       reader.readAsDataURL(file);
     });
