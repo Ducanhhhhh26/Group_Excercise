@@ -66,21 +66,9 @@ let musicData = {
   ]
 };
 
-// Lưu musicData vào localStorage nếu chưa tồn tại
-if (!localStorage.getItem("musicData")) {
-  localStorage.setItem("musicData", JSON.stringify(musicData));
-}
-
-// Tải musicData từ localStorage nếu có
-if (localStorage.getItem("musicData")) {
-  musicData = JSON.parse(localStorage.getItem("musicData"));
-}
-
-// Khởi tạo tài khoản và tạo admin mặc định nếu chưa có
-let accounts = JSON.parse(localStorage.getItem("accounts")) || [];
-const hasAdmin = accounts.some((account) => account.role === "Admin");
-if (!hasAdmin) {
-  const defaultAdmin = {
+// Khởi tạo danh sách tài khoản tĩnh với admin mặc định
+let accounts = [
+  {
     accountId: "TK000001",
     fullName: "Admin User",
     email: "admin@example.com",
@@ -88,11 +76,10 @@ if (!hasAdmin) {
     dob: "01/01/1990",
     phone: "0123456789",
     hometown: "Hà Nội",
-    role: "Admin",
-  };
-  accounts.push(defaultAdmin);
-  localStorage.setItem("accounts", JSON.stringify(accounts));
-}
+    role: "Admin"
+  }
+];
+let currentUser = null;
 
 document.addEventListener("DOMContentLoaded", () => {
   // Chọn các phần tử DOM
@@ -152,8 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function filterContent(query) {
-    const data = JSON.parse(localStorage.getItem("musicData")) || musicData;
-    const albumItems = data.albums.filter(
+    const albumItems = musicData.albums.filter(
       (item) =>
         query === "" ||
         item.title.toLowerCase().includes(query) ||
@@ -182,7 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
     renderAlbumGrid(featuredArtistsGrid, albumItems, 6);
     renderAlbumGrid(featuredAlbumsGrid, albumItems, 7);
 
-    const chartItems = data.top15.filter(
+    const chartItems = musicData.top15.filter(
       (item) =>
         query === "" ||
         item.title.toLowerCase().includes(query) ||
@@ -279,7 +265,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Chức năng xác thực người dùng
   function updateAuthButtons() {
-    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
     let loginBtn = document.querySelector(".login-btn");
     const registerBtn = document.querySelector(".register-btn");
 
@@ -301,7 +286,7 @@ document.addEventListener("DOMContentLoaded", () => {
             cancelButtonText: "Cancel",
           }).then((result) => {
             if (result.isConfirmed) {
-              localStorage.removeItem("currentUser");
+              currentUser = null;
               Swal.fire(
                 "Logged out!",
                 "You have been successfully logged out.",
@@ -399,13 +384,12 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      const accounts = JSON.parse(localStorage.getItem("accounts")) || [];
       const user = accounts.find(
         (account) => account.email === email && account.password === password
       );
 
       if (user) {
-        localStorage.setItem("currentUser", JSON.stringify(user));
+        currentUser = user;
         Swal.fire("Thành công!", "Đăng nhập thành công.", "success").then(() => {
           modalLogin.classList.remove("show");
           modalLogin.style.display = "none";
@@ -489,7 +473,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      const accounts = JSON.parse(localStorage.getItem("accounts")) || [];
       if (accounts.some((account) => account.email === email)) {
         Swal.fire("Lỗi!", "Email này đã được đăng ký.", "error");
         return;
@@ -509,8 +492,7 @@ document.addEventListener("DOMContentLoaded", () => {
       };
 
       accounts.push(newAccount);
-      localStorage.setItem("accounts", JSON.stringify(accounts));
-      localStorage.setItem("currentUser", JSON.stringify(newAccount));
+      currentUser = newAccount;
 
       Swal.fire(
         "Thành công!",
