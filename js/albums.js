@@ -709,6 +709,7 @@ document.addEventListener("DOMContentLoaded", function () {
         phone: "",
         hometown: "",
         role: "Users",
+        favorite: [],
       };
 
       accounts.push(newAccount);

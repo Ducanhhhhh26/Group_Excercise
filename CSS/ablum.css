@@ -212,7 +212,7 @@ header{
   align-items: center;
   justify-content: center;
   flex-wrap: nowrap;
-  gap: 2rem;
+  gap: 1.8rem;
 }
 .Featured-item{
   margin-top: 2rem;
@@ -231,14 +231,14 @@ header{
   align-items: center;
   justify-content: center;
   flex-wrap: nowrap;
-  gap: 2rem;
+  gap: 1.8rem;
 }
 .Artists-albums{
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: nowrap;
-  gap: 2rem;
+  gap: 1.8rem;
 }
 .Trending-item{
   margin-top: 2rem;

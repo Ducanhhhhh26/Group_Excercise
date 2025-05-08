@@ -1,4 +1,4 @@
-// Khởi tạo dữ liệu và localStorage
+// // Khởi tạo dữ liệu và localStorage
 let musicData = {
   albums: [
     { title: "Endless Summer", artist: "Sarah Johnson", image: "../assets/images/img_2.png", mp3: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
@@ -648,7 +648,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
-
+let volume = document.getElementById("volume");
+  volume.addEventListener("click", function () {
+    if(audio.muted){
+      audio.muted = false;
+      volume.innerHTML = `<i class="bi bi-volume-up"></i>`;
+    }else{
+      audio.muted = true;
+      volume.innerHTML = `<i class="bi bi-volume-mute"></i>`;
+    }
+  });
 // Khởi tạo giao diện
 updateAuthButtons();
 filterContent(""); // Tải nội dung ban đầu
