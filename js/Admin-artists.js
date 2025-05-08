@@ -300,143 +300,115 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Thêm nghệ sĩ
   const addButton = document.querySelector(".btn-primary");
-  if (addButton) {
-    addButton.addEventListener("click", () => {
-      Swal.fire({
-        title: "<strong>Add Artist</strong>",
-        html: `
-          <div class="container" style="text-align: left; font-family: Arial, sans-serif;">
-            <div class="row mb-2">
-              <div class="col-12">
-                <h6 style="color: #333; font-size: 14px; font-weight: bold;">Artist Information</h6>
-                <p style="color: #666; font-size: 12px;">Add new artist information</p>
-              </div>
+if (addButton) {
+  addButton.addEventListener("click", () => {
+    Swal.fire({
+      title: "<strong>Thêm Nghệ Sĩ</strong>",
+      html: `
+        <div class="container" style="text-align: left; font-family: Arial, sans-serif;">
+          <div class="row mb-2">
+            <div class="col-12">
+              <h6 style="color: #333; font-size: 14px; font-weight: bold;">Thông Tin Nghệ Sĩ</h6>
+              <p style="color: #666; font-size: 12px;">Thêm thông tin nghệ sĩ mới</p>
             </div>
-            <div class="row mb-3">
-              <div class="col-12 text-center">
-                <div class="d-flex justify-content-center align-items-center" style="height: 80px; width: 80px; border-radius: 50%; background-color: #e0e0e0; margin: 0 auto;">
-                  <span style="color: #666; font-size: 12px; text-align: center;">Click to upload</span>
-                </div>
-                <p style="color: #666; font-size: 10px; margin-top: 5px;">SVG, PNG, JPG or GIF (max. 400x400px)</p>
-                <input type="file" id="artist-img" accept="image/*" style="display: none;" />
+          </div>
+          <div class="row mb-3">
+            <div class="col-12 text-center">
+              <div class="d-flex justify-content-center align-items-center" style="height: 80px; width: 80px; border-radius: 50%; background-color: #e0e0e0; margin: 0 auto; position: relative; cursor: pointer;">
+                <img id="preview-img" style="display: none; height: 100%; width: 100%; border-radius: 50%; object-fit: cover;" />
+                <span id="upload-text" style="color: #666; font-size: 12px; text-align: center;">Nhấn để tải lên</span>
               </div>
+              <p style="color: #666; font-size: 10px; margin-top: 5px;">SVG, PNG, JPG hoặc GIF (tối đa 400x400px)</p>
+              <input type="file" id="artist-img" accept="image/*" style="display: none;" />
             </div>
-            <div class="row mb-2">
-              <div class="col-6">
-                <label class="form-label" style="color: #333; font-size: 12px;">Artist Name</label>
-                <div class="input-group">
-                  <span class="input-group-text" style="background-color: #fff; border-right: none; border-color: #ccc;">
-                    <i class="bi bi-person-fill" style="color: #666;"></i>
-                  </span>
-                  <input type="text" class="form-control" id="name" placeholder="Artist Name" style="font-size: 12px; border-left: none; border-color: #ccc;" />
-                </div>
-              </div>
-              <div class="col-6">
-                <label class="form-label" style="color: #333; font-size: 12px;">Image URL</label>
-                <div class="input-group">
-                  <span class="input-group-text" style="background-color: #fff; border-right: none; border-color: #ccc;">
-                    <i class="bi bi-image" style="color: #666;"></i>
-                  </span>
-                  <input type="text" class="form-control" id="img" placeholder="Image URL" style="font-size: 12px; border-left: none; border-color: #ccc;" />
-                </div>
-              </div>
-            </div>
-            <div class="row mb-2">
-              <div class="col-6">
-                <label class="form-label" style="color: #333; font-size: 12px;">Type</label>
-                <select class="form-select" id="type" style="font-size: 12px; border-color: #ccc;">
-                  <option value="Featured_Artists">Featured</option>
-                  <option value="Trending_Artists">Trending</option>
-                  <option value="Top_Artists">Top Artists</option>
-                </select>
+          </div>
+          <div class="row mb-2">
+            <div class="col-6">
+              <label class="form-label" style="color: #333; font-size: 12px;">Tên Nghệ Sĩ</label>
+              <div class="input-group">
+                <span class="input-group-text" style="background-color: #fff; border-right: none; border-color: #ccc;">
+                  <i class="bi bi-person-fill" style="color: #666;"></i>
+                </span>
+                <input type="text" class="form-control" id="name" placeholder="Tên Nghệ Sĩ" style="font-size: 12px; border-left: none; border-color: #ccc;" />
               </div>
             </div>
           </div>
-        `,
-        showCloseButton: true,
-        showCancelButton: true,
-        focusConfirm: false,
-        confirmButtonText: "Add Artist",
-        cancelButtonText: "Cancel",
-        customClass: { popup: "custom-modal", confirmButton: "btn btn-primary", cancelButton: "btn btn-gray me-2" },
-        didOpen: () => {
-          const uploadArea = document.querySelector(".d-flex.justify-content-center.align-items-center");
-          const fileInput = document.getElementById("artist-img");
-          const previewImg = document.getElementById("preview-img");
-          const uploadText = document.getElementById("upload-text");
-          if (uploadArea && fileInput) {
-            uploadArea.addEventListener("click", () => fileInput.click());
-            fileInput.addEventListener("change", async () => {
-              if (fileInput.files[0]) {
-                const base64 = await processImage(fileInput.files[0]);
-                if (base64) {
-                  previewImg.src = base64;
-                  previewImg.style.display = "block";
-                  uploadText.style.display = "none";
-                }
+          <div class="row mb-2">
+            <div class="col-6">
+              <label class="form-label" style="color: #333; font-size: 12px;">Loại</label>
+              <select class="form-select" id="type" style="font-size: 12px; border-color: #ccc;">
+                <option value="Featured_Artists">Nổi Bật</option>
+                <option value="Trending_Artists">Xu Hướng</option>
+                <option value="Top_Artists">Hàng Đầu</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      `,
+      showCloseButton: true,
+      showCancelButton: true,
+      focusConfirm: false,
+      confirmButtonText: "Thêm Nghệ Sĩ",
+      cancelButtonText: "Hủy",
+      customClass: { popup: "custom-modal", confirmButton: "btn btn-primary", cancelButton: "btn btn-gray me-2" },
+      didOpen: () => {
+        const uploadArea = document.querySelector(".d-flex.justify-content-center.align-items-center");
+        const fileInput = document.getElementById("artist-img");
+        const previewImg = document.getElementById("preview-img");
+        const uploadText = document.getElementById("upload-text");
+
+        if (uploadArea && fileInput && previewImg && uploadText) {
+          uploadArea.addEventListener("click", () => fileInput.click());
+          fileInput.addEventListener("change", async () => {
+            if (fileInput.files[0]) {
+              const base64 = await processImage(fileInput.files[0]);
+              if (base64) {
+                previewImg.src = base64;
+                previewImg.style.display = "block";
+                uploadText.style.display = "none";
               }
-            });
-          } else {
-            console.warn("Không tìm thấy khu vực tải lên trong modal!");
-          }
-        },
-        preConfirm: async () => {
-          const fullName = document.getElementById("name").value.trim();
-          const email = document.getElementById("email").value.trim();
-          const songCount = parseInt(document.getElementById("song-count").value) || 0;
-          const password = document.getElementById("password").value.trim();
-          const fileInput = document.getElementById("artist-img");
-          const image = fileInput.files[0] ? await processImage(fileInput.files[0]) : null;
-          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-          const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
-          if (!fullName || !email || !password) {
-            Swal.showValidationMessage("Tên, Email và Mật khẩu là bắt buộc.");
-            return false;
-          }
-          if (!emailRegex.test(email)) {
-            Swal.showValidationMessage("Vui lòng nhập địa chỉ email hợp lệ.");
-            return false;
-          }
-          if (!passwordRegex.test(password)) {
-            Swal.showValidationMessage(
-              "Mật khẩu phải dài ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt."
-            );
-            return false;
-          }
-          if (artists.some((art) => art.email === email)) {
-            Swal.showValidationMessage("Email này đã được đăng ký.");
-            return false;
-          }
-
-          return { fullName, email, songCount, password, image };
-        },
-      }).then((result) => {
-        if (result.isConfirmed) {
-          let image = result.value.image || defaultImages[Math.floor(Math.random() * defaultImages.length)] || placeholderImage;
-          if (result.value.image) {
-            defaultImages.push(image);
-            localStorage.setItem("defaultImages", JSON.stringify(defaultImages));
-          }
-          artists.push({
-            artistId: `NG${Math.floor(Math.random() * 1000000).toString().padStart(6, "0")}`,
-            fullName: result.value.fullName,
-            email: result.value.email,
-            songCount: result.value.songCount,
-            role: "Artists",
-            password: result.value.password,
-            image,
+            }
           });
-          localStorage.setItem("artists", JSON.stringify(artists));
-          currentPage = 1;
-          loadArtists();
-          Swal.fire("Success!", "Artist added successfully.", "success");
+        } else {
+          console.warn("Không tìm thấy khu vực tải lên hoặc các phần tử liên quan trong modal!");
         }
-      });
+      },
+      preConfirm: async () => {
+        const fullName = document.getElementById("name").value.trim();
+        const type = document.getElementById("type").value;
+        const fileInput = document.getElementById("artist-img");
+        const image = fileInput.files[0] ? await processImage(fileInput.files[0]) : null;
+
+        if (!fullName) {
+          Swal.showValidationMessage("Tên nghệ sĩ là bắt buộc.");
+          return false;
+        }
+
+        return { fullName, type, image };
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        let image = result.value.image || defaultImages[Math.floor(Math.random() * defaultImages.length)] || placeholderImage;
+        if (result.value.image) {
+          defaultImages.push(image);
+          localStorage.setItem("defaultImages", JSON.stringify(defaultImages));
+        }
+        artists.push({
+          artistId: `NG${Math.floor(Math.random() * 1000000).toString().padStart(6, "0")}`,
+          fullName: result.value.fullName,
+          type: result.value.type,
+          image,
+        });
+        localStorage.setItem("artists", JSON.stringify(artists));
+        currentPage = 1;
+        loadArtists();
+        Swal.fire("Thành Công!", "Nghệ sĩ đã được thêm thành công.", "success");
+      }
     });
-  } else {
-    console.error("Không tìm thấy nút Thêm Nghệ sĩ (.btn-primary)!");
-  }
+  });
+} else {
+  console.error("Không tìm thấy nút Thêm Nghệ Sĩ (.btn-primary)!");
+}
 
   // Xóa nghệ sĩ
   function handleDelete(event) {
