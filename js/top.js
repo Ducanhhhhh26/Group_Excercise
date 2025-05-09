@@ -236,7 +236,7 @@ document.addEventListener("DOMContentLoaded", () => {
           id: track.id,
           name: track.artist,
           name_music: track.nameMusic,
-          img: track.img || "../assets/default.png", // Giả sử nếu img thiếu
+          img: track.img || "../assets/default.png",
           mp3: track.mp3 || "",
         }));
         category.top_all_times = category.top_all_times.map((track) => ({
