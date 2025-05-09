@@ -1,71 +1,72 @@
-let musicData = {
-  played: [
-    { id: "1", title: "Endless Summer", artist: "Sarah Johnson", image: "../assets/images/img_2.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "2", title: "Midnight Dreams", artist: "Alex Turner", image: "../assets/images/img_3.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "3", title: "Neon Lights", artist: "Electro Beats", image: "../assets/images/img_4.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "4", title: "Mountain View", artist: "Nature Sounds", image: "../assets/images/img_5.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "5", title: "City Lights", artist: "Urban Rhythms", image: "../assets/images/img_6.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "6", title: "Ocean Waves", artist: "Coastal Sounds", image: "../assets/images/img_7.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "7", title: "Bloodlust", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song1.jpg.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "8", title: "Time flies", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song5.jpg.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "9", title: "Dark matters", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song6.jpg.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "10", title: "Eye to eye", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song1.jpg.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "11", title: "Cloud nine", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song3.jpg.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "12", title: "Cobweb of lies", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song5.jpg.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" }
-  ],
-  top15: [
-    { id: "1", title: "Summer Vibes", artist: "Beach Boys", image: "../assets/images/img_10.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "2", title: "Moonlit Nights", artist: "Luna Echo", image: "../assets/images/img_11.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "3", title: "Electric Pulse", artist: "DJ Spark", image: "../assets/images/img_12.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "4", title: "Golden Hour", artist: "Sunny Days", image: "../assets/images/img_13.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "5", title: "Echoes of Love", artist: "Heartstrings", image: "../assets/images/img_14.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "6", title: "City Dreams", artist: "Urban Echo", image: "../assets/images/img_15.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "7", title: "Starry Sky", artist: "Night Glow", image: "../assets/images/img_16.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "8", title: "Rhythm Flow", artist: "Beat Master", image: "../assets/images/img_17.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "9", title: "Ocean Breeze", artist: "Wave Riders", image: "../assets/images/img_18.png", mp3: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" },
-    { id: "10", title: "Sunset Glow", artist: "Horizon Band", image: "../assets/images/img_14.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "11", title: "Neon Dreams", artist: "Light Pulse", image: "../assets/images/img_17.png", mp3: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" },
-    { id: "12", title: "Wild Hearts", artist: "Free Spirits", image: "../assets/images/img_10.png", mp3: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
-    { id: "13", title: "Crystal Echo", artist: "Glass Notes", image: "../assets/images/img_16.png", mp3: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3" },
-    { id: "14", title: "Frosty Nights", artist: "Winter Chill", image: "../assets/images/img_19.png", mp3: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3" },
-    { id: "15", title: "Fire Within", artist: "Blaze Band", image: "../assets/images/img_15.png", mp3: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-11.mp3" }
-  ],
-  artist: [
-    { id: "1", title: "Endless Summer", artist: "Sarah Johnson", image: "../assets/images/img_2.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "2", title: "Midnight Dreams", artist: "Alex Turner", image: "../assets/images/img_3.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "3", title: "Neon Lights", artist: "Electro Beats", image: "../assets/images/img_4.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "4", title: "Mountain View", artist: "Nature Sounds", image: "../assets/images/img_5.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "5", title: "City Lights", artist: "Urban Rhythms", image: "../assets/images/img_6.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "6", title: "Ocean Waves", artist: "Coastal Sounds", image: "../assets/images/img_7.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "7", title: "Bloodlust", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song1.jpg.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "8", title: "Time flies", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song5.jpg.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "9", title: "Dark matters", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song6.jpg.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "10", title: "Eye to eye", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song1.jpg.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "11", title: "Cloud nine", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song3.jpg.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "12", title: "Cobweb of lies", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song5.jpg.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" }
-  ],
-  releases: [
-    { title: "Dark Alley Acoustic", artist: "Ava Cornish", image: "../assets/images/img_14.png", duration: "5:10", mp3: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3" },
-    { title: "Dreamy Nights", artist: "Luna Echo", image: "../assets/images/img_16.png", duration: "4:30", mp3: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-13.mp3" },
-    { title: "Electric Vibes", artist: "DJ Spark", image: "../assets/images/img_11.png", duration: "3:45", mp3: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-14.mp3" },
-    { title: "Golden Sunset", artist: "Sunny Days", image: "../assets/images/img_15.png", duration: "4:15", mp3: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3" }
-  ],
-  albums: [
-    { id: "1", title: "Endless Summer", artist: "Sarah Johnson", image: "../assets/images/img_2.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "2", title: "Midnight Dreams", artist: "Alex Turner", image: "../assets/images/img_3.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "3", title: "Neon Lights", artist: "Electro Beats", image: "../assets/images/img_4.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "4", title: "Mountain View", artist: "Nature Sounds", image: "../assets/images/img_5.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "5", title: "City Lights", artist: "Urban Rhythms", image: "../assets/images/img_6.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "6", title: "Ocean Waves", artist: "Coastal Sounds", image: "../assets/images/img_7.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "7", title: "Bloodlust", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song1.jpg.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "8", title: "Time flies", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song5.jpg.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "9", title: "Dark matters", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song6.jpg.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "10", title: "Eye to eye", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song1.jpg.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "11", title: "Cloud nine", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song3.jpg.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
-    { id: "12", title: "Cobweb of lies", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song5.jpg.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" }
-  ]
-};
-
+// let musicData = {
+//   played: [
+//     { id: "1", title: "Endless Summer", artist: "Sarah Johnson", image: "../assets/images/img_2.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "2", title: "Midnight Dreams", artist: "Alex Turner", image: "../assets/images/img_3.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "3", title: "Neon Lights", artist: "Electro Beats", image: "../assets/images/img_4.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "4", title: "Mountain View", artist: "Nature Sounds", image: "../assets/images/img_5.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "5", title: "City Lights", artist: "Urban Rhythms", image: "../assets/images/img_6.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "6", title: "Ocean Waves", artist: "Coastal Sounds", image: "../assets/images/img_7.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "7", title: "Bloodlust", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song1.jpg.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "8", title: "Time flies", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song5.jpg.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "9", title: "Dark matters", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song6.jpg.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "10", title: "Eye to eye", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song1.jpg.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "11", title: "Cloud nine", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song3.jpg.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "12", title: "Cobweb of lies", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song5.jpg.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" }
+//   ],
+//   top15: [
+//     { id: "1", title: "Summer Vibes", artist: "Beach Boys", image: "../assets/images/img_10.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "2", title: "Moonlit Nights", artist: "Luna Echo", image: "../assets/images/img_11.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "3", title: "Electric Pulse", artist: "DJ Spark", image: "../assets/images/img_12.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "4", title: "Golden Hour", artist: "Sunny Days", image: "../assets/images/img_13.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "5", title: "Echoes of Love", artist: "Heartstrings", image: "../assets/images/img_14.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "6", title: "City Dreams", artist: "Urban Echo", image: "../assets/images/img_15.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "7", title: "Starry Sky", artist: "Night Glow", image: "../assets/images/img_16.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "8", title: "Rhythm Flow", artist: "Beat Master", image: "../assets/images/img_17.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "9", title: "Ocean Breeze", artist: "Wave Riders", image: "../assets/images/img_18.png", mp3: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" },
+//     { id: "10", title: "Sunset Glow", artist: "Horizon Band", image: "../assets/images/img_14.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "11", title: "Neon Dreams", artist: "Light Pulse", image: "../assets/images/img_17.png", mp3: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" },
+//     { id: "12", title: "Wild Hearts", artist: "Free Spirits", image: "../assets/images/img_10.png", mp3: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
+//     { id: "13", title: "Crystal Echo", artist: "Glass Notes", image: "../assets/images/img_16.png", mp3: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3" },
+//     { id: "14", title: "Frosty Nights", artist: "Winter Chill", image: "../assets/images/img_19.png", mp3: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3" },
+//     { id: "15", title: "Fire Within", artist: "Blaze Band", image: "../assets/images/img_15.png", mp3: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-11.mp3" }
+//   ],
+//   artist: [
+//     { id: "1", title: "Endless Summer", artist: "Sarah Johnson", image: "../assets/images/img_2.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "2", title: "Midnight Dreams", artist: "Alex Turner", image: "../assets/images/img_3.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "3", title: "Neon Lights", artist: "Electro Beats", image: "../assets/images/img_4.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "4", title: "Mountain View", artist: "Nature Sounds", image: "../assets/images/img_5.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "5", title: "City Lights", artist: "Urban Rhythms", image: "../assets/images/img_6.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "6", title: "Ocean Waves", artist: "Coastal Sounds", image: "../assets/images/img_7.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "7", title: "Bloodlust", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song1.jpg.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "8", title: "Time flies", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song5.jpg.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "9", title: "Dark matters", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song6.jpg.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "10", title: "Eye to eye", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song1.jpg.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "11", title: "Cloud nine", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song3.jpg.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "12", title: "Cobweb of lies", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song5.jpg.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" }
+//   ],
+//   releases: [
+//     { title: "Dark Alley Acoustic", artist: "Ava Cornish", image: "../assets/images/img_14.png", duration: "5:10", mp3: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3" },
+//     { title: "Dreamy Nights", artist: "Luna Echo", image: "../assets/images/img_16.png", duration: "4:30", mp3: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-13.mp3" },
+//     { title: "Electric Vibes", artist: "DJ Spark", image: "../assets/images/img_11.png", duration: "3:45", mp3: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-14.mp3" },
+//     { title: "Golden Sunset", artist: "Sunny Days", image: "../assets/images/img_15.png", duration: "4:15", mp3: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3" }
+//   ],
+//   albums: [
+//     { id: "1", title: "Endless Summer", artist: "Sarah Johnson", image: "../assets/images/img_2.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "2", title: "Midnight Dreams", artist: "Alex Turner", image: "../assets/images/img_3.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "3", title: "Neon Lights", artist: "Electro Beats", image: "../assets/images/img_4.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "4", title: "Mountain View", artist: "Nature Sounds", image: "../assets/images/img_5.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "5", title: "City Lights", artist: "Urban Rhythms", image: "../assets/images/img_6.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "6", title: "Ocean Waves", artist: "Coastal Sounds", image: "../assets/images/img_7.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "7", title: "Bloodlust", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song1.jpg.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "8", title: "Time flies", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song5.jpg.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "9", title: "Dark matters", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song6.jpg.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "10", title: "Eye to eye", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song1.jpg.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "11", title: "Cloud nine", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song3.jpg.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" },
+//     { id: "12", title: "Cobweb of lies", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song5.jpg.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" }
+//   ]
+// };
+let musicData = JSON.parse(localStorage.getItem("homepage")) ||  [];
+// Danh sách tài khoản tĩnh
 let accounts = [
   { email: "admin@example.com", password: "Admin@123", fullName: "Admin User", role: "Admin" }
 ];
