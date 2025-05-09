@@ -218,337 +218,85 @@ document.addEventListener("DOMContentLoaded", () => {
   // Load songData from localStorage
   let songData = JSON.parse(localStorage.getItem("songData")) || topMusicSong;
 
-  //Khong lam
-  // Active link
-  const links = document.querySelectorAll(".sidebar a");
-  const currentPage = window.location.pathname.split("/").pop();
-  links.forEach((link) => {
-    const linkPage = link.getAttribute("href");
-    if (linkPage === currentPage) {
-      link.classList.add("active");
-    }
-  });
-
-  // Sidebar toggle
-  const sidebar = document.querySelector(".sidebar");
-  const chevronBtn = document.querySelector(".sidebar-chevorn a");
-  const mainContent = document.querySelector(".container");
-  const header = document.querySelector("header");
-  let isSidebarExpanded = false;
-
-  if (chevronBtn) {
-    chevronBtn.addEventListener("click", () => {
-      isSidebarExpanded = !isSidebarExpanded;
-      if (isSidebarExpanded) {
-        sidebar.classList.add("expanded");
-        mainContent?.classList.add("expanded");
-        header.classList.add("expanded");
-        chevronBtn
-          .querySelector("i")
-          .classList.replace("fa-chevron-right", "fa-chevron-left");
-      } else {
-        sidebar.classList.remove("expanded");
-        mainContent?.classList.remove("expanded");
-        header.classList.remove("expanded");
-        chevronBtn
-          .querySelector("i")
-          .classList.replace("fa-chevron-left", "fa-chevron-right");
-      }
-    });
-  }
-
-  // Modal Toggling and Music Player Visibility
-  const modalLogin = document.querySelector(".modalLogin");
-  const modalRegister = document.querySelector(".modalRegister");
-  const musicPlayer = document.querySelector(".music-player");
-
-  const toggleMusicPlayerVisibility = () => {
-    if (
-      (modalLogin && modalLogin.classList.contains("show")) ||
-      (modalRegister && modalRegister.classList.contains("show"))
-    ) {
-      musicPlayer?.classList.add("hidden");
-    } else {
-      musicPlayer?.classList.remove("hidden");
-    }
-  };
-
-  // Authentication Functions
-  function updateAuthButtons() {
-    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    const authContainer = document.querySelector(
-      "header .d-flex.align-items-center > div:last-child"
-    );
-    let loginBtn = document.querySelector(".login-btn, .logout-btn");
-    const registerBtn = document.querySelector(".register-btn");
-
-    // Remove existing welcome message
-    const welcomeMessage = authContainer.querySelector("span.me-2");
-    if (welcomeMessage) welcomeMessage.remove();
-
-    if (currentUser) {
-      if (registerBtn) registerBtn.style.display = "none";
-      if (loginBtn) {
-        loginBtn.textContent = "Logout";
-        loginBtn.classList.remove("login-btn");
-        loginBtn.classList.add("logout-btn");
-        const newLoginBtn = loginBtn.cloneNode(true);
-        loginBtn.parentNode.replaceChild(newLoginBtn, loginBtn);
-        newLoginBtn.addEventListener("click", handleLogout);
-      }
-      const welcomeSpan = document.createElement("span");
-      welcomeSpan.className = "me-2";
-      welcomeSpan.textContent = `Welcome, ${currentUser.fullName}`;
-      authContainer.insertBefore(welcomeSpan, authContainer.firstChild);
-    } else {
-      if (registerBtn) registerBtn.style.display = "inline-block";
-      if (loginBtn && loginBtn.classList.contains("logout-btn")) {
-        loginBtn.textContent = "Login";
-        loginBtn.classList.remove("logout-btn");
-        loginBtn.classList.add("login-btn");
-        const newLoginBtn = loginBtn.cloneNode(true);
-        loginBtn.parentNode.replaceChild(newLoginBtn, loginBtn);
-        loginBtn = newLoginBtn;
-      }
-      if (loginBtn) {
-        loginBtn.addEventListener("click", () => {
-          if (modalLogin) {
-            modalLogin.classList.add("show");
-            modalLogin.style.display = "flex";
-            toggleMusicPlayerVisibility();
-          } else {
-            Swal.fire("Error!", "Login modal not found.", "error");
-          }
+  // Hàm cập nhật danh sách bài hát
+  function updateSongLists(data) {
+    // Cập nhật Weekly Top 15
+    const top15Container = document.querySelector("#allTop15");
+    if (top15Container) {
+      top15Container.innerHTML = "";
+      const topMusic =
+        data.data.find((item) => item.top_music)?.top_music || [];
+      const rows = [];
+      for (let i = 0; i < topMusic.length; i += 5) {
+        const row = document.createElement("div");
+        row.id = "top15Row";
+        topMusic.slice(i, i + 5).forEach((song, index) => {
+          const item = document.createElement("div");
+          item.style.display = "flex";
+          item.setAttribute("onclick", `playSong(${i + index}, 'top_music')`);
+          item.innerHTML = `
+            <h2 id="top15Small">${(i + index + 1)
+              .toString()
+              .padStart(2, "0")}</h2>
+            <div><img src="${song.img}" alt=""></div>
+            <div>
+              <div class="songTitle">${song.name_music}</div>
+              <div class="artistName">${song.name}</div>
+            </div>
+            <div class="songDuration">5:10</div>
+            <div class="moreOptions">...</div>
+          `;
+          row.appendChild(item);
         });
+        rows.push(row);
       }
+      rows.forEach((row) => top15Container.appendChild(row));
     }
 
-    const newRegisterBtn = document.querySelector(".register-btn");
-    if (newRegisterBtn) {
-      newRegisterBtn.addEventListener("click", () => {
-        if (modalRegister) {
-          modalRegister.classList.add("show");
-          modalRegister.style.display = "flex";
-          toggleMusicPlayerVisibility();
-        } else {
-          Swal.fire("Error!", "Register modal not found.", "error");
-        }
+    // Cập nhật Top Tracks of All Time
+    const topAllTimesRow = document.querySelector("#topAllTimesRow");
+    if (topAllTimesRow) {
+      topAllTimesRow.innerHTML = "";
+      const topAllTimes =
+        data.data.find((item) => item.top_all_times)?.top_all_times || [];
+      topAllTimes.forEach((song, index) => {
+        const item = document.createElement("div");
+        item.className = "topAllTimesItem";
+        item.setAttribute("onclick", `playSong(${index}, 'top_all_times')`);
+        item.innerHTML = `
+          <img src="${song.img}" alt="">
+          <div class="songTitle">${song.name_music}</div>
+          <div class="artistName">${song.name}</div>
+        `;
+        topAllTimesRow.appendChild(item);
       });
     }
-  }
 
-  function handleLogout() {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You will be logged out of your account.",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, log out",
-      cancelButtonText: "Cancel",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        localStorage.removeItem("currentUser");
-        Swal.fire(
-          "Logged out!",
-          "You have been successfully logged out.",
-          "success"
-        );
-        updateAuthButtons();
-        // Reset search
-        const searchInput = document.querySelector(".search-input");
-        if (searchInput) searchInput.value = "";
-        document.querySelectorAll("#top15Row > div").forEach((el) => {
-          el.style.display = "flex";
-        });
-        document.querySelectorAll(".topAllTimesItem").forEach((el) => {
-          el.style.display = "block";
-        });
-        document.querySelectorAll(".trendingItem").forEach((el) => {
-          el.style.display = "flex";
-        });
-      }
-    });
-  }
-
-  // Login Modal
-  const loginForm = document.querySelector(".formLogin");
-  const forgotPasswordLink = document.querySelector(
-    ".modalLogin .checkbox-forgot p"
-  );
-  const registerLink = document.querySelector(".formLogin a");
-
-  if (modalLogin) {
-    modalLogin.addEventListener("click", (e) => {
-      if (e.target === modalLogin) {
-        modalLogin.classList.remove("show");
-        modalLogin.style.display = "none";
-        toggleMusicPlayerVisibility();
-      }
-    });
-  }
-
-  if (loginForm) {
-    loginForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value.trim();
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-      if (!emailRegex.test(email)) {
-        Swal.fire("Error!", "Please enter a valid email address.", "error");
-        return;
-      }
-      if (!password) {
-        Swal.fire("Error!", "Please enter a password.", "error");
-        return;
-      }
-
-      const accounts = JSON.parse(localStorage.getItem("accounts")) || [];
-      const user = accounts.find(
-        (account) => account.email === email && account.password === password
-      );
-
-      if (user) {
-        localStorage.setItem("currentUser", JSON.stringify(user));
-        Swal.fire("Success!", "Logged in successfully.", "success").then(() => {
-          modalLogin.classList.remove("show");
-          modalLogin.style.display = "none";
-          loginForm.reset();
-          toggleMusicPlayerVisibility();
-          updateAuthButtons();
-          if (user.role === "Admin") {
-            window.location.href = "Admin-page.html";
-          }
-        });
-      } else {
-        Swal.fire("Error!", "Invalid email or password.", "error");
-      }
-    });
-  }
-
-  if (forgotPasswordLink) {
-    forgotPasswordLink.addEventListener("click", (e) => {
-      e.preventDefault();
-      Swal.fire({
-        title: "Forgot Password",
-        text: "Please contact support at shadowsgamer371@gmail.com to reset your password.",
-        icon: "info",
+    // Cập nhật Trending Tracks
+    const trendingRow = document.querySelector(".trendingRow");
+    if (trendingRow) {
+      trendingRow.innerHTML = "";
+      const trending = data.data.find((item) => item.trending)?.trending || [];
+      trending.forEach((song, index) => {
+        const item = document.createElement("div");
+        item.className = "trendingItem";
+        item.setAttribute("onclick", `playSong(${index}, 'trending')`);
+        item.innerHTML = `
+          <img src="${song.img}" alt="">
+          <div class="trackInfo">
+            <div class="songTitle">${song.name_music}</div>
+            <div class="artistName">${song.name}</div>
+          </div>
+          <div class="songDuration">5:10</div>
+        `;
+        trendingRow.appendChild(item);
       });
-    });
-  }
-
-  if (registerLink) {
-    registerLink.addEventListener("click", (e) => {
-      e.preventDefault();
-      modalLogin.classList.remove("show");
-      modalLogin.style.display = "none";
-      if (modalRegister) {
-        modalRegister.classList.add("show");
-        modalRegister.style.display = "flex";
-        toggleMusicPlayerVisibility();
-      }
-    });
-  }
-
-  // Register Modal
-  const registerForm = document.querySelector(".formRegister");
-  const loginLink = document.querySelector(".formRegister a");
-
-  if (modalRegister) {
-    modalRegister.addEventListener("click", (e) => {
-      if (e.target === modalRegister) {
-        modalRegister.classList.remove("show");
-        modalRegister.style.display = "none";
-        toggleMusicPlayerVisibility();
-      }
-    });
-  }
-
-  if (registerForm) {
-    registerForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const name = document.getElementById("name").value.trim();
-      const email = document.getElementById("email1").value.trim();
-      const password1 = document.getElementById("password1").value.trim();
-      const password2 = document.getElementById("password2").value.trim();
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      const passwordRegex =
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
-      if (!name || !email || !password1 || !password2) {
-        Swal.fire("Error!", "Please fill in all fields.", "error");
-        return;
-      }
-      if (!emailRegex.test(email)) {
-        Swal.fire("Error!", "Please enter a valid email address.", "error");
-        return;
-      }
-      if (!passwordRegex.test(password1)) {
-        Swal.fire(
-          "Error!",
-          "Password must be at least 8 characters long, include uppercase, lowercase, number, and special character.",
-          "error"
-        );
-        return;
-      }
-      if (password1 !== password2) {
-        Swal.fire("Error!", "Passwords do not match.", "error");
-        return;
-      }
-
-      const accounts = JSON.parse(localStorage.getItem("accounts")) || [];
-      if (accounts.some((account) => account.email === email)) {
-        Swal.fire("Error!", "This email is already registered.", "error");
-        return;
-      }
-
-      const newAccount = {
-        accountId: `TK${Math.floor(Math.random() * 1000000)
-          .toString()
-          .padStart(6, "0")}`,
-        fullName: name,
-        email,
-        password: password1,
-        dob: "",
-        phone: "",
-        hometown: "",
-        role: "Users",
-      };
-
-      accounts.push(newAccount);
-      localStorage.setItem("accounts", JSON.stringify(accounts));
-      localStorage.setItem("currentUser", JSON.stringify(newAccount));
-
-      Swal.fire(
-        "Success!",
-        "Registered successfully. You are now logged in.",
-        "success"
-      ).then(() => {
-        modalRegister.classList.remove("show");
-        modalRegister.style.display = "none";
-        registerForm.reset();
-        toggleMusicPlayerVisibility();
-        updateAuthButtons();
-      });
-    });
-  }
-
-  if (loginLink) {
-    loginLink.addEventListener("click", (e) => {
-      e.preventDefault();
-      modalRegister.classList.remove("show");
-      modalRegister.style.display = "none";
-      if (modalLogin) {
-        modalLogin.classList.add("show");
-        modalLogin.style.display = "flex";
-        toggleMusicPlayerVisibility();
-      }
-    });
+    }
   }
 
   // Initialize header buttons
   updateAuthButtons();
-  //bat dau lam
+
   // Music Player Logic
   const audio = new Audio();
   let currentSongIndex = 0;
@@ -558,6 +306,7 @@ document.addEventListener("DOMContentLoaded", () => {
   audio.addEventListener("error", () => {
     Swal.fire("Error!", "Failed to load the audio file.", "error");
   });
+
   window.playSong = function (index, category) {
     const categoryData = songData.data.find((item) => item[category]);
     currentSongIndex = index;
@@ -760,3 +509,329 @@ document.addEventListener("DOMContentLoaded", () => {
     if (nextBtn) nextBtn.removeEventListener("click", () => {});
   });
 });
+// Active link
+const links = document.querySelectorAll(".sidebar a");
+const currentPage = window.location.pathname.split("/").pop();
+links.forEach((link) => {
+  const linkPage = link.getAttribute("href");
+  if (linkPage === currentPage) {
+    link.classList.add("active");
+  }
+});
+
+// Sidebar toggle
+const sidebar = document.querySelector(".sidebar");
+const chevronBtn = document.querySelector(".sidebar-chevorn a");
+const mainContent = document.querySelector(".container");
+const header = document.querySelector("header");
+let isSidebarExpanded = false;
+
+if (chevronBtn) {
+  chevronBtn.addEventListener("click", () => {
+    isSidebarExpanded = !isSidebarExpanded;
+    if (isSidebarExpanded) {
+      sidebar.classList.add("expanded");
+      mainContent?.classList.add("expanded");
+      header.classList.add("expanded");
+      chevronBtn
+        .querySelector("i")
+        .classList.replace("fa-chevron-right", "fa-chevron-left");
+    } else {
+      sidebar.classList.remove("expanded");
+      mainContent?.classList.remove("expanded");
+      header.classList.remove("expanded");
+      chevronBtn
+        .querySelector("i")
+        .classList.replace("fa-chevron-left", "fa-chevron-right");
+    }
+  });
+}
+
+// Modal Toggling and Music Player Visibility
+const modalLogin = document.querySelector(".modalLogin");
+const modalRegister = document.querySelector(".modalRegister");
+const musicPlayer = document.querySelector(".music-player");
+
+const toggleMusicPlayerVisibility = () => {
+  if (
+    (modalLogin && modalLogin.classList.contains("show")) ||
+    (modalRegister && modalRegister.classList.contains("show"))
+  ) {
+    musicPlayer?.classList.add("hidden");
+  } else {
+    musicPlayer?.classList.remove("hidden");
+  }
+};
+
+// Authentication Functions
+function updateAuthButtons() {
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  const authContainer = document.querySelector(
+    "header .d-flex.align-items-center > div:last-child"
+  );
+  let loginBtn = document.querySelector(".login-btn, .logout-btn");
+  const registerBtn = document.querySelector(".register-btn");
+
+  // Remove existing welcome message
+  const welcomeMessage = authContainer.querySelector("span.me-2");
+  if (welcomeMessage) welcomeMessage.remove();
+
+  if (currentUser) {
+    if (registerBtn) registerBtn.style.display = "none";
+    if (loginBtn) {
+      loginBtn.textContent = "Logout";
+      loginBtn.classList.remove("login-btn");
+      loginBtn.classList.add("logout-btn");
+      const newLoginBtn = loginBtn.cloneNode(true);
+      loginBtn.parentNode.replaceChild(newLoginBtn, loginBtn);
+      newLoginBtn.addEventListener("click", handleLogout);
+    }
+    const welcomeSpan = document.createElement("span");
+    welcomeSpan.className = "me-2";
+    welcomeSpan.textContent = `Welcome, ${currentUser.fullName}`;
+    authContainer.insertBefore(welcomeSpan, authContainer.firstChild);
+  } else {
+    if (registerBtn) registerBtn.style.display = "inline-block";
+    if (loginBtn && loginBtn.classList.contains("logout-btn")) {
+      loginBtn.textContent = "Login";
+      loginBtn.classList.remove("logout-btn");
+      loginBtn.classList.add("login-btn");
+      const newLoginBtn = loginBtn.cloneNode(true);
+      loginBtn.parentNode.replaceChild(newLoginBtn, loginBtn);
+      loginBtn = newLoginBtn;
+    }
+    if (loginBtn) {
+      loginBtn.addEventListener("click", () => {
+        if (modalLogin) {
+          modalLogin.classList.add("show");
+          modalLogin.style.display = "flex";
+          toggleMusicPlayerVisibility();
+        } else {
+          Swal.fire("Error!", "Login modal not found.", "error");
+        }
+      });
+    }
+  }
+
+  const newRegisterBtn = document.querySelector(".register-btn");
+  if (newRegisterBtn) {
+    newRegisterBtn.addEventListener("click", () => {
+      if (modalRegister) {
+        modalRegister.classList.add("show");
+        modalRegister.style.display = "flex";
+        toggleMusicPlayerVisibility();
+      } else {
+        Swal.fire("Error!", "Register modal not found.", "error");
+      }
+    });
+  }
+}
+
+function handleLogout() {
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You will be logged out of your account.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Yes, log out",
+    cancelButtonText: "Cancel",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      localStorage.removeItem("currentUser");
+      Swal.fire(
+        "Logged out!",
+        "You have been successfully logged out.",
+        "success"
+      );
+      updateAuthButtons();
+      // Reset search
+      const searchInput = document.querySelector(".search-input");
+      if (searchInput) searchInput.value = "";
+      document.querySelectorAll("#top15Row > div").forEach((el) => {
+        el.style.display = "flex";
+      });
+      document.querySelectorAll(".topAllTimesItem").forEach((el) => {
+        el.style.display = "block";
+      });
+      document.querySelectorAll(".trendingItem").forEach((el) => {
+        el.style.display = "flex";
+      });
+    }
+  });
+}
+
+// Login Modal
+const loginForm = document.querySelector(".formLogin");
+const forgotPasswordLink = document.querySelector(
+  ".modalLogin .checkbox-forgot p"
+);
+const registerLink = document.querySelector(".formLogin a");
+
+if (modalLogin) {
+  modalLogin.addEventListener("click", (e) => {
+    if (e.target === modalLogin) {
+      modalLogin.classList.remove("show");
+      modalLogin.style.display = "none";
+      toggleMusicPlayerVisibility();
+    }
+  });
+}
+
+if (loginForm) {
+  loginForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email)) {
+      Swal.fire("Error!", "Please enter a valid email address.", "error");
+      return;
+    }
+    if (!password) {
+      Swal.fire("Error!", "Please enter a password.", "error");
+      return;
+    }
+
+    const accounts = JSON.parse(localStorage.getItem("accounts")) || [];
+    const user = accounts.find(
+      (account) => account.email === email && account.password === password
+    );
+
+    if (user) {
+      localStorage.setItem("currentUser", JSON.stringify(user));
+      Swal.fire("Success!", "Logged in successfully.", "success").then(() => {
+        modalLogin.classList.remove("show");
+        modalLogin.style.display = "none";
+        loginForm.reset();
+        toggleMusicPlayerVisibility();
+        updateAuthButtons();
+        if (user.role === "Admin") {
+          window.location.href = "Admin-page.html";
+        }
+      });
+    } else {
+      Swal.fire("Error!", "Invalid email or password.", "error");
+    }
+  });
+}
+
+if (forgotPasswordLink) {
+  forgotPasswordLink.addEventListener("click", (e) => {
+    e.preventDefault();
+    Swal.fire({
+      title: "Forgot Password",
+      text: "Please contact support at shadowsgamer371@gmail.com to reset your password.",
+      icon: "info",
+    });
+  });
+}
+
+if (registerLink) {
+  registerLink.addEventListener("click", (e) => {
+    e.preventDefault();
+    modalLogin.classList.remove("show");
+    modalLogin.style.display = "none";
+    if (modalRegister) {
+      modalRegister.classList.add("show");
+      modalRegister.style.display = "flex";
+      toggleMusicPlayerVisibility();
+    }
+  });
+}
+
+// Register Modal
+const registerForm = document.querySelector(".formRegister");
+const loginLink = document.querySelector(".formRegister a");
+
+if (modalRegister) {
+  modalRegister.addEventListener("click", (e) => {
+    if (e.target === modalRegister) {
+      modalRegister.classList.remove("show");
+      modalRegister.style.display = "none";
+      toggleMusicPlayerVisibility();
+    }
+  });
+}
+
+if (registerForm) {
+  registerForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email1").value.trim();
+    const password1 = document.getElementById("password1").value.trim();
+    const password2 = document.getElementById("password2").value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (!name || !email || !password1 || !password2) {
+      Swal.fire("Error!", "Please fill in all fields.", "error");
+      return;
+    }
+    if (!emailRegex.test(email)) {
+      Swal.fire("Error!", "Please enter a valid email address.", "error");
+      return;
+    }
+    if (!passwordRegex.test(password1)) {
+      Swal.fire(
+        "Error!",
+        "Password must be at least 8 characters long, include uppercase, lowercase, number, and special character.",
+        "error"
+      );
+      return;
+    }
+    if (password1 !== password2) {
+      Swal.fire("Error!", "Passwords do not match.", "error");
+      return;
+    }
+
+    const accounts = JSON.parse(localStorage.getItem("accounts")) || [];
+    if (accounts.some((account) => account.email === email)) {
+      Swal.fire("Error!", "This email is already registered.", "error");
+      return;
+    }
+
+    const newAccount = {
+      accountId: `TK${Math.floor(Math.random() * 1000000)
+        .toString()
+        .padStart(6, "0")}`,
+      fullName: name,
+      email,
+      password: password1,
+      dob: "",
+      phone: "",
+      hometown: "",
+      role: "Users",
+    };
+
+    accounts.push(newAccount);
+    localStorage.setItem("accounts", JSON.stringify(accounts));
+    localStorage.setItem("currentUser", JSON.stringify(newAccount));
+
+    Swal.fire(
+      "Success!",
+      "Registered successfully. You are now logged in.",
+      "success"
+    ).then(() => {
+      modalRegister.classList.remove("show");
+      modalRegister.style.display = "none";
+      registerForm.reset();
+      toggleMusicPlayerVisibility();
+      updateAuthButtons();
+    });
+  });
+}
+
+if (loginLink) {
+  loginLink.addEventListener("click", (e) => {
+    e.preventDefault();
+    modalRegister.classList.remove("show");
+    modalRegister.style.display = "none";
+    if (modalLogin) {
+      modalLogin.classList.add("show");
+      modalLogin.style.display = "flex";
+      toggleMusicPlayerVisibility();
+    }
+  });
+}
