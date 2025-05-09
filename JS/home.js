@@ -368,17 +368,28 @@ let isSidebarExpanded = false;
       loginBtn.classList.remove("login-btn");
       loginBtn.classList.add("logout-btn");
       loginBtn.onclick = () => {
-        currentUser = null;
-        loginBtn.classList.remove("logout-btn");
-        loginBtn.classList.add("login-btn");
-        updateLoginButton();
-        showSongs();
-        Swal.fire("Thành công!", "Đã đăng xuất.", "success");
+        Swal.fire({
+          title: "Logout",
+          text: "Are you sure you want to logout?",
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonText: "Yes, logout",
+          cancelButtonText: "No, stay"
+        }).then((result) => {
+          if (result.isConfirmed) {
+            currentUser = null;
+            loginBtn.classList.remove("logout-btn");
+            loginBtn.classList.add("login-btn");
+            updateLoginButton();
+            showSongs();
+            Swal.fire("Success!", "You have been logged out.", "success");
+          }
+        });
       };
       registerBtn.style.display = "none";
       const welcome = document.createElement("span");
       welcome.className = "welcome-text";
-      welcome.textContent = `Chào, ${currentUser.fullName}`;
+      welcome.textContent = `Welcome, ${currentUser.fullName}`;
       loginBtn.parentNode.insertBefore(welcome, loginBtn);
     } else {
       loginBtn.textContent = "Login";
@@ -404,8 +415,19 @@ let isSidebarExpanded = false;
       if (!email || !password) {
         Swal.fire({
           icon: "error",
-          title: "Lỗi!",
-          text: "Vui lòng điền đầy đủ thông tin đăng nhập.",
+          title: "Error!",
+          text: "Please fill in all login information.",
+        });
+        return;
+      }
+
+      // Validate email format
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        Swal.fire({
+          icon: "error",
+          title: "Error!",
+          text: "Please enter a valid email address (e.g., example@domain.com)",
         });
         return;
       }
@@ -416,20 +438,47 @@ let isSidebarExpanded = false;
         modalLogin.style.display = "none";
         loginForm.reset();
         updateLoginButton();
-        if (user.role === "Admin") window.location.href = "Admin-page.html";
-        Swal.fire("Thành công!", "Đăng nhập thành công.", "success");
+        if (user.role === "Admin") {
+          Swal.fire({
+            icon: "success",
+            title: "Success!",
+            text: "Login successful. Redirecting to admin page...",
+          }).then(() => {
+            window.location.href = "Admin-page.html";
+          });
+        } else {
+          Swal.fire("Success!", "Login successful.", "success");
+        }
       } else {
-        Swal.fire("Lỗi!", "Email hoặc mật khẩu sai.", "error");
+        Swal.fire({
+          icon: "error",
+          title: "Error!",
+          text: "Invalid email or password.",
+        });
       }
     });
+
+    // Close modal when clicking outside
     modalLogin.addEventListener("click", (e) => {
-      if (e.target === modalLogin) modalLogin.style.display = "none";
+      if (e.target === modalLogin) {
+        modalLogin.style.display = "none";
+        loginForm.reset();
+      }
     });
+
+    // Handle register link click
+    const registerLink = loginForm.querySelector(".register-link");
+    if (registerLink) {
+      registerLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        modalLogin.style.display = "none";
+        modalRegister.style.display = "block";
+      });
+    }
   }
 
   // Xử lý modal đăng ký
   if (modalRegister && registerForm) {
-    registerBtn.onclick = () => modalRegister.style.display = "block";
     registerForm.addEventListener("submit", (e) => {
       e.preventDefault();
       const name = document.getElementById("name").value.trim();
@@ -441,19 +490,38 @@ let isSidebarExpanded = false;
       if (!name || !email || !password || !password2) {
         Swal.fire({
           icon: "error",
-          title: "Lỗi!",
-          text: "Vui lòng điền đầy đủ thông tin đăng ký.",
+          title: "Error!",
+          text: "Please fill in all registration information.",
+        });
+        return;
+      }
+
+      // Validate email format
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        Swal.fire({
+          icon: "error",
+          title: "Error!",
+          text: "Please enter a valid email address (e.g., example@domain.com)",
         });
         return;
       }
 
       if (password !== password2) {
-        Swal.fire("Lỗi!", "Mật khẩu không khớp.", "error");
+        Swal.fire({
+          icon: "error",
+          title: "Error!",
+          text: "Passwords do not match.",
+        });
         return;
       }
 
       if (accounts.some(acc => acc.email === email)) {
-        Swal.fire("Lỗi!", "Email đã tồn tại.", "error");
+        Swal.fire({
+          icon: "error",
+          title: "Error!",
+          text: "Email already exists.",
+        });
         return;
       }
 
@@ -463,27 +531,26 @@ let isSidebarExpanded = false;
       modalRegister.style.display = "none";
       registerForm.reset();
       updateLoginButton();
-      Swal.fire("Thành công!", "Đăng ký thành công.", "success");
+      Swal.fire("Success!", "Registration successful.", "success");
     });
-    modalRegister.addEventListener("click", (e) => {
-      if (e.target === modalRegister) modalRegister.style.display = "none";
-    });
-  }
 
-  // Chuyển giữa đăng nhập và đăng ký
-  if (registerLink) {
-    registerLink.addEventListener("click", (e) => {
-      e.preventDefault();
-      modalLogin.style.display = "none";
-      modalRegister.style.display = "block";
+    // Close modal when clicking outside
+    modalRegister.addEventListener("click", (e) => {
+      if (e.target === modalRegister) {
+        modalRegister.style.display = "none";
+        registerForm.reset();
+      }
     });
-  }
-  if (loginLink) {
-    loginLink.addEventListener("click", (e) => {
-      e.preventDefault();
-      modalRegister.style.display = "none";
-      modalLogin.style.display = "block";
-    });
+
+    // Handle login link click
+    const loginLink = registerForm.querySelector(".login-link");
+    if (loginLink) {
+      loginLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        modalRegister.style.display = "none";
+        modalLogin.style.display = "block";
+      });
+    }
   }
 
 
