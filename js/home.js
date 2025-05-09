@@ -397,8 +397,19 @@ let isSidebarExpanded = false;
   if (modalLogin && loginForm) {
     loginForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      // Validate form fields
+      if (!email || !password) {
+        Swal.fire({
+          icon: "error",
+          title: "Lỗi!",
+          text: "Vui lòng điền đầy đủ thông tin đăng nhập.",
+        });
+        return;
+      }
+
       const user = accounts.find(acc => acc.email === email && acc.password === password);
       if (user) {
         currentUser = user;
@@ -421,18 +432,31 @@ let isSidebarExpanded = false;
     registerBtn.onclick = () => modalRegister.style.display = "block";
     registerForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      const name = document.getElementById("name").value;
-      const email = document.getElementById("email1").value;
-      const password = document.getElementById("password1").value;
-      const password2 = document.getElementById("password2").value;
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email1").value.trim();
+      const password = document.getElementById("password1").value.trim();
+      const password2 = document.getElementById("password2").value.trim();
+
+      // Validate form fields
+      if (!name || !email || !password || !password2) {
+        Swal.fire({
+          icon: "error",
+          title: "Lỗi!",
+          text: "Vui lòng điền đầy đủ thông tin đăng ký.",
+        });
+        return;
+      }
+
       if (password !== password2) {
         Swal.fire("Lỗi!", "Mật khẩu không khớp.", "error");
         return;
       }
+
       if (accounts.some(acc => acc.email === email)) {
         Swal.fire("Lỗi!", "Email đã tồn tại.", "error");
         return;
       }
+
       const newUser = { email, password, fullName: name, role: "User" };
       accounts.push(newUser);
       currentUser = newUser;
