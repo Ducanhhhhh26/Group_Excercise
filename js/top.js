@@ -218,6 +218,46 @@ document.addEventListener("DOMContentLoaded", () => {
   // Load songData from localStorage
   let songData = JSON.parse(localStorage.getItem("songData")) || topMusicSong;
 
+  // Kiểm tra tracks và cập nhật UI nếu khác topMusicSong
+  const tracks = JSON.parse(localStorage.getItem("tracks"));
+  if (tracks && JSON.stringify(tracks) !== JSON.stringify(topMusicSong)) {
+    // Ánh xạ dữ liệu từ tracks sang cấu trúc tương thích
+    if (tracks.data && Array.isArray(tracks.data)) {
+      songData = {
+        data: tracks.data.map((category) => ({
+          top_music: category.Top_Music || [],
+          top_all_times: category.Top_All_Times || [],
+          trending: category.Trending || [],
+        })),
+      };
+      // Ánh xạ các trường
+      songData.data.forEach((category) => {
+        category.top_music = category.top_music.map((track) => ({
+          id: track.id,
+          name: track.artist,
+          name_music: track.nameMusic,
+          img: track.img || "../assets/default.png",
+          mp3: track.mp3 || "",
+        }));
+        category.top_all_times = category.top_all_times.map((track) => ({
+          id: track.id,
+          name: track.artist,
+          name_music: track.nameMusic,
+          img: track.img || "../assets/default.png",
+          mp3: track.mp3 || "",
+        }));
+        category.trending = category.trending.map((track) => ({
+          id: track.id,
+          name: track.artist,
+          name_music: track.nameMusic,
+          img: track.img || "../assets/default.png",
+          mp3: track.mp3 || "",
+        }));
+      });
+    }
+    updateSongLists(songData);
+  }
+
   // Hàm cập nhật danh sách bài hát
   function updateSongLists(data) {
     // Cập nhật Weekly Top 15
@@ -293,9 +333,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
   }
-
-  // Initialize header buttons
-  updateAuthButtons();
 
   // Music Player Logic
   const audio = new Audio();
@@ -509,6 +546,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (nextBtn) nextBtn.removeEventListener("click", () => {});
   });
 });
+
 // Active link
 const links = document.querySelectorAll(".sidebar a");
 const currentPage = window.location.pathname.split("/").pop();
@@ -835,3 +873,6 @@ if (loginLink) {
     }
   });
 }
+
+// Initialize header buttons
+updateAuthButtons();
