@@ -64,7 +64,7 @@ function updateAuthButtons() {
       document.querySelector(".logout-btn") ||
       document.querySelector(".login-btn");
     if (loginBtn && loginBtn.classList.contains("logout-btn")) {
-      loginBtn.textContent = "Đăng nhập";
+      loginBtn.textContent = "Login";
       loginBtn.classList.remove("logout-btn");
       loginBtn.classList.add("login-btn");
       // Xóa các sự kiện đăng xuất cũ
