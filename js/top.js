@@ -218,7 +218,122 @@ document.addEventListener("DOMContentLoaded", () => {
   // Load songData from localStorage
   let songData = JSON.parse(localStorage.getItem("songData")) || topMusicSong;
 
-  //Khong lam
+  // Kiểm tra tracks và cập nhật UI nếu khác topMusicSong
+  const tracks = JSON.parse(localStorage.getItem("tracks"));
+  if (tracks && JSON.stringify(tracks) !== JSON.stringify(topMusicSong)) {
+    // Ánh xạ dữ liệu từ tracks sang cấu trúc tương thích
+    if (tracks.data && Array.isArray(tracks.data)) {
+      songData = {
+        data: tracks.data.map((category) => ({
+          top_music: category.Top_Music || [],
+          top_all_times: category.Top_All_Times || [],
+          trending: category.Trending || [],
+        })),
+      };
+      // Ánh xạ các trường
+      songData.data.forEach((category) => {
+        category.top_music = category.top_music.map((track) => ({
+          id: track.id,
+          name: track.artist,
+          name_music: track.nameMusic,
+          img: track.img || "../assets/default.png", // Giả sử nếu img thiếu
+          mp3: track.mp3 || "",
+        }));
+        category.top_all_times = category.top_all_times.map((track) => ({
+          id: track.id,
+          name: track.artist,
+          name_music: track.nameMusic,
+          img: track.img || "../assets/default.png",
+          mp3: track.mp3 || "",
+        }));
+        category.trending = category.trending.map((track) => ({
+          id: track.id,
+          name: track.artist,
+          name_music: track.nameMusic,
+          img: track.img || "../assets/default.png",
+          mp3: track.mp3 || "",
+        }));
+      });
+    }
+    updateSongLists(songData);
+  }
+
+  // Hàm cập nhật danh sách bài hát
+  function updateSongLists(data) {
+    // Cập nhật Weekly Top 15
+    const top15Container = document.querySelector("#allTop15");
+    if (top15Container) {
+      top15Container.innerHTML = "";
+      const topMusic =
+        data.data.find((item) => item.top_music)?.top_music || [];
+      const rows = [];
+      for (let i = 0; i < topMusic.length; i += 5) {
+        const row = document.createElement("div");
+        row.id = "top15Row";
+        topMusic.slice(i, i + 5).forEach((song, index) => {
+          const item = document.createElement("div");
+          item.style.display = "flex";
+          item.setAttribute("onclick", `playSong(${i + index}, 'top_music')`);
+          item.innerHTML = `
+            <h2 id="top15Small">${(i + index + 1)
+              .toString()
+              .padStart(2, "0")}</h2>
+            <div><img src="${song.img}" alt=""></div>
+            <div>
+              <div class="songTitle">${song.name_music}</div>
+              <div class="artistName">${song.name}</div>
+            </div>
+            <div class="songDuration">5:10</div>
+            <div class="moreOptions">...</div>
+          `;
+          row.appendChild(item);
+        });
+        rows.push(row);
+      }
+      rows.forEach((row) => top15Container.appendChild(row));
+    }
+
+    // Cập nhật Top Tracks of All Time
+    const topAllTimesRow = document.querySelector("#topAllTimesRow");
+    if (topAllTimesRow) {
+      topAllTimesRow.innerHTML = "";
+      const topAllTimes =
+        data.data.find((item) => item.top_all_times)?.top_all_times || [];
+      topAllTimes.forEach((song, index) => {
+        const item = document.createElement("div");
+        item.className = "topAllTimesItem";
+        item.setAttribute("onclick", `playSong(${index}, 'top_all_times')`);
+        item.innerHTML = `
+          <img src="${song.img}" alt="">
+          <div class="songTitle">${song.name_music}</div>
+          <div class="artistName">${song.name}</div>
+        `;
+        topAllTimesRow.appendChild(item);
+      });
+    }
+
+    // Cập nhật Trending Tracks
+    const trendingRow = document.querySelector(".trendingRow");
+    if (trendingRow) {
+      trendingRow.innerHTML = "";
+      const trending = data.data.find((item) => item.trending)?.trending || [];
+      trending.forEach((song, index) => {
+        const item = document.createElement("div");
+        item.className = "trendingItem";
+        item.setAttribute("onclick", `playSong(${index}, 'trending')`);
+        item.innerHTML = `
+          <img src="${song.img}" alt="">
+          <div class="trackInfo">
+            <div class="songTitle">${song.name_music}</div>
+            <div class="artistName">${song.name}</div>
+          </div>
+          <div class="songDuration">5:10</div>
+        `;
+        trendingRow.appendChild(item);
+      });
+    }
+  }
+
   // Active link
   const links = document.querySelectorAll(".sidebar a");
   const currentPage = window.location.pathname.split("/").pop();
@@ -548,7 +663,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Initialize header buttons
   updateAuthButtons();
-  //bat dau lam
+
   // Music Player Logic
   const audio = new Audio();
   let currentSongIndex = 0;
@@ -558,6 +673,7 @@ document.addEventListener("DOMContentLoaded", () => {
   audio.addEventListener("error", () => {
     Swal.fire("Error!", "Failed to load the audio file.", "error");
   });
+
   window.playSong = function (index, category) {
     const categoryData = songData.data.find((item) => item[category]);
     currentSongIndex = index;
