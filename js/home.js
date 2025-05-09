@@ -66,7 +66,6 @@ let musicData = {
   ]
 };
 
-// Danh sách tài khoản tĩnh
 let accounts = [
   { email: "admin@example.com", password: "Admin@123", fullName: "Admin User", role: "Admin" }
 ];
@@ -364,7 +363,7 @@ let isSidebarExpanded = false;
   // Đăng nhập/đăng xuất
   function updateLoginButton() {
     if (currentUser) {
-      loginBtn.textContent = "Đăng xuất";
+      loginBtn.textContent = "Logout";
       loginBtn.classList.remove("login-btn");
       loginBtn.classList.add("logout-btn");
       loginBtn.onclick = () => {
@@ -381,7 +380,7 @@ let isSidebarExpanded = false;
       welcome.textContent = `Chào, ${currentUser.fullName}`;
       loginBtn.parentNode.insertBefore(welcome, loginBtn);
     } else {
-      loginBtn.textContent = "Đăng nhập";
+      loginBtn.textContent = "Login";
       loginBtn.classList.remove("logout-btn");
       loginBtn.classList.add("login-btn");
       loginBtn.onclick = () => {
@@ -462,7 +461,8 @@ let isSidebarExpanded = false;
     });
   }
 
-  // Carousel cho các section
+
+
   function setupCarousel(section) {
     const grid = document.querySelector(`.${section} .album-grid`);
     const nextBtn = document.querySelector(`.${section} .carousel-controls button:last-child`);
