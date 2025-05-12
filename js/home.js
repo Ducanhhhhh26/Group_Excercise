@@ -175,7 +175,8 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="chart-title">${song.title}</div>
             <div class="chart-artist">${song.artist}</div>
           </div>
-          <button class="chart-play-btn"><i class="fas fa-play"></i></button>
+          <div>5:10</div>
+          <button class="chart-play-btn"><i class="bi bi-three-dots"></i></button>
         </div>
       `).join("");
     }
