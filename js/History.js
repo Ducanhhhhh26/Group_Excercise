@@ -190,92 +190,9 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
   
-    // Register Modal
-    const modalRegister = document.querySelector(".modalRegister");
-    const registerForm = document.querySelector(".formRegister");
-    const loginLink = document.querySelector(".formRegister a");
-  
-    if (modalRegister) {
-      modalRegister.addEventListener("click", (e) => {
-        if (e.target === modalRegister) {
-          modalRegister.classList.remove("show");
-          modalRegister.style.display = "none";
-        }
-      });
-    }
-  
-    if (registerForm) {
-      registerForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const name = document.getElementById("name").value.trim();
-        const email = document.getElementById("email1").value.trim();
-        const password1 = document.getElementById("password1").value.trim();
-        const password2 = document.getElementById("password2").value.trim();
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-  
-        if (!name || !email || !password1 || !password2) {
-          Swal.fire("Error!", "Please fill in all fields.", "error");
-          return;
-        }
-        if (!emailRegex.test(email)) {
-          Swal.fire("Error!", "Please enter a valid email address.", "error");
-          return;
-        }
-        if (!passwordRegex.test(password1)) {
-          Swal.fire(
-            "Error!",
-            "Password must be at least 8 characters long, include uppercase, lowercase, number, and special character.",
-            "error"
-          );
-          return;
-        }
-        if (password1 !== password2) {
-          Swal.fire("Error!", "Passwords do not match.", "error");
-          return;
-        }
-  
-        const accounts = JSON.parse(localStorage.getItem("accounts")) || [];
-        if (accounts.some((account) => account.email === email)) {
-          Swal.fire("Error!", "This email is already registered.", "error");
-          return;
-        }
-  
-        const newAccount = {
-          accountId: `TK${Math.floor(Math.random() * 1000000).toString().padStart(6, "0")}`,
-          fullName: name,
-          email,
-          password: password1,
-          dob: "",
-          phone: "",
-          hometown: "",
-          role: "Users",
-        };
-  
-        accounts.push(newAccount);
-        localStorage.setItem("accounts", JSON.stringify(accounts));
-        localStorage.setItem("currentUser", JSON.stringify(newAccount));
-  
-        Swal.fire("Success!", "Registered successfully. You are now logged in.", "success").then(() => {
-          modalRegister.classList.remove("show");
-          modalRegister.style.display = "none";
-          registerForm.reset();
-          updateAuthButtons();
-        });
-      });
-    }
-  
-    if (loginLink) {
-      loginLink.addEventListener("click", (e) => {
-        e.preventDefault();
-        modalRegister.classList.remove("show");
-        modalRegister.style.display = "none";
-        const modalLogin = document.querySelector(".modalLogin");
-        if (modalLogin) {
-          modalLogin.classList.add("show");
-          modalLogin.style.display = "flex";
-        }
-      });
+    // Initialize auth
+    if (typeof initializeAuth === 'function') {
+      initializeAuth();
     }
   
     // Initialize rendering and header buttons

@@ -73,6 +73,29 @@ let accounts = JSON.parse(localStorage.getItem('accounts')) || [
 let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Initialize accounts and create default admin if none exists
+  let accounts = JSON.parse(localStorage.getItem("accounts")) || [];
+  const hasAdmin = accounts.some((account) => account.role === "Admin");
+  if (!hasAdmin) {
+    const defaultAdmin = {
+      accountId: "TK000001",
+      fullName: "Admin User",
+      email: "admin@example.com",
+      password: "Admin@123",
+      dob: "01/01/1990",
+      phone: "0123456789",
+      hometown: "Hà Nội",
+      role: "Admin",
+    };
+    accounts.push(defaultAdmin);
+    localStorage.setItem("accounts", JSON.stringify(accounts));
+  }
+
+  // Initialize auth
+  if (typeof initializeAuth === 'function') {
+    initializeAuth();
+  }
+
   // Lấy các phần tử HTML
   const searchInput = document.querySelector(".search-input");
   const searchBtn = document.querySelector(".search-btn");
@@ -361,229 +384,7 @@ let isSidebarExpanded = false;
       link.classList.add("active");
     }
   });
-  // Đăng nhập/đăng xuất
-  function updateLoginButton() {
-    if (currentUser) {
-      loginBtn.textContent = "Logout";
-      loginBtn.classList.remove("login-btn");
-      loginBtn.classList.add("logout-btn");
-      loginBtn.onclick = () => {
-        Swal.fire({
-          title: "Logout",
-          text: "Are you sure you want to logout?",
-          icon: "question",
-          showCancelButton: true,
-          confirmButtonText: "Yes, logout",
-          cancelButtonText: "No, stay"
-        }).then((result) => {
-          if (result.isConfirmed) {
-            currentUser = null;
-            localStorage.removeItem('currentUser');
-            loginBtn.classList.remove("logout-btn");
-            loginBtn.classList.add("login-btn");
-            updateLoginButton();
-            showSongs();
-            Swal.fire("Success!", "You have been logged out.", "success");
-          }
-        });
-      };
-      registerBtn.style.display = "none";
-      const welcome = document.createElement("span");
-      welcome.className = "welcome-text";
-      welcome.textContent = `Welcome, ${currentUser.fullName}`;
-      loginBtn.parentNode.insertBefore(welcome, loginBtn);
-    } else {
-      loginBtn.textContent = "Login";
-      loginBtn.classList.remove("logout-btn");
-      loginBtn.classList.add("login-btn");
-      loginBtn.onclick = () => {
-        modalLogin.style.display = "block";
-      };
-      registerBtn.style.display = "inline-block";
-      const welcome = loginBtn.parentNode.querySelector(".welcome-text");
-      if (welcome) welcome.remove();
-    }
-  }
 
-  // Xử lý modal đăng nhập
-  if (modalLogin && loginForm) {
-    loginForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value.trim();
-
-      // Validate form fields
-      if (!email || !password) {
-        Swal.fire({
-          icon: "error",
-          title: "Error!",
-          text: "Please fill in all login information.",
-        });
-        return;
-      }
-
-      // Validate email format
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        Swal.fire({
-          icon: "error",
-          title: "Error!",
-          text: "Please enter a valid email address (e.g., example@domain.com)",
-        });
-        return;
-      }
-
-      const user = accounts.find(acc => acc.email === email && acc.password === password);
-      if (user) {
-        currentUser = user;
-        localStorage.setItem('currentUser', JSON.stringify(user));
-        modalLogin.style.display = "none";
-        loginForm.reset();
-        updateLoginButton();
-        if (user.role === "Admin") {
-          Swal.fire({
-            icon: "success",
-            title: "Success!",
-            text: "Login successful. Redirecting to admin page...",
-          }).then(() => {
-            window.location.href = "Admin-page.html";
-          });
-        } else {
-          Swal.fire("Success!", "Login successful.", "success");
-        }
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Error!",
-          text: "Invalid email or password.",
-        });
-        return; // Add return to prevent further execution
-      }
-    });
-
-    // Close modal when clicking outside
-    modalLogin.addEventListener("click", (e) => {
-      if (e.target === modalLogin) {
-        modalLogin.style.display = "none";
-        loginForm.reset();
-      }
-    });
-
-    // Handle register link click
-    const registerLink = loginForm.querySelector(".register-link");
-    if (registerLink) {
-      registerLink.addEventListener("click", (e) => {
-        e.preventDefault();
-        modalLogin.style.display = "none";
-        modalRegister.style.display = "block";
-      });
-    }
-  }
-
-  // Xử lý modal đăng ký
-  if (modalRegister && registerForm) {
-    registerForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const name = document.getElementById("name").value.trim();
-      const email = document.getElementById("email1").value.trim();
-      const password = document.getElementById("password1").value.trim();
-      const password2 = document.getElementById("password2").value.trim();
-
-      // Validate form fields
-      if (!name || !email || !password || !password2) {
-        Swal.fire({
-          icon: "error",
-          title: "Error!",
-          text: "Please fill in all registration information.",
-        });
-        return;
-      }
-
-      // Validate email format
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        Swal.fire({
-          icon: "error",
-          title: "Error!",
-          text: "Please enter a valid email address (e.g., example@domain.com)",
-        });
-        return;
-      }
-
-      if (password !== password2) {
-        Swal.fire({
-          icon: "error",
-          title: "Error!",
-          text: "Passwords do not match.",
-        });
-        return;
-      }
-
-      if (accounts.some(acc => acc.email === email)) {
-        Swal.fire({
-          icon: "error",
-          title: "Error!",
-          text: "Email already exists.",
-        });
-        return;
-      }
-
-      const newUser = { email, password, fullName: name, role: "User" };
-      accounts.push(newUser);
-      localStorage.setItem('accounts', JSON.stringify(accounts));
-      currentUser = newUser;
-      localStorage.setItem('currentUser', JSON.stringify(newUser));
-      modalRegister.style.display = "none";
-      registerForm.reset();
-      updateLoginButton();
-      Swal.fire("Success!", "Registration successful.", "success");
-    });
-
-    // Close modal when clicking outside
-    modalRegister.addEventListener("click", (e) => {
-      if (e.target === modalRegister) {
-        modalRegister.style.display = "none";
-        registerForm.reset();
-      }
-    });
-
-    // Handle login link click
-    const loginLink = registerForm.querySelector(".login-link");
-    if (loginLink) {
-      loginLink.addEventListener("click", (e) => {
-        e.preventDefault();
-        modalRegister.style.display = "none";
-        modalLogin.style.display = "block";
-      });
-    }
-  }
-
-  // Carousel cho các section
-  function setupCarousel(section) {
-    const grid = document.querySelector(`.${section} .album-grid`);
-    const nextBtn = document.querySelector(`.${section} .carousel-controls button:last-child`);
-    const prevBtn = document.querySelector(`.${section} .carousel-controls button:first-child`);
-    if (grid && nextBtn && prevBtn) {
-      let index = 0;
-      nextBtn.addEventListener("click", () => {
-        if (index < grid.children.length - 3) {
-          index++;
-          grid.style.transform = `translateX(-${index * 33.33}%)`;
-        }
-      });
-      prevBtn.addEventListener("click", () => {
-        if (index > 0) {
-          index--;
-          grid.style.transform = `translateX(-${index * 33.33}%)`;
-        }
-      });
-    }
-  }
-  setupCarousel("recently-played");
-  setupCarousel("featured-artists");
-  setupCarousel("featured-albums");
-
-  // Khởi tạo
+  // Initialize music player and UI
   showSongs();
-  updateLoginButton();
 });

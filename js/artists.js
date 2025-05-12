@@ -1,4 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
+  // Initialize auth
+  if (typeof initializeAuth === 'function') {
+    initializeAuth();
+  }
+
   // Initialize accounts and create default admin if none exists
   let accounts = JSON.parse(localStorage.getItem("accounts")) || [];
   const hasAdmin = accounts.some((account) => account.role === "Admin");
@@ -33,27 +38,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
 if (!defaultImages) {
   defaultImages = [
-    "/assets/r_music1.jpg.png",
-    "/assets/artist1.jpg.png",
-    "/assets/artist2.jpg.png",
-    "/assets/artist3.jpg.png",
-    "/assets/artist4.jpg.png",
-    "/assets/artist5.jpg.png",
-    "/assets/artist6.jpg.png",
-    "/assets/artist7.jpg.png",
-    "/assets/artist8.jpg.png",
-    "/assets/song6.jpg (1).png",
-    "/assets/album4.jpg.png",
-    "/assets/song4.jpg (1).png",
-    "/assets/artist9.jpg.png",
-    "/assets/artist10.jpg.png",
-    "/assets/artist11.jpg.png",
-    "/assets/artist12.jpg.png",
-    "/assets/artist13.jpg.png",
-    "/assets/song3.jpg.png",
-    "/assets/album2.jpg.png",
-    "/assets/artist11.jpg.png",
-
+    "./assets/r_music1.jpg.png",
+    "./assets/artist1.jpg.png",
+    "./assets/artist2.jpg.png",
+    "./assets/artist3.jpg.png",
+    "./assets/artist4.jpg.png",
+    "./assets/artist5.jpg.png",
+    "./assets/artist6.jpg.png",
+    "./assets/artist7.jpg.png",
+    "./assets/artist8.jpg.png",
+    "./assets/song6.jpg (1).png",
+    "./assets/album4.jpg.png",
+    "./assets/song4.jpg (1).png",
+    "./assets/artist9.jpg.png",
+    "./assets/artist10.jpg.png",
+    "./assets/artist11.jpg.png",
+    "./assets/artist12.jpg.png",
+    "./assets/artist13.jpg.png",
+    "./assets/song3.jpg.png",
+    "./assets/album2.jpg.png",
+    "./assets/artist11.jpg.png"
   ];
   localStorage.setItem("defaultImages", JSON.stringify(defaultImages));
 }
@@ -157,11 +161,11 @@ if (!defaultImages) {
     );
     artistSections.forEach((grid) => {
       grid.innerHTML = "";
-      filteredArtists.forEach((artist) => {
+      filteredArtists.forEach((artist, index) => {
         const artistCard = document.createElement("div");
         artistCard.classList.add("artist-card2");
         const img = document.createElement("img");
-        img.src = artist.image;
+        img.src = defaultImages[index % defaultImages.length];
         img.alt = artist.fullName;
         const title = document.createElement("p");
         title.textContent = artist.fullName;
@@ -380,7 +384,6 @@ if (!defaultImages) {
 
   // Register Modal
   const modalRegister = document.querySelector(".modalRegister");
-  const registerForm = document.querySelector(".formRegister");
   const loginLink = document.querySelector(".formRegister a");
 
   if (modalRegister) {
@@ -389,67 +392,6 @@ if (!defaultImages) {
         modalRegister.classList.remove("show");
         modalRegister.style.display = "none";
       }
-    });
-  }
-
-  if (registerForm) {
-    registerForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const name = document.getElementById("name").value.trim();
-      const email = document.getElementById("email1").value.trim();
-      const password1 = document.getElementById("password1").value.trim();
-      const password2 = document.getElementById("password2").value.trim();
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
-      if (!name || !email || !password1 || !password2) {
-        Swal.fire("Error!", "Please fill in all fields.", "error");
-        return;
-      }
-      if (!emailRegex.test(email)) {
-        Swal.fire("Error!", "Please enter a valid email address.", "error");
-        return;
-      }
-      if (!passwordRegex.test(password1)) {
-        Swal.fire(
-          "Error!",
-          "Password must be at least 8 characters long, include uppercase, lowercase, number, and special character.",
-          "error"
-        );
-        return;
-      }
-      if (password1 !== password2) {
-        Swal.fire("Error!", "Passwords do not match.", "error");
-        return;
-      }
-
-      const accounts = JSON.parse(localStorage.getItem("accounts")) || [];
-      if (accounts.some((account) => account.email === email)) {
-        Swal.fire("Error!", "This email is already registered.", "error");
-        return;
-      }
-
-      const newAccount = {
-        accountId: `TK${Math.floor(Math.random() * 1000000).toString().padStart(6, "0")}`,
-        fullName: name,
-        email,
-        password: password1,
-        dob: "",
-        phone: "",
-        hometown: "",
-        role: "Users",
-      };
-
-      accounts.push(newAccount);
-      localStorage.setItem("accounts", JSON.stringify(accounts));
-      localStorage.setItem("currentUser", JSON.stringify(newAccount));
-
-      Swal.fire("Success!", "Registered successfully. You are now logged in.", "success").then(() => {
-        modalRegister.classList.remove("show");
-        modalRegister.style.display = "none";
-        registerForm.reset();
-        updateAuthButtons();
-      });
     });
   }
 
