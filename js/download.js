@@ -18,205 +18,205 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Initialize song data with continuous IDs
-  const topMusicSong = {
-    data: [
-      {
-        top_music: [
-          {
-            id: 1,
-            name: "Ava Cornish",
-            name_music: "Until I Met You",
-            img: "../assets/1.png",
-            mp3: "https://samplesongs.netlify.app/Faded.mp3",
-          },
-          {
-            id: 2,
-            name: "Ava Cornish",
-            name_music: "Walking Promises",
-            img: "../assets/2.png",
-            mp3: "https://samplesongs.netlify.app/Solo.mp3",
-          },
-          {
-            id: 3,
-            name: "Ava Cornish",
-            name_music: "Gimme Some Courage",
-            img: "../assets/3.png",
-            mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3",
-          },
-          {
-            id: 4,
-            name: "Ava Cornish",
-            name_music: "Desired Games",
-            img: "../assets/4.png",
-            mp3: "https://samplesongs.netlify.app/Bad%20Liar.mp3",
-          },
-          {
-            id: 5,
-            name: "Ava Cornish",
-            name_music: "Dark Alley Acoustic",
-            img: "../assets/5.png",
-            mp3: "https://samplesongs.netlify.app/Hate%20Me.mp3",
-          },
-          {
-            id: 6,
-            name: "Ava Cornish",
-            name_music: "Walking Promises",
-            img: "../assets/6.png",
-            mp3: "https://samplesongs.netlify.app/Without%20Me.mp3",
-          },
-          {
-            id: 7,
-            name: "Ava Cornish",
-            name_music: "Endless Things",
-            img: "../assets/7.png",
-            mp3: "https://samplesongs.netlify.app/Faded.mp3",
-          },
-          {
-            id: 8,
-            name: "Ava Cornish",
-            name_music: "Dream Your Moments",
-            img: "../assets/8.png",
-            mp3: "https://samplesongs.netlify.app/Solo.mp3",
-          },
-          {
-            id: 9,
-            name: "Ava Cornish",
-            name_music: "Until I Met You",
-            img: "../assets/9.png",
-            mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3",
-          },
-          {
-            id: 10,
-            name: "Ava Cornish",
-            name_music: "Gimme Some Courage",
-            img: "../assets/10.png",
-            mp3: "https://samplesongs.netlify.app/Bad%20Liar.mp3",
-          },
-          {
-            id: 11,
-            name: "Ava Cornish",
-            name_music: "Dark Alley Acoustic",
-            img: "../assets/11.png",
-            mp3: "https://samplesongs.netlify.app/Hate%20Me.mp3",
-          },
-          {
-            id: 12,
-            name: "Ava Cornish",
-            name_music: "The Heartbeat Stops",
-            img: "../assets/12.png",
-            mp3: "https://samplesongs.netlify.app/Without%20Me.mp3",
-          },
-          {
-            id: 13,
-            name: "Ava Cornish",
-            name_music: "One More Stranger",
-            img: "../assets/13.png",
-            mp3: "https://samplesongs.netlify.app/Faded.mp3",
-          },
-          {
-            id: 14,
-            name: "Ava Cornish",
-            name_music: "Walking Promises",
-            img: "../assets/14.png",
-            mp3: "https://samplesongs.netlify.app/Solo.mp3",
-          },
-          {
-            id: 15,
-            name: "Ava Cornish",
-            name_music: "Endless Things",
-            img: "../assets/15.png",
-            mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3",
-          },
-        ],
-      },
-      {
-        top_all_times: [
-          {
-            id: 16,
-            name: "Ava Cornish & Brian Hill",
-            name_music: "Bloodlust",
-            img: "../assets/album1.jpg.png",
-            mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3",
-          },
-          {
-            id: 17,
-            name: "Ava Cornish & Brian Hill",
-            name_music: "Time flies",
-            img: "../assets/album2.jpg.png",
-            mp3: "https://samplesongs.netlify.app/Bad%20Liar.mp3",
-          },
-          {
-            id: 18,
-            name: "Ava Cornish & Brian Hill",
-            name_music: "Dark matters",
-            img: "../assets/album3.jpg.png",
-            mp3: "https://samplesongs.netlify.app/Faded.mp3",
-          },
-          {
-            id: 19,
-            name: "Ava Cornish & Brian Hill",
-            name_music: "Eye to eye",
-            img: "../assets/album4.jpg.png",
-            mp3: "https://samplesongs.netlify.app/Hate%20Me.mp3",
-          },
-          {
-            id: 20,
-            name: "Ava Cornish & Brian Hill",
-            name_music: "Cloud nine",
-            img: "../assets/album5.jpg.png",
-            mp3: "https://samplesongs.netlify.app/Solo.mp3",
-          },
-          {
-            id: 21,
-            name: "Ava Cornish & Brian Hill",
-            name_music: "Cobweb of lies",
-            img: "../assets/album6.jpg.png",
-            mp3: "https://samplesongs.netlify.app/Without%20Me.mp3",
-          },
-        ],
-      },
-      {
-        trending: [
-          {
-            id: 22,
-            name: "Ava Cornish",
-            name_music: "Dark Alley Acoustic",
-            img: "../assets/1.png",
-            mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3",
-          },
-          {
-            id: 23,
-            name: "Ava Cornish",
-            name_music: "Until I Met You",
-            img: "../assets/2.png",
-            mp3: "https://samplesongs.netlify.app/Solo.mp3",
-          },
-          {
-            id: 24,
-            name: "Ava Cornish",
-            name_music: "Gimme Some Courage",
-            img: "../assets/3.png",
-            mp3: "https://samplesongs.netlify.app/Faded.mp3",
-          },
-          {
-            id: 25,
-            name: "Ava Cornish",
-            name_music: "Desired Games",
-            img: "../assets/4.png",
-            mp3: "https://samplesongs.netlify.app/Hate%20Me.mp3",
-          },
-        ],
-      },
-    ],
-  };
+  // const topMusicSong = {
+  //   data: [
+  //     {
+  //       top_music: [
+  //         {
+  //           id: 1,
+  //           name: "Ava Cornish",
+  //           name_music: "Until I Met You",
+  //           img: "../assets/1.png",
+  //           mp3: "https://samplesongs.netlify.app/Faded.mp3",
+  //         },
+  //         {
+  //           id: 2,
+  //           name: "Ava Cornish",
+  //           name_music: "Walking Promises",
+  //           img: "../assets/2.png",
+  //           mp3: "https://samplesongs.netlify.app/Solo.mp3",
+  //         },
+  //         {
+  //           id: 3,
+  //           name: "Ava Cornish",
+  //           name_music: "Gimme Some Courage",
+  //           img: "../assets/3.png",
+  //           mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3",
+  //         },
+  //         {
+  //           id: 4,
+  //           name: "Ava Cornish",
+  //           name_music: "Desired Games",
+  //           img: "../assets/4.png",
+  //           mp3: "https://samplesongs.netlify.app/Bad%20Liar.mp3",
+  //         },
+  //         {
+  //           id: 5,
+  //           name: "Ava Cornish",
+  //           name_music: "Dark Alley Acoustic",
+  //           img: "../assets/5.png",
+  //           mp3: "https://samplesongs.netlify.app/Hate%20Me.mp3",
+  //         },
+  //         {
+  //           id: 6,
+  //           name: "Ava Cornish",
+  //           name_music: "Walking Promises",
+  //           img: "../assets/6.png",
+  //           mp3: "https://samplesongs.netlify.app/Without%20Me.mp3",
+  //         },
+  //         {
+  //           id: 7,
+  //           name: "Ava Cornish",
+  //           name_music: "Endless Things",
+  //           img: "../assets/7.png",
+  //           mp3: "https://samplesongs.netlify.app/Faded.mp3",
+  //         },
+  //         {
+  //           id: 8,
+  //           name: "Ava Cornish",
+  //           name_music: "Dream Your Moments",
+  //           img: "../assets/8.png",
+  //           mp3: "https://samplesongs.netlify.app/Solo.mp3",
+  //         },
+  //         {
+  //           id: 9,
+  //           name: "Ava Cornish",
+  //           name_music: "Until I Met You",
+  //           img: "../assets/9.png",
+  //           mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3",
+  //         },
+  //         {
+  //           id: 10,
+  //           name: "Ava Cornish",
+  //           name_music: "Gimme Some Courage",
+  //           img: "../assets/10.png",
+  //           mp3: "https://samplesongs.netlify.app/Bad%20Liar.mp3",
+  //         },
+  //         {
+  //           id: 11,
+  //           name: "Ava Cornish",
+  //           name_music: "Dark Alley Acoustic",
+  //           img: "../assets/11.png",
+  //           mp3: "https://samplesongs.netlify.app/Hate%20Me.mp3",
+  //         },
+  //         {
+  //           id: 12,
+  //           name: "Ava Cornish",
+  //           name_music: "The Heartbeat Stops",
+  //           img: "../assets/12.png",
+  //           mp3: "https://samplesongs.netlify.app/Without%20Me.mp3",
+  //         },
+  //         {
+  //           id: 13,
+  //           name: "Ava Cornish",
+  //           name_music: "One More Stranger",
+  //           img: "../assets/13.png",
+  //           mp3: "https://samplesongs.netlify.app/Faded.mp3",
+  //         },
+  //         {
+  //           id: 14,
+  //           name: "Ava Cornish",
+  //           name_music: "Walking Promises",
+  //           img: "../assets/14.png",
+  //           mp3: "https://samplesongs.netlify.app/Solo.mp3",
+  //         },
+  //         {
+  //           id: 15,
+  //           name: "Ava Cornish",
+  //           name_music: "Endless Things",
+  //           img: "../assets/15.png",
+  //           mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3",
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       top_all_times: [
+  //         {
+  //           id: 16,
+  //           name: "Ava Cornish & Brian Hill",
+  //           name_music: "Bloodlust",
+  //           img: "../assets/album1.jpg.png",
+  //           mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3",
+  //         },
+  //         {
+  //           id: 17,
+  //           name: "Ava Cornish & Brian Hill",
+  //           name_music: "Time flies",
+  //           img: "../assets/album2.jpg.png",
+  //           mp3: "https://samplesongs.netlify.app/Bad%20Liar.mp3",
+  //         },
+  //         {
+  //           id: 18,
+  //           name: "Ava Cornish & Brian Hill",
+  //           name_music: "Dark matters",
+  //           img: "../assets/album3.jpg.png",
+  //           mp3: "https://samplesongs.netlify.app/Faded.mp3",
+  //         },
+  //         {
+  //           id: 19,
+  //           name: "Ava Cornish & Brian Hill",
+  //           name_music: "Eye to eye",
+  //           img: "../assets/album4.jpg.png",
+  //           mp3: "https://samplesongs.netlify.app/Hate%20Me.mp3",
+  //         },
+  //         {
+  //           id: 20,
+  //           name: "Ava Cornish & Brian Hill",
+  //           name_music: "Cloud nine",
+  //           img: "../assets/album5.jpg.png",
+  //           mp3: "https://samplesongs.netlify.app/Solo.mp3",
+  //         },
+  //         {
+  //           id: 21,
+  //           name: "Ava Cornish & Brian Hill",
+  //           name_music: "Cobweb of lies",
+  //           img: "../assets/album6.jpg.png",
+  //           mp3: "https://samplesongs.netlify.app/Without%20Me.mp3",
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       trending: [
+  //         {
+  //           id: 22,
+  //           name: "Ava Cornish",
+  //           name_music: "Dark Alley Acoustic",
+  //           img: "../assets/1.png",
+  //           mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3",
+  //         },
+  //         {
+  //           id: 23,
+  //           name: "Ava Cornish",
+  //           name_music: "Until I Met You",
+  //           img: "../assets/2.png",
+  //           mp3: "https://samplesongs.netlify.app/Solo.mp3",
+  //         },
+  //         {
+  //           id: 24,
+  //           name: "Ava Cornish",
+  //           name_music: "Gimme Some Courage",
+  //           img: "../assets/3.png",
+  //           mp3: "https://samplesongs.netlify.app/Faded.mp3",
+  //         },
+  //         {
+  //           id: 25,
+  //           name: "Ava Cornish",
+  //           name_music: "Desired Games",
+  //           img: "../assets/4.png",
+  //           mp3: "https://samplesongs.netlify.app/Hate%20Me.mp3",
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // };
 
-  // Ensure local storage
-  if (!localStorage.getItem("songData")) {
-    localStorage.setItem("songData", JSON.stringify(topMusicSong));
-  }
+  // // Ensure local storage
+  // if (!localStorage.getItem("songData")) {
+  //   localStorage.setItem("songData", JSON.stringify(topMusicSong));
+  // }
 
-  // Load songData from localStorage
-  let songData = JSON.parse(localStorage.getItem("songData")) || topMusicSong;
+  // // Load songData from localStorage
+  // let songData = JSON.parse(localStorage.getItem("songData")) || topMusicSong;
 
   // Hàm cập nhật danh sách bài hát
   function updateSongLists(data) {
