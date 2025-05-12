@@ -64,7 +64,7 @@ function updateAuthButtons() {
       document.querySelector(".logout-btn") ||
       document.querySelector(".login-btn");
     if (loginBtn && loginBtn.classList.contains("logout-btn")) {
-      loginBtn.textContent = "Đăng nhập";
+      loginBtn.textContent = "Login";
       loginBtn.classList.remove("logout-btn");
       loginBtn.classList.add("login-btn");
       // Xóa các sự kiện đăng xuất cũ
@@ -218,95 +218,207 @@ function setupLoginModal() {
 function setupRegisterModal() {
   const modalRegister = document.querySelector(".modalRegister");
   const registerForm = document.querySelector(".formRegister");
-  const loginLink = document.querySelector(".formRegister .login-link");
+  const loginLink = document.querySelector(".formRegister a");
 
-  if (!modalRegister || !registerForm) {
-    console.error("Thiếu modal hoặc form đăng ký!");
-    return;
-  }
+  if (registerForm) {
+    console.log("Register form found:", registerForm);
+    
+    // Remove any existing event listeners
+    const newForm = registerForm.cloneNode(true);
+    registerForm.parentNode.replaceChild(newForm, registerForm);
+    
+    newForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      console.log("Form submitted - Starting validation");
+      
+      // Disable form submission while processing
+      const submitButton = newForm.querySelector('button[type="submit"]');
+      if (submitButton) submitButton.disabled = true;
+      
+      try {
+        // Get form values and log them for debugging
+        const nameInput = document.getElementById("name");
+        const emailInput = document.getElementById("email1");
+        const password1Input = document.getElementById("password1");
+        const password2Input = document.getElementById("password2");
 
-  modalRegister.addEventListener("click", (e) => {
-    if (e.target === modalRegister) {
-      modalRegister.classList.remove("show");
-      modalRegister.style.display = "none";
-    }
-  });
+        // Log input elements
+        console.log("Input elements found:", {
+          nameInput: nameInput ? "Found" : "Not found",
+          emailInput: emailInput ? "Found" : "Not found",
+          password1Input: password1Input ? "Found" : "Not found",
+          password2Input: password2Input ? "Found" : "Not found"
+        });
 
-  registerForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const name = document.getElementById("name").value.trim();
-    const email = document.getElementById("email1").value.trim();
-    const password1 = document.getElementById("password1").value.trim();
-    const password2 = document.getElementById("password2").value.trim();
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        // Get raw values first
+        const rawName = nameInput ? nameInput.value : "";
+        const rawEmail = emailInput ? emailInput.value : "";
+        const rawPassword1 = password1Input ? password1Input.value : "";
+        const rawPassword2 = password2Input ? password2Input.value : "";
 
-    if (!name || !email || !password1 || !password2) {
-      Swal.fire("Lỗi!", "Vui lòng điền đầy đủ các trường.", "error");
-      return;
-    }
-    if (!emailRegex.test(email)) {
-      Swal.fire("Lỗi!", "Vui lòng nhập địa chỉ email hợp lệ.", "error");
-      return;
-    }
-    if (!passwordRegex.test(password1)) {
-      Swal.fire(
-        "Lỗi!",
-        "Mật khẩu phải dài ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt.",
-        "error"
-      );
-      return;
-    }
-    if (password1 !== password2) {
-      Swal.fire("Lỗi!", "Mật khẩu không khớp.", "error");
-      return;
-    }
+        // Log raw values
+        console.log("Raw form values before trim:", {
+          name: rawName,
+          email: rawEmail,
+          password1: rawPassword1 ? "filled" : "empty",
+          password2: rawPassword2 ? "filled" : "empty"
+        });
 
-    const accounts = JSON.parse(localStorage.getItem("accounts")) || [];
-    if (accounts.some((account) => account.email === email)) {
-      Swal.fire("Lỗi!", "Email này đã được đăng ký.", "error");
-      return;
-    }
+        // Trim values after logging raw values
+        const name = rawName.trim();
+        const email = rawEmail.trim().toLowerCase();
+        const password1 = rawPassword1.trim();
+        const password2 = rawPassword2.trim();
 
-    const newAccount = {
-      accountId: `TK${Math.floor(Math.random() * 1000000)
-        .toString()
-        .padStart(6, "0")}`,
-      fullName: name,
-      email,
-      password: password1,
-      dob: "",
-      phone: "",
-      hometown: "",
-      role: "Users",
-    };
+        // Log trimmed values
+        console.log("Trimmed form values:", {
+          name: name,
+          email: email,
+          password1: password1 ? "filled" : "empty",
+          password2: password2 ? "filled" : "empty"
+        });
 
-    accounts.push(newAccount);
-    localStorage.setItem("accounts", JSON.stringify(accounts));
-    localStorage.setItem("currentUser", JSON.stringify(newAccount));
+        // Validate all fields are filled
+        const missingFields = [];
+        if (!name) missingFields.push("Name");
+        if (!email) missingFields.push("Email");
+        if (!password1) missingFields.push("Password");
+        if (!password2) missingFields.push("Confirm Password");
 
-    Swal.fire(
-      "Thành công!",
-      "Đăng ký thành công. Bạn đã được đăng nhập.",
-      "success"
-    ).then(() => {
-      modalRegister.classList.remove("show");
-      modalRegister.style.display = "none";
-      registerForm.reset();
-      updateAuthButtons();
+        console.log("Validation results:", {
+          missingFields: missingFields,
+          hasMissingFields: missingFields.length > 0
+        });
+
+        if (missingFields.length > 0) {
+          console.log("Validation failed - showing missing fields message");
+          await Swal.fire({
+            icon: "error",
+            title: "Missing Information",
+            text: `Please fill in the following fields: ${missingFields.join(", ")}`,
+            confirmButtonText: "OK"
+          });
+          return;
+        }
+
+        console.log("All fields filled - proceeding with other validations");
+
+        // Validate email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+          console.log("Email validation failed");
+          await Swal.fire({
+            icon: "error",
+            title: "Invalid Email",
+            text: "Please enter a valid email address.",
+            confirmButtonText: "OK"
+          });
+          return;
+        }
+
+        // Validate password format
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        if (!passwordRegex.test(password1)) {
+          console.log("Password validation failed");
+          await Swal.fire({
+            icon: "error",
+            title: "Invalid Password",
+            text: "Password must be at least 8 characters long, include uppercase, lowercase, number, and special character.",
+            confirmButtonText: "OK"
+          });
+          return;
+        }
+
+        // Check passwords match
+        if (password1 !== password2) {
+          console.log("Password mismatch");
+          await Swal.fire({
+            icon: "error",
+            title: "Password Mismatch",
+            text: "Passwords do not match.",
+            confirmButtonText: "OK"
+          });
+          return;
+        }
+
+        // Get accounts from localStorage
+        const accounts = JSON.parse(localStorage.getItem("accounts")) || [];
+        
+        // Check if email exists
+        if (accounts.some(account => account.email === email)) {
+          console.log("Email already exists");
+          await Swal.fire({
+            icon: "error",
+            title: "Email Already Exists",
+            text: "This email is already registered.",
+            confirmButtonText: "OK"
+          });
+          return;
+        }
+
+        console.log("All validations passed - creating new account");
+
+        // Create new account
+        const newAccount = {
+          accountId: `TK${Math.floor(Math.random() * 1000000).toString().padStart(6, "0")}`,
+          fullName: name,
+          email: email,
+          password: password1,
+          dob: "",
+          phone: "",
+          hometown: "",
+          role: "Users",
+          favorite: []
+        };
+
+        // Add account and update localStorage
+        accounts.push(newAccount);
+        localStorage.setItem("accounts", JSON.stringify(accounts));
+        localStorage.setItem("currentUser", JSON.stringify(newAccount));
+
+        console.log("Account created successfully - showing success message");
+
+        // Reset form and close modal BEFORE showing success message
+        newForm.reset();
+        modalRegister.classList.remove("show");
+        modalRegister.style.display = "none";
+
+        // Show success message
+        await Swal.fire({
+          icon: "success",
+          title: "Registration Successful!",
+          text: "Your account has been created successfully.",
+        });
+
+        // Update UI
+        updateAuthButtons();
+        console.log("Registration process completed");
+      } catch (error) {
+        console.error("Error during registration:", error);
+        await Swal.fire({
+          icon: "error",
+          title: "Registration Error",
+          text: "An error occurred during registration. Please try again.",
+          confirmButtonText: "OK"
+        });
+      } finally {
+        // Re-enable form submission
+        if (submitButton) submitButton.disabled = false;
+      }
     });
-  });
+  }
 
   if (loginLink) {
     loginLink.addEventListener("click", (e) => {
       e.preventDefault();
-      modalRegister.classList.remove("show");
-      modalRegister.style.display = "none";
+      if (modalRegister) {
+        modalRegister.style.display = "none";
+        modalRegister.classList.remove("show");
+      }
       const modalLogin = document.querySelector(".modalLogin");
       if (modalLogin) {
-        modalLogin.classList.add("show");
         modalLogin.style.display = "flex";
+        modalLogin.classList.add("show");
       }
     });
   }

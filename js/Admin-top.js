@@ -542,25 +542,12 @@ document.addEventListener("DOMContentLoaded", () => {
                   nameMusic: result.value.nameMusic,
                   artist: result.value.artist,
                   img: result.value.img,
-                  mp3: result.value.mp3
+                  mp3: result.value.mp3,
+                  type: category // Giữ nguyên loại danh sách ban đầu
               };
 
-              // If the type hasn't changed, just update the track in place
-              if (result.value.listType === category) {
-                  tracksData.data.find((cat) => cat[category])[category][index] = updatedTrack;
-              } else {
-                  // If the type has changed, remove from old category and add to new category
-                  const oldCategory = tracksData.data.find((cat) => cat[category]);
-                  oldCategory[category].splice(index, 1);
-                  
-                  const newCategory = tracksData.data.find((cat) => cat[result.value.listType]) || {
-                      [result.value.listType]: []
-                  };
-                  if (!tracksData.data.includes(newCategory)) {
-                      tracksData.data.push(newCategory);
-                  }
-                  newCategory[result.value.listType].push(updatedTrack);
-              }
+              // Cập nhật bài hát trong danh mục hiện tại
+              tracksData.data.find((cat) => cat[category])[category][index] = updatedTrack;
 
               saveTracks();
               loadTracks(currentFilter, currentPage, searchQuery);
