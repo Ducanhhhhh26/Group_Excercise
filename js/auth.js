@@ -220,6 +220,16 @@ function setupRegisterModal() {
   const registerForm = document.querySelector(".formRegister");
   const loginLink = document.querySelector(".formRegister a");
 
+  // Add click outside handler for the modal
+  if (modalRegister) {
+    modalRegister.addEventListener("click", (e) => {
+      if (e.target === modalRegister) {
+        modalRegister.classList.remove("show");
+        modalRegister.style.display = "none";
+      }
+    });
+  }
+
   if (registerForm) {
     console.log("Register form found:", registerForm);
     
