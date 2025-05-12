@@ -67,10 +67,10 @@
 // };
 let musicData = JSON.parse(localStorage.getItem("homepage")) ||  [];
 // Danh sách tài khoản tĩnh
-let accounts = [
+let accounts = JSON.parse(localStorage.getItem('accounts')) || [
   { email: "admin@example.com", password: "Admin@123", fullName: "Admin User", role: "Admin" }
 ];
-let currentUser = null;
+let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
 
 document.addEventListener("DOMContentLoaded", () => {
   // Lấy các phần tử HTML
@@ -378,6 +378,7 @@ let isSidebarExpanded = false;
         }).then((result) => {
           if (result.isConfirmed) {
             currentUser = null;
+            localStorage.removeItem('currentUser');
             loginBtn.classList.remove("logout-btn");
             loginBtn.classList.add("login-btn");
             updateLoginButton();
@@ -435,6 +436,7 @@ let isSidebarExpanded = false;
       const user = accounts.find(acc => acc.email === email && acc.password === password);
       if (user) {
         currentUser = user;
+        localStorage.setItem('currentUser', JSON.stringify(user));
         modalLogin.style.display = "none";
         loginForm.reset();
         updateLoginButton();
@@ -455,6 +457,7 @@ let isSidebarExpanded = false;
           title: "Error!",
           text: "Invalid email or password.",
         });
+        return; // Add return to prevent further execution
       }
     });
 
@@ -527,7 +530,9 @@ let isSidebarExpanded = false;
 
       const newUser = { email, password, fullName: name, role: "User" };
       accounts.push(newUser);
+      localStorage.setItem('accounts', JSON.stringify(accounts));
       currentUser = newUser;
+      localStorage.setItem('currentUser', JSON.stringify(newUser));
       modalRegister.style.display = "none";
       registerForm.reset();
       updateLoginButton();
