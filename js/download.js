@@ -508,7 +508,13 @@ document.addEventListener("DOMContentLoaded", () => {
     if (prevBtn) prevBtn.removeEventListener("click", () => {});
     if (nextBtn) nextBtn.removeEventListener("click", () => {});
   });
+
+  // Initialize auth
+  if (typeof initializeAuth === 'function') {
+    initializeAuth();
+  }
 });
+
 // Active link
 const links = document.querySelectorAll(".sidebar a");
 const currentPage = window.location.pathname.split("/").pop();
@@ -828,6 +834,7 @@ if (loginLink) {
     e.preventDefault();
     modalRegister.classList.remove("show");
     modalRegister.style.display = "none";
+    const modalLogin = document.querySelector(".modalLogin");
     if (modalLogin) {
       modalLogin.classList.add("show");
       modalLogin.style.display = "flex";
