@@ -1,4 +1,3 @@
-
 const sidebar = document.querySelector('.sidebar');
 const chevronBtn = document.querySelector('.sidebar-chevorn a');
 const mainContent = document.querySelector('.container');
@@ -126,10 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-
-
-
-
 const searchInput = document.getElementById('search-input');
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -174,11 +169,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-
-
 const searchBtn = document.getElementById('search-btn');
 const clearBtn = document.getElementById('clear-btn');
 const searchResults = document.getElementById('search-results');
 const searchResultsGrid = document.querySelector('#search-results .album-grid');
 const searchMessage = document.getElementById('search-message');
 const mainSections = document.querySelectorAll('main > section:not(#search-results)');
+
+if (accounts.some((account) => account.email === email)) {
+  Swal.fire("Error!", "This email is already registered.", "error");
+  return;
+}
