@@ -1,4 +1,18 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Kiểm tra xác thực người dùng
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  if (!currentUser || currentUser.role !== "Admin") {
+    Swal.fire({
+      title: "Access Denied",
+      text: "You do not have permission to access this page.",
+      icon: "error",
+      confirmButtonText: "OK"
+    }).then(() => {
+      window.location.href = "index.html";
+    });
+    return;
+  }
+
   // Dữ liệu mặc định
   const defaultTracksData = {
       data: [
