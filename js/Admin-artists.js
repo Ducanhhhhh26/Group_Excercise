@@ -1,4 +1,18 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Kiểm tra xác thực người dùng
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  if (!currentUser || currentUser.role !== "Admin") {
+    Swal.fire({
+      title: "Access Denied",
+      text: "You do not have permission to access this page.",
+      icon: "error",
+      confirmButtonText: "OK"
+    }).then(() => {
+      window.location.href = "index.html";
+    });
+    return;
+  }
+
   let artists = JSON.parse(localStorage.getItem("artists")) || [];
   let defaultImages = JSON.parse(localStorage.getItem("defaultImages")) || [
     "/assets/r_music1.jpg.png",
