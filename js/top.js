@@ -217,13 +217,13 @@ document.addEventListener("DOMContentLoaded", () => {
         allSongs = allSongs.concat(category.Trending);
       }
     });
-    // Ánh xạ thành mảng phẳng
+    // Ánh xạ thành mảng phẳng với cấu trúc songData
     songData = allSongs.map((track) => ({
       id: track.id,
       name: track.artist,
       name_music: track.nameMusic,
-      img: track.img,
-      mp3: track.mp3,
+      img: track.img, // Fallback nếu img thiếu
+      mp3: track.mp3, // Fallback nếu mp3 thiếu
     }));
     localStorage.setItem("songData", JSON.stringify(songData));
   }
@@ -346,7 +346,13 @@ document.addEventListener("DOMContentLoaded", () => {
   if (prevBtn) {
     prevBtn.addEventListener("click", () => {
       let newId = currentSongId - 1;
-      if (newId < 1) newId = 25;
+      if (currentSongId >= 1 && currentSongId <= 15) {
+        if (newId < 1) newId = 15;
+      } else if (currentSongId >= 16 && currentSongId <= 21) {
+        if (newId < 16) newId = 21;
+      } else if (currentSongId >= 22 && currentSongId <= 25) {
+        if (newId < 22) newId = 25;
+      }
       playSong(newId);
     });
   }
@@ -358,11 +364,22 @@ document.addEventListener("DOMContentLoaded", () => {
   if (nextBtn) {
     nextBtn.addEventListener("click", () => {
       let newId = currentSongId + 1;
-      if (newId > 25) newId = 1;
+      if (currentSongId >= 1 && currentSongId <= 15) {
+        if (newId > 15) {
+          newId = 1;
+        }
+      } else if (currentSongId >= 16 && currentSongId <= 21) {
+        if (newId > 21) {
+          newId = 16;
+        }
+      } else if (currentSongId >= 22 && currentSongId <= 25) {
+        if (newId > 25) {
+          newId = 22;
+        }
+      }
       playSong(newId);
     });
   }
-
   // Cập nhật thanh tiến trình
   audio.addEventListener("timeupdate", () => {
     const currentTime = document.querySelector(".current-time");
@@ -384,22 +401,15 @@ document.addEventListener("DOMContentLoaded", () => {
   // Tự động phát bài tiếp theo khi hết
   audio.addEventListener("ended", () => {
     let newId = currentSongId + 1;
-    if (newId > 25) newId = 1;
+    if (currentSongId >= 1 && currentSongId <= 15) {
+      if (newId > 15) newId = 1;
+    } else if (currentSongId >= 16 && currentSongId <= 21) {
+      if (newId > 21) newId = 16;
+    } else if (currentSongId >= 22 && currentSongId <= 25) {
+      if (newId > 25) newId = 22;
+    }
     playSong(newId);
   });
-
-  // Xử lý tua nhạc
-  const progressContainer = document.querySelector(".progress-container");
-  if (progressContainer) {
-    progressContainer.addEventListener("click", (e) => {
-      const rect = progressContainer.getBoundingClientRect();
-      const offsetX = e.clientX - rect.left;
-      const width = rect.width;
-      const seekTime = (offsetX / width) * audio.duration;
-      audio.currentTime = seekTime;
-    });
-  }
-
   // Xử lý âm lượng
   const volumeBtn = document.querySelector(
     ".player-option-btn i.bi-volume-up"
