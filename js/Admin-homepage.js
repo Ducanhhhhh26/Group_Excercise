@@ -72,6 +72,20 @@ const itemsPerPage = 8;
 let searchQuery = "";
 
 document.addEventListener("DOMContentLoaded", () => {
+    // Kiểm tra xác thực người dùng
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    if (!currentUser || currentUser.role !== "Admin") {
+        Swal.fire({
+            title: "Access Denied",
+            text: "You do not have permission to access this page.",
+            icon: "error",
+            confirmButtonText: "OK"
+        }).then(() => {
+            window.location.href = "index.html";
+        });
+        return;
+    }
+
     // Load data from home.js
     try {
         // Get data from home.js

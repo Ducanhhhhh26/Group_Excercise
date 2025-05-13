@@ -156,49 +156,71 @@ function setupLoginModal() {
     }
   });
 
-  loginForm.addEventListener("submit", (e) => {
+  // Xóa event listener cũ nếu có
+  const newLoginForm = loginForm.cloneNode(true);
+  loginForm.parentNode.replaceChild(newLoginForm, loginForm);
+
+  newLoginForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(email)) {
-      Swal.fire("Lỗi!", "Vui lòng nhập địa chỉ email hợp lệ.", "error");
+      Swal.fire({
+        title: "Error!",
+        text: "Please enter a valid email address.",
+        icon: "error",
+        confirmButtonText: "OK"
+      });
       return;
     }
     if (!password) {
-      Swal.fire("Lỗi!", "Vui lòng nhập mật khẩu.", "error");
+      Swal.fire({
+        title: "Error!",
+        text: "Please enter a password.",
+        icon: "error",
+        confirmButtonText: "OK"
+      });
       return;
     }
 
     const accounts = JSON.parse(localStorage.getItem("accounts")) || [];
-    const user = accounts.find(
-      (account) => account.email === email && account.password === password
-    );
+    const user = accounts.find((account) => account.email === email && account.password === password);
 
     if (user) {
+      // Lưu thông tin user trước
       localStorage.setItem("currentUser", JSON.stringify(user));
-      
-      // Kiểm tra nếu là tài khoản admin
-      if (user.role === "Admin") {
-        Swal.fire({
-          title: "Đăng nhập thành công!",
-          icon: "success",
-          timer: 1500,
-          showConfirmButton: false
-        }).then(() => {
+
+      // Hiển thị thông báo thành công
+      Swal.fire({
+        title: "Success!",
+        text: user.role === "Admin" ? "Logged in successfully. Redirecting to admin page..." : "Logged in successfully.",
+        icon: "success",
+        timer: 2000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+        allowOutsideClick: false,
+        allowEscapeKey: false
+      }).then(() => {
+        // Sau khi thông báo đóng, cập nhật UI và đóng modal
+        modalLogin.classList.remove("show");
+        modalLogin.style.display = "none";
+        newLoginForm.reset();
+        updateAuthButtons();
+        
+        // Chuyển hướng nếu là admin
+        if (user.role === "Admin") {
           window.location.href = "Admin-page.html";
-        });
-      } else {
-        Swal.fire("Thành công!", "Đăng nhập thành công.", "success").then(() => {
-          modalLogin.classList.remove("show");
-          modalLogin.style.display = "none";
-          loginForm.reset();
-          updateAuthButtons();
-        });
-      }
+        }
+      });
     } else {
-      Swal.fire("Lỗi!", "Email hoặc mật khẩu không đúng.", "error");
+      Swal.fire({
+        title: "Error!",
+        text: "Invalid email or password.",
+        icon: "error",
+        confirmButtonText: "Try Again"
+      });
     }
   });
 
@@ -206,9 +228,10 @@ function setupLoginModal() {
     forgotPasswordLink.addEventListener("click", (e) => {
       e.preventDefault();
       Swal.fire({
-        title: "Quên mật khẩu",
-        text: "Vui lòng liên hệ hỗ trợ tại shadowsgamer371@gmail.com để đặt lại mật khẩu.",
+        title: "Forgot Password",
+        text: "Please contact support at shadowsgamer371@gmail.com to reset your password.",
         icon: "info",
+        confirmButtonText: "OK"
       });
     });
   }
