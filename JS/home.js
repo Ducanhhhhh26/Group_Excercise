@@ -385,6 +385,29 @@ let isSidebarExpanded = false;
       link.classList.add("active");
     }
   });
+  function setupCarousel(section) {
+    const grid = document.querySelector(`.${section} .album-grid`);
+    const nextBtn = document.querySelector(`.${section} .carousel-controls button:last-child`);
+    const prevBtn = document.querySelector(`.${section} .carousel-controls button:first-child`);
+    if (grid && nextBtn && prevBtn) {
+      let index = 0;
+      nextBtn.addEventListener("click", () => {
+        if (index < grid.children.length - 3) {
+          index++;
+          grid.style.transform = `translateX(-${index * 33.33}%)`;
+        }
+      });
+      prevBtn.addEventListener("click", () => {
+        if (index > 0) {
+          index--;
+          grid.style.transform = `translateX(-${index * 33.33}%)`;
+        }
+      });
+    }
+  }
+  setupCarousel("recently-played");
+  setupCarousel("featured-artists");
+  setupCarousel("featured-albums");
 
   // Initialize music player and UI
   showSongs();

@@ -227,7 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
       };
 
       // Ánh xạ dữ liệu từ tracks
-      tracks.data.forEach((category, index) => {
+      tracks.data.forEach((category) => {
         if (category.Top_Music) {
           songData.data[0].top_music = category.Top_Music.map((track) => ({
             id: track.id,
