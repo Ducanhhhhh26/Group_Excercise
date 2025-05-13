@@ -1,4 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Initialize auth
+  if (typeof initializeAuth === 'function') {
+    initializeAuth();
+  }
+
   // Initialize accounts and create default admin if none exists
   let accounts = JSON.parse(localStorage.getItem("accounts")) || [];
   const hasAdmin = accounts.some((account) => account.role === "Admin");
@@ -418,10 +423,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (nextBtn) nextBtn.removeEventListener("click", () => {});
   });
 
-  // Initialize auth
-  if (typeof initializeAuth === 'function') {
-    initializeAuth();
-  }
+  // Initialize header buttons
+  updateAuthButtons();
 });
 
 // Active link
@@ -577,9 +580,7 @@ function handleLogout() {
 
 // Login Modal
 const loginForm = document.querySelector(".formLogin");
-const forgotPasswordLink = document.querySelector(
-  ".modalLogin .checkbox-forgot p"
-);
+const forgotPasswordLink = document.querySelector(".modalLogin .checkbox-forgot p");
 const registerLink = document.querySelector(".formLogin a");
 
 if (modalLogin) {
@@ -588,45 +589,6 @@ if (modalLogin) {
       modalLogin.classList.remove("show");
       modalLogin.style.display = "none";
       toggleMusicPlayerVisibility();
-    }
-  });
-}
-
-if (loginForm) {
-  loginForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value.trim();
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!emailRegex.test(email)) {
-      Swal.fire("Error!", "Please enter a valid email address.", "error");
-      return;
-    }
-    if (!password) {
-      Swal.fire("Error!", "Please enter a password.", "error");
-      return;
-    }
-
-    const accounts = JSON.parse(localStorage.getItem("accounts")) || [];
-    const user = accounts.find(
-      (account) => account.email === email && account.password === password
-    );
-
-    if (user) {
-      localStorage.setItem("currentUser", JSON.stringify(user));
-      Swal.fire("Success!", "Logged in successfully.", "success").then(() => {
-        modalLogin.classList.remove("show");
-        modalLogin.style.display = "none";
-        loginForm.reset();
-        toggleMusicPlayerVisibility();
-        updateAuthButtons();
-        if (user.role === "Admin") {
-          window.location.href = "Admin-page.html";
-        }
-      });
-    } else {
-      Swal.fire("Error!", "Invalid email or password.", "error");
     }
   });
 }

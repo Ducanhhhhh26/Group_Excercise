@@ -178,12 +178,25 @@ function setupLoginModal() {
 
     if (user) {
       localStorage.setItem("currentUser", JSON.stringify(user));
-      Swal.fire("Thành công!", "Đăng nhập thành công.", "success").then(() => {
-        modalLogin.classList.remove("show");
-        modalLogin.style.display = "none";
-        loginForm.reset();
-        updateAuthButtons();
-      });
+      
+      // Kiểm tra nếu là tài khoản admin
+      if (user.role === "Admin") {
+        Swal.fire({
+          title: "Đăng nhập thành công!",
+          icon: "success",
+          timer: 1500,
+          showConfirmButton: false
+        }).then(() => {
+          window.location.href = "Admin-page.html";
+        });
+      } else {
+        Swal.fire("Thành công!", "Đăng nhập thành công.", "success").then(() => {
+          modalLogin.classList.remove("show");
+          modalLogin.style.display = "none";
+          loginForm.reset();
+          updateAuthButtons();
+        });
+      }
     } else {
       Swal.fire("Lỗi!", "Email hoặc mật khẩu không đúng.", "error");
     }
