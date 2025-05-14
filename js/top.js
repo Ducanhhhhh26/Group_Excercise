@@ -235,7 +235,7 @@ document.addEventListener("DOMContentLoaded", () => {
     updatePlayerUI(song);
   };
 
-  playSong(0, "top_music");
+  // playSong(0, "top_music");
 
   function updatePlayerUI(song) {
     document.querySelector(".player-album-img img").src = song.img;
