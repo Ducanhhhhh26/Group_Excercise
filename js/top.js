@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Dữ liệu bài hát mặc định (mảng phẳng với 25 bài hát)
-  const topMusicSong = [
+  const tracks = [
     {
       id: 1,
       name: "Ava Cornish",
@@ -195,18 +195,18 @@ document.addEventListener("DOMContentLoaded", () => {
       mp3: "https://samplesongs.netlify.app/Hate%20Me.mp3",
     },
   ];
-  // Khởi tạo songData từ localStorage hoặc topMusicSong
+  // Khởi tạo songData từ localStorage hoặc tracks
   if (!localStorage.getItem("songData")) {
-    localStorage.setItem("songData", JSON.stringify(topMusicSong));
+    localStorage.setItem("songData", JSON.stringify(tracks));
   }
   let songData = JSON.parse(localStorage.getItem("songData"));
 
-  // Cập nhật songData từ tracks nếu khác topMusicSong
-  const tracks = JSON.parse(localStorage.getItem("tracks"));
-  if (tracks && JSON.stringify(tracks) !== JSON.stringify(topMusicSong)) {
-    // Giả định tracks có cấu trúc { data: [...] } và gộp tất cả bài hát thành mảng phẳng
+  // Cập nhật songData từ tracks nếu khác tracks
+  const storedTracks = JSON.parse(localStorage.getItem("tracks"));
+  if (storedTracks && JSON.stringify(storedTracks) !== JSON.stringify(tracks)) {
+    // Giả định storedTracks có cấu trúc { data: [...] } và gộp tất cả bài hát thành mảng phẳng
     let allSongs = [];
-    tracks.data.forEach((category) => {
+    storedTracks.data.forEach((category) => {
       if (category.Top_Music) {
         allSongs = allSongs.concat(category.Top_Music);
       }
