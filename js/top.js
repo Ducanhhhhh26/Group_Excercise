@@ -1,10 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Initialize auth
-  if (typeof initializeAuth === 'function') {
-    initializeAuth();
-  }
-
-  // Initialize accounts and create default admin if none exists
+  // Khởi tạo danh sách tài khoản và tạo admin mặc định nếu chưa có
   let accounts = JSON.parse(localStorage.getItem("accounts")) || [];
   const hasAdmin = accounts.some((account) => account.role === "Admin");
   if (!hasAdmin) {
@@ -22,228 +17,312 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("accounts", JSON.stringify(accounts));
   }
 
-  // Initialize song data with continuous IDs
-  const topMusicSong = {
-    data: [
-      {
-        top_music: [
-          {
-            id: 1,
-            name: "Ava Cornish",
-            name_music: "Until I Met You",
-            img: "../assets/1.png",
-            mp3: "https://samplesongs.netlify.app/Faded.mp3",
-          },
-          // ... (các bài hát khác như ban đầu)
-          {
-            id: 15,
-            name: "Ava Cornish",
-            name_music: "Endless Things",
-            img: "../assets/15.png",
-            mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3",
-          },
-        ],
-      },
-      {
-        top_all_times: [
-          {
-            id: 16,
-            name: "Ava Cornish & Brian Hill",
-            name_music: "Bloodlust",
-            img: "../assets/album1.jpg.png",
-            mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3",
-          },
-          // ... (các bài hát khác như ban đầu)
-          {
-            id: 21,
-            name: "Ava Cornish & Brian Hill",
-            name_music: "Cobweb of lies",
-            img: "../assets/album6.jpg.png",
-            mp3: "https://samplesongs.netlify.app/Without%20Me.mp3",
-          },
-        ],
-      },
-      {
-        trending: [
-          {
-            id: 22,
-            name: "Ava Cornish",
-            name_music: "Dark Alley Acoustic",
-            img: "../assets/1.png",
-            mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3",
-          },
-          // ... (các bài hát khác như ban đầu)
-          {
-            id: 25,
-            name: "Ava Cornish",
-            name_music: "Desired Games",
-            img: "../assets/4.png",
-            mp3: "https://samplesongs.netlify.app/Hate%20Me.mp3",
-          },
-        ],
-      },
-    ],
-  };
-
-  // Ensure local storage
+  // Dữ liệu bài hát mặc định (mảng phẳng với 25 bài hát)
+  const topMusicSong = [
+    {
+      id: 1,
+      name: "Ava Cornish",
+      name_music: "Until I Met You",
+      img: "../assets/1.png",
+      mp3: "https://samplesongs.netlify.app/Faded.mp3",
+    },
+    {
+      id: 2,
+      name: "Ava Cornish",
+      name_music: "Walking Promises",
+      img: "../assets/2.png",
+      mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3",
+    },
+    {
+      id: 3,
+      name: "Ava Cornish",
+      name_music: "Gimme Some Courage",
+      img: "../assets/3.png",
+      mp3: "https://samplesongs.netlify.app/Hate%20Me.mp3",
+    },
+    {
+      id: 4,
+      name: "Ava Cornish",
+      name_music: "Desired Games",
+      img: "../assets/4.png",
+      mp3: "https://samplesongs.netlify.app/Without%20Me.mp3",
+    },
+    {
+      id: 5,
+      name: "Ava Cornish",
+      name_music: "Dark Alley Acoustic",
+      img: "../assets/5.png",
+      mp3: "https://samplesongs.netlify.app/Faded.mp3",
+    },
+    {
+      id: 6,
+      name: "Ava Cornish",
+      name_music: "Walking Promises",
+      img: "../assets/6.png",
+      mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3",
+    },
+    {
+      id: 7,
+      name: "Ava Cornish",
+      name_music: "Endless Things",
+      img: "../assets/7.png",
+      mp3: "https://samplesongs.netlify.app/Hate%20Me.mp3",
+    },
+    {
+      id: 8,
+      name: "Ava Cornish",
+      name_music: "Dream Your Moments",
+      img: "../assets/8.png",
+      mp3: "https://samplesongs.netlify.app/Without%20Me.mp3",
+    },
+    {
+      id: 9,
+      name: "Ava Cornish",
+      name_music: "Until I Met You",
+      img: "../assets/9.png",
+      mp3: "https://samplesongs.netlify.app/Faded.mp3",
+    },
+    {
+      id: 10,
+      name: "Ava Cornish",
+      name_music: "Gimme Some Courage",
+      img: "../assets/10.png",
+      mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3",
+    },
+    {
+      id: 11,
+      name: "Ava Cornish",
+      name_music: "Dark Alley Acoustic",
+      img: "../assets/11.png",
+      mp3: "https://samplesongs.netlify.app/Hate%20Me.mp3",
+    },
+    {
+      id: 12,
+      name: "Ava Cornish",
+      name_music: "The Heartbeat Stops",
+      img: "../assets/12.png",
+      mp3: "https://samplesongs.netlify.app/Without%20Me.mp3",
+    },
+    {
+      id: 13,
+      name: "Ava Cornish",
+      name_music: "One More Stranger",
+      img: "../assets/13.png",
+      mp3: "https://samplesongs.netlify.app/Faded.mp3",
+    },
+    {
+      id: 14,
+      name: "Ava Cornish",
+      name_music: "Walking Promises",
+      img: "../assets/14.png",
+      mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3",
+    },
+    {
+      id: 15,
+      name: "Ava Cornish",
+      name_music: "Endless Things",
+      img: "../assets/15.png",
+      mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3",
+    },
+    {
+      id: 16,
+      name: "Ava Cornish & Brian Hill",
+      name_music: "Bloodlust",
+      img: "../assets/album1.jpg.png",
+      mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3",
+    },
+    {
+      id: 17,
+      name: "Ava Cornish & Brian Hill",
+      name_music: "Time flies",
+      img: "../assets/album2.jpg.png",
+      mp3: "https://samplesongs.netlify.app/Faded.mp3",
+    },
+    {
+      id: 18,
+      name: "Ava Cornish & Brian Hill",
+      name_music: "Dark matters",
+      img: "../assets/album3.jpg.png",
+      mp3: "https://samplesongs.netlify.app/Hate%20Me.mp3",
+    },
+    {
+      id: 19,
+      name: "Ava Cornish & Brian Hill",
+      name_music: "Eye to eye",
+      img: "../assets/album4.jpg.png",
+      mp3: "https://samplesongs.netlify.app/Without%20Me.mp3",
+    },
+    {
+      id: 20,
+      name: "Ava Cornish & Brian Hill",
+      name_music: "Cloud nine",
+      img: "../assets/album5.jpg.png",
+      mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3",
+    },
+    {
+      id: 21,
+      name: "Ava Cornish & Brian Hill",
+      name_music: "Cobweb of lies",
+      img: "../assets/album6.jpg.png",
+      mp3: "https://samplesongs.netlify.app/Without%20Me.mp3",
+    },
+    {
+      id: 22,
+      name: "Ava Cornish",
+      name_music: "Dark Alley Acoustic",
+      img: "../assets/1.png",
+      mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3",
+    },
+    {
+      id: 23,
+      name: "Ava Cornish",
+      name_music: "Until I Met You",
+      img: "../assets/2.png",
+      mp3: "https://samplesongs.netlify.app/Faded.mp3",
+    },
+    {
+      id: 24,
+      name: "Ava Cornish",
+      name_music: "Gimme Some Courage",
+      img: "../assets/3.png",
+      mp3: "https://samplesongs.netlify.app/Hate%20Me.mp3",
+    },
+    {
+      id: 25,
+      name: "Ava Cornish",
+      name_music: "Desired Games",
+      img: "../assets/4.png",
+      mp3: "https://samplesongs.netlify.app/Hate%20Me.mp3",
+    },
+  ];
+  // Khởi tạo songData từ localStorage hoặc topMusicSong
   if (!localStorage.getItem("songData")) {
     localStorage.setItem("songData", JSON.stringify(topMusicSong));
   }
+  let songData = JSON.parse(localStorage.getItem("songData"));
 
-  // Load songData from localStorage
-  let songData = JSON.parse(localStorage.getItem("songData")) || topMusicSong;
-
-  // Kiểm tra tracks và cập nhật UI nếu khác topMusicSong
+  // Cập nhật songData từ tracks nếu khác topMusicSong
   const tracks = JSON.parse(localStorage.getItem("tracks"));
   if (tracks && JSON.stringify(tracks) !== JSON.stringify(topMusicSong)) {
-    if (tracks.data && Array.isArray(tracks.data)) {
-      // Tạo songData mới với cấu trúc đầy đủ
-      songData = {
-        data: [{ top_music: [] }, { top_all_times: [] }, { trending: [] }],
-      };
-
-      // Ánh xạ dữ liệu từ tracks
-      tracks.data.forEach((category, index) => {
-        if (category.Top_Music) {
-          songData.data[0].top_music = category.Top_Music.map((track) => ({
-            id: track.id,
-            name: track.artist,
-            name_music: track.nameMusic,
-            img: track.img || "../assets/default.png",
-            mp3: track.mp3 || "",
-          }));
-        }
-        if (category.Top_All_Times) {
-          songData.data[1].top_all_times = category.Top_All_Times.map(
-            (track) => ({
-              id: track.id,
-              name: track.artist,
-              name_music: track.nameMusic,
-              img: track.img || "../assets/default.png",
-              mp3: track.mp3 || "",
-            })
-          );
-        }
-        if (category.Trending) {
-          songData.data[2].trending = category.Trending.map((track) => ({
-            id: track.id,
-            name: track.artist,
-            name_music: track.nameMusic,
-            img: track.img || "../assets/default.png",
-            mp3: track.mp3 || "",
-          }));
-        }
-      });
-    }
-    updateSongLists(songData);
-  }
-
-  // Hàm cập nhật danh sách bài hát
-  function updateSongLists(data) {
-    // Cập nhật Weekly Top 15
-    const top15Container = document.querySelector("#allTop15");
-    if (top15Container) {
-      top15Container.innerHTML = "";
-      const topMusic = data.data[0].top_music || [];
-      const rows = [];
-      for (let i = 0; i < topMusic.length; i += 5) {
-        const row = document.createElement("div");
-        row.id = "top15Row";
-        topMusic.slice(i, i + 5).forEach((song, index) => {
-          const item = document.createElement("div");
-          item.style.display = "flex";
-          item.setAttribute("onclick", `playSong(${i + index}, 'top_music')`);
-          item.innerHTML = `
-            <h2 id="top15Small">${(i + index + 1)
-              .toString()
-              .padStart(2, "0")}</h2>
-            <div><img src="${song.img}" alt=""></div>
-            <div>
-              <div class="songTitle">${song.name_music}</div>
-              <div class="artistName">${song.name}</div>
-            </div>
-            <div class="songDuration">5:10</div>
-            <div class="moreOptions">...</div>
-          `;
-          row.appendChild(item);
-        });
-        rows.push(row);
+    // Giả định tracks có cấu trúc { data: [...] } và gộp tất cả bài hát thành mảng phẳng
+    let allSongs = [];
+    tracks.data.forEach((category) => {
+      if (category.Top_Music) {
+        allSongs = allSongs.concat(category.Top_Music);
       }
-      rows.forEach((row) => top15Container.appendChild(row));
-    }
-
-    // Cập nhật Top Tracks of All Time
-    const topAllTimesRow = document.querySelector("#topAllTimesRow");
-    if (topAllTimesRow) {
-      topAllTimesRow.innerHTML = "";
-      const topAllTimes = data.data[1].top_all_times || [];
-      topAllTimes.forEach((song, index) => {
+      if (category.Top_All_Times) {
+        allSongs = allSongs.concat(category.Top_All_Times);
+      }
+      if (category.Trending) {
+        allSongs = allSongs.concat(category.Trending);
+      }
+    });
+    // Ánh xạ thành mảng phẳng với cấu trúc songData
+    songData = allSongs.map((track) => ({
+      id: track.id,
+      name: track.artist,
+      name_music: track.nameMusic,
+      img: track.img, // Fallback nếu img thiếu
+      mp3: track.mp3, // Fallback nếu mp3 thiếu
+    }));
+    localStorage.setItem("songData", JSON.stringify(songData));
+  }
+  // Hàm cập nhật danh sách bài hát trên giao diện
+  function updateSongLists(data) {
+    // Cập nhật Weekly Top 15 (ID 1-15)
+    const top15Container = document.querySelector("#allTop15");
+    const top15Songs = data.filter((song) => song.id >= 1 && song.id <= 15);
+    top15Container.innerHTML = "";
+    const rows = [];
+    for (let i = 0; i < top15Songs.length; i += 5) {
+      const row = document.createElement("div");
+      row.id = "top15Row";
+      top15Songs.slice(i, i + 5).forEach((song, index) => {
         const item = document.createElement("div");
-        item.className = "topAllTimesItem";
-        item.setAttribute("onclick", `playSong(${index}, 'top_all_times')`);
+        item.style.display = "flex";
+        item.setAttribute("onclick", `playSong(${song.id})`);
         item.innerHTML = `
-          <img src="${song.img}" alt="">
-          <div class="songTitle">${song.name_music}</div>
-          <div class="artistName">${song.name}</div>
-        `;
-        topAllTimesRow.appendChild(item);
-      });
-    }
-
-    // Cập nhật Trending Tracks
-    const trendingRow = document.querySelector(".trendingRow");
-    if (trendingRow) {
-      trendingRow.innerHTML = "";
-      const trending = data.data[2].trending || [];
-      trending.forEach((song, index) => {
-        const item = document.createElement("div");
-        item.className = "trendingItem";
-        item.setAttribute("onclick", `playSong(${index}, 'trending')`);
-        item.innerHTML = `
-          <img src="${song.img}" alt="">
-          <div class="trackInfo">
+          <h2 id="top15Small">${(i + index + 1)
+            .toString()
+            .padStart(2, "0")}</h2>
+          <div><img src="${song.img}" alt="${song.name_music}"></div>
+          <div>
             <div class="songTitle">${song.name_music}</div>
             <div class="artistName">${song.name}</div>
           </div>
           <div class="songDuration">5:10</div>
+          <div class="moreOptions">...</div>
         `;
-        trendingRow.appendChild(item);
+        row.appendChild(item);
       });
+      rows.push(row);
     }
+    rows.forEach((row) => top15Container.appendChild(row));
+
+    // Cập nhật Top Tracks of All Time (ID 16-21)
+    const topAllTimesRow = document.querySelector("#topAllTimesRow");
+    const topAllTimesSongs = data.filter(
+      (song) => song.id >= 16 && song.id <= 21
+    );
+    topAllTimesRow.innerHTML = "";
+    topAllTimesSongs.forEach((song) => {
+      const item = document.createElement("div");
+      item.className = "topAllTimesItem";
+      item.setAttribute("onclick", `playSong(${song.id})`);
+      item.innerHTML = `
+        <img src="${song.img}" alt="${song.name_music}">
+        <div class="songTitle">${song.name_music}</div>
+        <div class="artistName">${song.name}</div>
+      `;
+      topAllTimesRow.appendChild(item);
+    });
+
+    // Cập nhật Trending Tracks (ID 22-25)
+    const trendingRow = document.querySelector(".trendingRow");
+    const trendingSongs = data.filter((song) => song.id >= 22 && song.id <= 25);
+    trendingRow.innerHTML = "";
+    trendingSongs.forEach((song) => {
+      const item = document.createElement("div");
+      item.className = "trendingItem";
+      item.setAttribute("onclick", `playSong(${song.id})`);
+      item.innerHTML = `
+        <img src="${song.img}" alt="${song.name_music}">
+        <div class="trackInfo">
+          <div class="songTitle">${song.name_music}</div>
+          <div class="artistName">${song.name}</div>
+        </div>
+        <div class="songDuration">5:10</div>
+      `;
+      trendingRow.appendChild(item);
+    });
   }
 
-  // Music Player Logic
+  // Gọi hàm để cập nhật giao diện
+  updateSongLists(songData);
+
+  // Logic trình phát nhạc
   const audio = new Audio();
-  let currentSongIndex = 0;
-  let currentCategory = "top_music";
+  let currentSongId = 1;
 
-  // Handle audio errors
-  audio.addEventListener("error", () => {
-    Swal.fire("Error!", "Failed to load the audio file.", "error");
-  });
-
-  window.playSong = function (index, category) {
-    const categoryData = songData.data.find((item) => item[category]);
-    currentSongIndex = index;
-    currentCategory = category;
-    const song = categoryData[category][index];
+  // Hàm phát bài hát theo ID
+  window.playSong = function (id) {
+    const song = songData.find((item) => item.id === id);
+    currentSongId = id;
+    document.querySelector(".player-album-img img").src = song.img;
+    document.querySelector(".player-song-info h6").textContent =
+      song.name_music;
+    document.querySelector(".player-song-info p").textContent = song.name;
     audio.src = song.mp3;
     audio.play().then(() => {
       document.querySelector(".play-btn i").classList.remove("bi-play-fill");
       document.querySelector(".play-btn i").classList.add("bi-pause-fill");
     });
-    updatePlayerUI(song);
   };
 
-  // playSong(0, "top_music");
+  // Khởi động trình phát với bài hát đầu tiên
+  playSong(1);
 
-  function updatePlayerUI(song) {
-    document.querySelector(".player-album-img img").src = song.img;
-    document.querySelector(".player-song-info h6").textContent =
-      song.name_music;
-    document.querySelector(".player-song-info p").textContent = song.name;
-  }
-
+  // Xử lý nút play/pause
   const playBtn = document.querySelector(".play-btn");
   if (playBtn) {
     playBtn.addEventListener("click", () => {
@@ -260,80 +339,78 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Xử lý nút previous
   const prevBtn = document.querySelector(
     ".player-btn i.bi-skip-start-fill"
   )?.parentNode;
+  if (prevBtn) {
+    prevBtn.addEventListener("click", () => {
+      let newId = currentSongId - 1;
+      if (currentSongId >= 1 && currentSongId <= 15) {
+        if (newId < 1) newId = 15;
+      } else if (currentSongId >= 16 && currentSongId <= 21) {
+        if (newId < 16) newId = 21;
+      } else if (currentSongId >= 22 && currentSongId <= 25) {
+        if (newId < 22) newId = 25;
+      }
+      playSong(newId);
+    });
+  }
+
+  // Xử lý nút next
   const nextBtn = document.querySelector(
     ".player-btn i.bi-skip-end-fill"
   )?.parentNode;
-
-  if (prevBtn) {
-    prevBtn.addEventListener("click", () => {
-      currentSongIndex =
-        (currentSongIndex -
-          1 +
-          songData.data.find((item) => item[currentCategory])[currentCategory]
-            .length) %
-        songData.data.find((item) => item[currentCategory])[currentCategory]
-          .length;
-      playSong(currentSongIndex, currentCategory);
-    });
-  }
-
   if (nextBtn) {
     nextBtn.addEventListener("click", () => {
-      currentSongIndex =
-        (currentSongIndex + 1) %
-        songData.data.find((item) => item[currentCategory])[currentCategory]
-          .length;
-      playSong(currentSongIndex, currentCategory);
+      let newId = currentSongId + 1;
+      if (currentSongId >= 1 && currentSongId <= 15) {
+        if (newId > 15) {
+          newId = 1;
+        }
+      } else if (currentSongId >= 16 && currentSongId <= 21) {
+        if (newId > 21) {
+          newId = 16;
+        }
+      } else if (currentSongId >= 22 && currentSongId <= 25) {
+        if (newId > 25) {
+          newId = 22;
+        }
+      }
+      playSong(newId);
     });
   }
-
+  // Cập nhật thanh tiến trình
   audio.addEventListener("timeupdate", () => {
     const currentTime = document.querySelector(".current-time");
     const totalTime = document.querySelector(".total-time");
     const progressBar = document.querySelector(".progress-bar");
-
-    if (audio.duration && !isNaN(audio.duration)) {
-      const currentMinutes = Math.floor(audio.currentTime / 60);
-      const currentSeconds = Math.floor(audio.currentTime % 60);
-      const totalMinutes = Math.floor(audio.duration / 60);
-      const totalSeconds = Math.floor(audio.duration % 60);
-
-      currentTime.textContent = `${currentMinutes}:${
-        currentSeconds < 10 ? "0" : ""
-      }${currentSeconds}`;
-      totalTime.textContent = `${totalMinutes}:${
-        totalSeconds < 10 ? "0" : ""
-      }${totalSeconds}`;
-      progressBar.style.width = `${
-        (audio.currentTime / audio.duration) * 100
-      }%`;
-    }
+    const currentMinutes = Math.floor(audio.currentTime / 60);
+    const currentSeconds = Math.floor(audio.currentTime % 60);
+    const totalMinutes = Math.floor(audio.duration / 60);
+    const totalSeconds = Math.floor(audio.duration % 60);
+    currentTime.textContent = `${currentMinutes}:${
+      currentSeconds < 10 ? "0" : ""
+    }${currentSeconds}`;
+    totalTime.textContent = `${totalMinutes}:${
+      totalSeconds < 10 ? "0" : ""
+    }${totalSeconds}`;
+    progressBar.style.width = `${(audio.currentTime / audio.duration) * 100}%`;
   });
 
+  // Tự động phát bài tiếp theo khi hết
   audio.addEventListener("ended", () => {
-    currentSongIndex =
-      (currentSongIndex + 1) %
-      songData.data.find((item) => item[currentCategory])[currentCategory]
-        .length;
-    playSong(currentSongIndex, currentCategory);
+    let newId = currentSongId + 1;
+    if (currentSongId >= 1 && currentSongId <= 15) {
+      if (newId > 15) newId = 1;
+    } else if (currentSongId >= 16 && currentSongId <= 21) {
+      if (newId > 21) newId = 16;
+    } else if (currentSongId >= 22 && currentSongId <= 25) {
+      if (newId > 25) newId = 22;
+    }
+    playSong(newId);
   });
-
-  // Progress bar seeking
-  const progressContainer = document.querySelector(".progress-container");
-  if (progressContainer) {
-    progressContainer.addEventListener("click", (e) => {
-      const rect = progressContainer.getBoundingClientRect();
-      const offsetX = e.clientX - rect.left;
-      const width = rect.width;
-      const seekTime = (offsetX / width) * audio.duration;
-      audio.currentTime = seekTime;
-    });
-  }
-
-  // Volume control
+  // Xử lý âm lượng
   const volumeBtn = document.querySelector(
     ".player-option-btn i.bi-volume-up"
   )?.parentNode;
@@ -345,7 +422,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Search Functionality
+  // Chức năng tìm kiếm
   const searchInput = document.querySelector(".search-input");
   const searchBtn = document.querySelector(".search-btn");
 
@@ -359,10 +436,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const trendingItems = document.querySelectorAll(".trendingItem");
 
     top15Items.forEach((item, index) => {
-      const title =
-        songData.data[0].top_music[index]?.name_music.toLowerCase() || "";
-      const artist =
-        songData.data[0].top_music[index]?.name.toLowerCase() || "";
+      const song = songData.find((s) => s.id === 1 + index);
+      const title = song.name_music.toLowerCase();
+      const artist = song.name.toLowerCase();
       item.style.display =
         title.includes(searchTerm) || artist.includes(searchTerm)
           ? "flex"
@@ -370,10 +446,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     topAllTimesItems.forEach((item, index) => {
-      const title =
-        songData.data[1].top_all_times[index]?.name_music.toLowerCase() || "";
-      const artist =
-        songData.data[1].top_all_times[index]?.name.toLowerCase() || "";
+      const song = songData.find((s) => s.id === 16 + index);
+      const title = song.name_music.toLowerCase();
+      const artist = song.name.toLowerCase();
       item.style.display =
         title.includes(searchTerm) || artist.includes(searchTerm)
           ? "block"
@@ -381,9 +456,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     trendingItems.forEach((item, index) => {
-      const title =
-        songData.data[2].trending[index]?.name_music.toLowerCase() || "";
-      const artist = songData.data[2].trending[index]?.name.toLowerCase() || "";
+      const song = songData.find((s) => s.id === 22 + index);
+      const title = song.name_music.toLowerCase();
+      const artist = song.name.toLowerCase();
       item.style.display =
         title.includes(searchTerm) || artist.includes(searchTerm)
           ? "flex"
@@ -399,7 +474,7 @@ document.addEventListener("DOMContentLoaded", () => {
     searchBtn.addEventListener("click", searchSongs);
   }
 
-  // Carousel for Top Tracks of All Time
+  // Carousel cho Top Tracks of All Time
   const leftBtn = document.querySelector(".leftBtn");
   const rightBtn = document.querySelector(".rightBtn");
   const topAllTimesRow = document.querySelector(".topAllTimesRow");
@@ -414,7 +489,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Cleanup event listeners on page unload
+  // Dọn dẹp sự kiện khi rời trang
   window.addEventListener("unload", () => {
     audio.pause();
     audio.src = "";
@@ -422,9 +497,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (prevBtn) prevBtn.removeEventListener("click", () => {});
     if (nextBtn) nextBtn.removeEventListener("click", () => {});
   });
-
-  // Initialize header buttons
-  updateAuthButtons();
 });
 
 // Active link
@@ -580,7 +652,9 @@ function handleLogout() {
 
 // Login Modal
 const loginForm = document.querySelector(".formLogin");
-const forgotPasswordLink = document.querySelector(".modalLogin .checkbox-forgot p");
+const forgotPasswordLink = document.querySelector(
+  ".modalLogin .checkbox-forgot p"
+);
 const registerLink = document.querySelector(".formLogin a");
 
 if (modalLogin) {
@@ -589,6 +663,45 @@ if (modalLogin) {
       modalLogin.classList.remove("show");
       modalLogin.style.display = "none";
       toggleMusicPlayerVisibility();
+    }
+  });
+}
+
+if (loginForm) {
+  loginForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email)) {
+      Swal.fire("Error!", "Please enter a valid email address.", "error");
+      return;
+    }
+    if (!password) {
+      Swal.fire("Error!", "Please enter a password.", "error");
+      return;
+    }
+
+    const accounts = JSON.parse(localStorage.getItem("accounts")) || [];
+    const user = accounts.find(
+      (account) => account.email === email && account.password === password
+    );
+
+    if (user) {
+      localStorage.setItem("currentUser", JSON.stringify(user));
+      Swal.fire("Success!", "Logged in successfully.", "success").then(() => {
+        modalLogin.classList.remove("show");
+        modalLogin.style.display = "none";
+        loginForm.reset();
+        toggleMusicPlayerVisibility();
+        updateAuthButtons();
+        if (user.role === "Admin") {
+          window.location.href = "Admin-page.html";
+        }
+      });
+    } else {
+      Swal.fire("Error!", "Invalid email or password.", "error");
     }
   });
 }
