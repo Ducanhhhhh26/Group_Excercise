@@ -1,18 +1,21 @@
-document.addEventListener("DOMContentLoaded", () => {
-  // Kiểm tra xác thực người dùng
-  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-  if (!currentUser || currentUser.role !== "Admin") {
-    Swal.fire({
-      title: "Access Denied",
-      text: "You do not have permission to access this page.",
-      icon: "error",
-      confirmButtonText: "OK",
-    }).then(() => {
-      window.location.href = "index.html";
-    });
-    return;
-  }
+let tracks = JSON.parse(localStorage.getItem("tracks")) || [];
+let currentFilter = "all";
+let currentPage = 1;
+const itemsPerPage = 8;
+let searchQuery = "";
 
+// Kiểm tra xác thực người dùng
+const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+if (!currentUser || currentUser.role !== "Admin") {
+    Swal.fire({
+        title: "Access Denied",
+        text: "You do not have permission to access this page.",
+        icon: "error",
+        confirmButtonText: "OK"
+    }).then(() => {
+        window.location.href = "index.html";
+    });
+} else {
   // Dữ liệu mặc định
   const defaultTracksData = {
     data: [
@@ -240,14 +243,10 @@ document.addEventListener("DOMContentLoaded", () => {
         if (parsed && Array.isArray(parsed.data)) {
           return parsed;
         }
-        console.warn(
-          "Dữ liệu trong localStorage không đúng định dạng, sử dụng dữ liệu mặc định."
-        );
       }
       localStorage.setItem("tracks", JSON.stringify(defaultTracksData));
       return defaultTracksData;
     } catch (e) {
-      console.error("Lỗi khi parse localStorage 'tracks':", e);
       localStorage.setItem("tracks", JSON.stringify(defaultTracksData));
       return defaultTracksData;
     }
@@ -258,14 +257,13 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       localStorage.setItem("tracks", JSON.stringify(tracksData));
     } catch (e) {
-      console.error("Lỗi khi lưu vào localStorage:", e);
+      // Handle error silently
     }
   }
 
   // Làm phẳng dữ liệu để hiển thị
   function flattenTracks() {
     if (!tracksData || !Array.isArray(tracksData.data)) {
-      console.error("Dữ liệu tracksData.data không hợp lệ:", tracksData);
       return [];
     }
     return tracksData.data.flatMap((category) => {
@@ -279,18 +277,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  let currentFilter = "all";
-  let currentPage = 1;
-  const itemsPerPage = 10;
-  let searchQuery = "";
-
   // Cập nhật số lượng bộ lọc
   function updateFilterCounts(flatTracks) {
     const filterPills = document.querySelectorAll(".filter-pill");
     if (!filterPills.length) {
-      console.warn(
-        "Không tìm thấy bộ lọc (.filter-pill), hiển thị tất cả bài hát."
-      );
       return;
     }
     const counts = {
@@ -311,11 +301,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const countSpan = pill.querySelector(".filter-count");
       if (countSpan && filter) {
         countSpan.textContent = counts[filter] || 0;
-      } else {
-        console.warn(
-          `Không tìm thấy span .filter-count hoặc data-filter cho bộ lọc:`,
-          pill
-        );
       }
     });
   }
@@ -327,16 +312,11 @@ document.addEventListener("DOMContentLoaded", () => {
     query = searchQuery
   ) {
     let flatTracks = flattenTracks();
-    console.log("Current filter:", filter);
-    console.log("Available types in flatTracks:", [
-      ...new Set(flatTracks.map((t) => t.type)),
-    ]);
     const normalizedFilter = filter.replace(/\s+/g, "_").toLowerCase();
     let filteredTracks =
       normalizedFilter === "all"
         ? flatTracks
         : flatTracks.filter((t) => t.type.toLowerCase() === normalizedFilter);
-    console.log("Filtered tracks:", filteredTracks);
 
     if (query) {
       filteredTracks = filteredTracks.filter(
@@ -366,7 +346,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const tbody = document.querySelector("table tbody");
     if (!tbody) {
-      console.error("Không tìm thấy phần thân bảng (table tbody)!");
       return;
     }
     tbody.innerHTML = paginatedTracks.length
@@ -399,7 +378,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function updatePagination(totalPages, currentPage) {
     const paginationContainer = document.querySelector(".pagination");
     if (!paginationContainer) {
-      console.error("Không tìm thấy container phân trang (.pagination)!");
       return;
     }
     paginationContainer.innerHTML = "";
@@ -581,8 +559,6 @@ document.addEventListener("DOMContentLoaded", () => {
           if (uploadArea) {
             const fileInput = document.getElementById("profile-pic");
             uploadArea.addEventListener("click", () => fileInput.click());
-          } else {
-            console.warn("Không tìm thấy khu vực tải lên trong modal!");
           }
         },
         preConfirm: () => {
@@ -768,8 +744,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (uploadArea) {
           const fileInput = document.getElementById("profile-pic");
           uploadArea.addEventListener("click", () => fileInput.click());
-        } else {
-          console.warn("Không tìm thấy khu vực tải lên trong modal!");
         }
       },
       preConfirm: () => {
@@ -823,13 +797,11 @@ document.addEventListener("DOMContentLoaded", () => {
   if (filterPills.length) {
     filterPills.forEach((pill) => {
       pill.addEventListener("click", () => {
-        const filterValue = pill.getAttribute("data-filter");
-        console.log("Filter clicked:", filterValue);
-        filterPills.forEach((p) => p.classList.remove("active"));
-        pill.classList.add("active");
-        currentFilter = filterValue || "all";
+        document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        currentFilter = pill.dataset.filter;
         currentPage = 1;
-        loadTracks();
+        loadTracks(currentFilter, 1, searchQuery);
       });
     });
   } else {
@@ -838,14 +810,12 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
-  const searchInput = document.querySelector(
-    ".form-control[placeholder='Tìm kiếm']"
-  );
+  const searchInput = document.querySelector('input[type="text"]');
   if (searchInput) {
-    searchInput.addEventListener("input", (e) => {
-      searchQuery = e.target.value.trim();
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value;
       currentPage = 1;
-      loadTracks();
+      loadTracks(currentFilter, 1, searchQuery);
     });
   } else {
     console.error(
@@ -858,11 +828,9 @@ document.addEventListener("DOMContentLoaded", () => {
   if (logoutBtn) {
     logoutBtn.addEventListener("click", () => {
       localStorage.removeItem("currentUser");
-      Swal.fire("Thành công", "Đã đăng xuất thành công.", "success").then(
-        () => {
-          window.location.href = "index.html";
-        }
-      );
+      Swal.fire("Success", "Logged out successfully.", "success").then(() => {
+        window.location.href = "index.html";
+      });
     });
   } else {
     console.error("Không tìm thấy nút Đăng xuất (.logout-btn)!");
@@ -872,11 +840,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const deleteSelectedBtn = document.querySelector(".delete-selected-btn");
   if (deleteSelectedBtn) {
     deleteSelectedBtn.addEventListener("click", () => {
-      const checkboxes = document.querySelectorAll(
-        "tbody .form-check-input:checked"
-      );
+      const checkboxes = document.querySelectorAll("tbody .form-check-input:checked");
       if (checkboxes.length === 0) {
-        Swal.fire("Cảnh báo", "Vui lòng chọn ít nhất một bài hát.", "warning");
+        Swal.fire("Warning", "Please select at least one track.", "warning");
         return;
       }
 
@@ -937,4 +903,4 @@ document.addEventListener("DOMContentLoaded", () => {
   // Tải ban đầu
   loadTracks();
   saveTracks();
-});
+}
