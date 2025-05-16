@@ -324,7 +324,6 @@
 //   ]
 // }
 
-document.addEventListener("DOMContentLoaded", function () {
   // Initialize auth
   if (typeof initializeAuth === 'function') {
     initializeAuth();
@@ -703,4 +702,3 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Initialize header buttons
   updateAuthButtons();
-});
