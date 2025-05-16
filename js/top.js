@@ -310,8 +310,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
-  // Không phát tự động để tránh lỗi NotAllowedError
-  // playSong(1);
+  playSong(1);
 
   // Nút play/pause
   const playBtn = document.querySelector(".play-btn");
