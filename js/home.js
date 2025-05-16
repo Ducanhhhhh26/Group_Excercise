@@ -65,7 +65,13 @@
 //     { id: "12", title: "Cobweb of lies", artist: "Ava Cornish & Brian Hill", image: "../assets/images/song5.jpg.png", mp3: "https://samplesongs.netlify.app/Death%20Bed.mp3" }
 //   ]
 // };
-let musicData = JSON.parse(localStorage.getItem("homepage")) ||  [];
+let musicData = JSON.parse(localStorage.getItem("homepage")) || {
+  played: [],
+  top15: [],
+  artist: [],
+  releases: [],
+  albums: []
+};
 // Danh sách tài khoản tĩnh
 let accounts = JSON.parse(localStorage.getItem('accounts')) || [
   { email: "admin@example.com", password: "Admin@123", fullName: "Admin User", role: "Admin" }

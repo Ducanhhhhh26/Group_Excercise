@@ -324,35 +324,36 @@ let data = {
     ]
 };
 
-document.addEventListener("DOMContentLoaded", () => {
-    // Kiểm tra xác thực người dùng
-    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    if (!currentUser || currentUser.role !== "Admin") {
-        Swal.fire({
-            title: "Access Denied",
-            text: "You do not have permission to access this page.",
-            icon: "error",
-            confirmButtonText: "OK"
-        }).then(() => {
-            window.location.href = "index.html";
-        });
-        return;
-    }
+let albums = JSON.parse(localStorage.getItem("albums")) || [];
+let currentFilter = "all";
+let currentPage = 1;
+const itemsPerPage = 8;
+let searchQuery = "";
 
+// Kiểm tra xác thực người dùng
+const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+if (!currentUser || currentUser.role !== "Admin") {
+    Swal.fire({
+        title: "Access Denied",
+        text: "You do not have permission to access this page.",
+        icon: "error",
+        confirmButtonText: "OK"
+    }).then(() => {
+        window.location.href = "index.html";
+    });
+} else {
     // Tải dữ liệu từ localStorage hoặc dùng dữ liệu mặc định
     let albumsData = (() => {
         try {
             const stored = localStorage.getItem("albums");
             if (stored) {
                 const parsed = JSON.parse(stored);
-                // Kiểm tra cấu trúc dữ liệu
                 if (parsed && Array.isArray(parsed.data)) {
                     return parsed;
                 }
             }
             return data;
         } catch (e) {
-            console.error("Lỗi khi parse localStorage 'albums':", e);
             return data;
         }
     })();
@@ -362,14 +363,13 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             localStorage.setItem("albums", JSON.stringify(albumsData));
         } catch (e) {
-            console.error("Lỗi khi lưu vào localStorage:", e);
+            // Handle error silently
         }
     }
 
     // Làm phẳng dữ liệu để hiển thị (không lưu)
     function flattenAlbums() {
         if (!albumsData || !Array.isArray(albumsData.data)) {
-            console.error("Dữ liệu albumsData.data không hợp lệ:", albumsData);
             return [];
         }
         return albumsData.data.flatMap((category) => {
@@ -383,14 +383,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    let currentFilter = "all";
-    let currentPage = 1;
-    const itemsPerPage = 8;
-    let searchQuery = "";
-
     // Load and render albums
     function loadAlbums(filter = currentFilter, page = currentPage, query = searchQuery) {
-        console.log("Loading albums with filter:", filter, "page:", page, "query:", query);
         let filteredAlbums = filter === "all" ? flattenAlbums() : flattenAlbums().filter((a) => a.type === filter);
 
         if (query) {
@@ -417,7 +411,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const tbody = document.querySelector("table tbody");
         if (!tbody) {
-            console.error("Table body not found!");
             return;
         }
         tbody.innerHTML = paginatedAlbums.length
@@ -468,7 +461,6 @@ document.addEventListener("DOMContentLoaded", () => {
     function updatePagination(totalPages, currentPage) {
         const paginationContainer = document.querySelector(".pagination");
         if (!paginationContainer) {
-            console.error("Pagination container not found!");
             return;
         }
         paginationContainer.innerHTML = "";
@@ -655,8 +647,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (uploadArea) {
                         const fileInput = document.getElementById("album-img");
                         uploadArea.addEventListener("click", () => fileInput.click());
-                    } else {
-                        console.warn("Không tìm thấy khu vực tải lên trong modal!");
                     }
                 },
                 preConfirm: () => {
@@ -816,8 +806,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (uploadArea) {
                     const fileInput = document.getElementById("album-img");
                     uploadArea.addEventListener("click", () => fileInput.click());
-                } else {
-                    console.warn("Không tìm thấy khu vực tải lên trong modal!");
                 }
             },
             preConfirm: () => {
@@ -881,8 +869,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 loadAlbums();
             });
         });
-    } else {
-        console.error("Không tìm thấy bộ lọc (.filter-pill)!");
     }
 
     const searchInput = document.querySelector(".form-control[placeholder='Tìm kiếm']");
@@ -892,8 +878,6 @@ document.addEventListener("DOMContentLoaded", () => {
             currentPage = 1;
             loadAlbums();
         });
-    } else {
-        console.error("Không tìm thấy ô tìm kiếm (.form-control[placeholder='Tìm kiếm'])!");
     }
 
     // Đăng xuất
@@ -905,8 +889,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 window.location.href = "index.html";
             });
         });
-    } else {
-        console.error("Không tìm thấy nút Đăng xuất (.logout-btn)!");
     }
 
     // Xóa các album đã chọn
@@ -952,8 +934,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
         });
-    } else {
-        console.error("Không tìm thấy nút Xóa đã chọn (.delete-selected-btn)!");
     }
 
     // Chọn tất cả
@@ -963,11 +943,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const checkboxes = document.querySelectorAll("tbody .form-check-input");
             checkboxes.forEach((cb) => (cb.checked = e.target.checked));
         });
-    } else {
-        console.error("Không tìm thấy checkbox Chọn tất cả (#selectAll)!");
     }
 
-    // Tải ban đầu
+    // Initial load
     loadAlbums();
-    saveAlbums(); // Lưu dữ liệu ban đầu nếu localStorage trống
-});
+}
