@@ -57,7 +57,6 @@ if (!defaultImages) {
     "../assets/artist13.jpg.png",
     "../assets/song3.jpg.png",
     "../assets/album2.jpg.png",
-    "../assets/artist11.jpg.png"
   ];
   localStorage.setItem("defaultImages", JSON.stringify(defaultImages));
 }
