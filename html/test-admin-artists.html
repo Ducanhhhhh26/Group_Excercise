@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản lý Nghệ sĩ</title>
-    <link rel="stylesheet" href="/CSS/Admin-artists.css">
-    <link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
+    <title>Test - Quản lý Nghệ sĩ</title>
+    <link rel="stylesheet" href="../CSS/Admin-artists.css">
+    <link rel="icon" href="../assets/favicon.ico" type="image/x-icon">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
@@ -17,7 +17,7 @@
     <div class="sidebar">
         <div class="sidebar-container">
             <div class="logo">
-                <a href="index.html"><img src="/assets/open_logo.png.png" alt="Miraculous"></a>
+                <a href="index.html"><img src="../assets/open_logo.png.png" alt="Miraculous"></a>
             </div>
             <div class="sidebar-menu">
                 <a href="Admin-page.html" class="sidebar-item">
@@ -48,12 +48,12 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.html"><i class="bi bi-house"></i></a></li>
                 <li class="breadcrumb-item"><a href="#">Tài khoản</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Danh sách nghệ sĩ</li>
+                <li class="breadcrumb-item active" aria-current="page">Danh sách nghệ sĩ (TEST)</li>
             </ol>
         </nav>
 
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="mb-0">Danh sách nghệ sĩ</h2>
+            <h2 class="mb-0">Danh sách nghệ sĩ (TEST)</h2>
             <div class="d-flex">
                 <button class="btn btn-primary">
                     <i class="bi bi-plus-lg me-1"></i> Thêm nghệ sĩ
@@ -76,6 +76,20 @@
             </div>
         </div>
         <button class="btn btn-danger delete-selected-btn" style="margin-bottom: 20px;">Xóa đã chọn</button>
+
+        <!-- Test với hardcoded images -->
+        <div class="alert alert-info">
+            <h5>Test hình ảnh trực tiếp:</h5>
+            <img src="../assets/artist1.jpg.png" alt="Test 1"
+                style="width: 50px; height: 50px; border-radius: 50%; margin: 5px;"
+                onerror="console.log('Failed to load:', this.src)">
+            <img src="../assets/Artists.png" alt="Test 2"
+                style="width: 50px; height: 50px; border-radius: 50%; margin: 5px;"
+                onerror="console.log('Failed to load:', this.src)">
+            <img src="../assets/r_music1.jpg.png" alt="Test 3"
+                style="width: 50px; height: 50px; border-radius: 50%; margin: 5px;"
+                onerror="console.log('Failed to load:', this.src)">
+        </div>
 
         <div class="card">
             <div class="table-responsive">
@@ -106,7 +120,64 @@
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script src="/js/Admin-artists.js"></script>
+        <script>
+            // Inline test script với relative paths
+            let artists = [
+                {
+                    artistId: "NG000001",
+                    fullName: "Test Artist 1",
+                    email: "test1@example.com",
+                    songCount: 5,
+                    role: "Artists",
+                    image: "../assets/artist1.jpg.png"
+                },
+                {
+                    artistId: "NG000002",
+                    fullName: "Test Artist 2",
+                    email: "test2@example.com",
+                    songCount: 10,
+                    role: "Artists",
+                    image: "../assets/Artists.png"
+                }
+            ];
+
+            function loadTestArtists() {
+                const tbody = document.querySelector("table tbody");
+                console.log("Loading test artists:", artists);
+
+                tbody.innerHTML = artists.map((artist, index) => {
+                    console.log(`Artist ${artist.fullName}: image = ${artist.image}`);
+                    return `
+                        <tr>
+                            <td><div class="form-check"><input class="form-check-input" type="checkbox" value=""></div></td>
+                            <td>
+                                <img src="${artist.image}" 
+                                     alt="${artist.fullName}" 
+                                     class="artist-table-image"
+                                     onload="console.log('Image loaded successfully:', this.src)"
+                                     onerror="console.log('Image load error for:', this.src); this.src='../assets/Artists.png'" />
+                            </td>
+                            <td>${artist.artistId}</td>
+                            <td>${artist.fullName}</td>
+                            <td>${artist.email}</td>
+                            <td>${artist.songCount}</td>
+                            <td>
+                                <div class="d-flex">
+                                    <button class="btn btn-sm btn-link text-danger p-0 me-2"><i class="bi bi-trash"></i></button>
+                                    <button class="btn btn-sm btn-link text-primary p-0"><i class="bi bi-pencil"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                }).join("");
+            }
+
+            // Load on page ready
+            document.addEventListener('DOMContentLoaded', function () {
+                console.log("Page loaded, testing images...");
+                loadTestArtists();
+            });
+        </script>
 </body>
 
-</html>s
+</html>

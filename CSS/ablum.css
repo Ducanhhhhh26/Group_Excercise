@@ -1,8 +1,9 @@
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
 body {
   background-color: #0C1020;
   color: white;
@@ -13,10 +14,11 @@ body {
 }
 
 /* Header */
-header{
-  background-color:#1B2039;
+header {
+  background-color: #1B2039;
 
 }
+
 .search-container {
   position: relative;
   width: 250px;
@@ -36,7 +38,8 @@ header{
   height: 100%;
   border: none;
 }
-.search-btn:hover{
+
+.search-btn:hover {
   color: white;
   background-color: #3BC8E7;
 
@@ -46,10 +49,12 @@ header{
   margin-left: 2rem;
   font-size: 14px;
 }
-.trending-songs{
+
+.trending-songs {
   color: #3BC8E7;
   font-size: 14px;
 }
+
 .trending-title {
   color: white;
 }
@@ -60,21 +65,23 @@ header{
   cursor: pointer;
 }
 
-.register-btn, .login-btn {
-    background-color: #3BC8E7;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    padding: 8px 20px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    height: 3rem;
+.register-btn,
+.login-btn {
+  background-color: #3BC8E7;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  height: 3rem;
 }
 
-.register-btn:hover, .login-btn:hover {
-    background-color: #2ca8c4;
-    transform: translateY(-2px);
+.register-btn:hover,
+.login-btn:hover {
+  background-color: #2ca8c4;
+  transform: translateY(-2px);
 }
 
 /* side bar */
@@ -82,7 +89,8 @@ header{
   position: fixed;
   top: 0;
   left: 0;
-  width: 80px; /* Chiều rộng mặc định */
+  width: 80px;
+  /* Chiều rộng mặc định */
   height: 100vh;
   background-color: #1B2039;
   display: flex;
@@ -90,21 +98,29 @@ header{
   align-items: center;
   padding-top: 20px;
   z-index: 110;
-  transition: width 0.3s ease; /* Hiệu ứng chuyển đổi mượt mà */
+  transition: width 0.3s ease;
+  /* Hiệu ứng chuyển đổi mượt mà */
 }
+
 .sidebar a.active {
   background-color: #333;
   color: white;
   border-radius: 8px;
 }
+
 .sidebar.expanded {
-  width: 200px; /* Chiều rộng khi mở rộng */
-  align-items: flex-start; /* Căn chỉnh các mục sang trái khi mở rộng */
-  padding-left: 20px; /* Thêm padding bên trái */
+  width: 200px;
+  /* Chiều rộng khi mở rộng */
+  align-items: flex-start;
+  /* Căn chỉnh các mục sang trái khi mở rộng */
+  padding-left: 20px;
+  /* Thêm padding bên trái */
 }
+
 .sidebar-chevorn i {
   transition: transform 1s ease;
 }
+
 .sidebar .logo {
   margin-bottom: 20px;
   display: flex;
@@ -133,13 +149,16 @@ header{
   position: absolute;
   left: 70px;
   top: 350px;
-  transition: left 0.3s ease; /* Hiệu ứng chuyển đổi cho chevron */
+  transition: left 0.3s ease;
+  /* Hiệu ứng chuyển đổi cho chevron */
 }
 
 .sidebar.expanded .sidebar-chevorn {
-  left: 190px; /* Điều chỉnh vị trí chevron khi sidebar mở rộng */
+  left: 190px;
+  /* Điều chỉnh vị trí chevron khi sidebar mở rộng */
   transform: rotate(180deg);
 }
+
 .sidebar-chevorn i {
   transition: transform 1s ease;
 }
@@ -151,10 +170,14 @@ header{
   font-size: 16px;
   color: white;
 }
+
 .sidebar.expanded a {
-  justify-content: flex-start; /* ✅ icon + text sát trái */
-  padding-left: 15px; /* ✅ tạo khoảng cách trái */
+  justify-content: flex-start;
+  /* ✅ icon + text sát trái */
+  padding-left: 15px;
+  /* ✅ tạo khoảng cách trái */
 }
+
 /* Hiển thị nhãn khi sidebar mở rộng */
 .sidebar.expanded .sidebar-label {
   display: inline-block;
@@ -167,17 +190,20 @@ header{
   text-decoration: none;
   display: flex;
   align-items: center;
-  justify-content: center; /* Sửa ở đây */
+  justify-content: center;
+  /* Sửa ở đây */
   width: 100%;
   height: 50px;
   margin-bottom: 15px;
   transition: background-color 0.3s;
   position: relative;
-  padding-left: 7px; /* Thêm để tạo khoảng cách từ cạnh trái */
+  padding-left: 7px;
+  /* Thêm để tạo khoảng cách từ cạnh trái */
 }
 
 .sidebar a i {
-  margin-right: 10px; /* Giữa icon và nhãn */
+  margin-right: 10px;
+  /* Giữa icon và nhãn */
 }
 
 .sidebar a::before {
@@ -206,344 +232,381 @@ header{
 .sidebar a.active::before {
   background-color: #3BC8E7;
 }
+
 /* conten*/
-.featured-albums{
+.featured-albums {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: nowrap;
   gap: 1.8rem;
 }
-.Featured-item{
+
+.Featured-item {
   margin-top: 2rem;
 }
-.text-featured{
-  color:#3BC8E7;
+
+.text-featured {
+  color: #3BC8E7;
   font-size: 20px;
   border-bottom: 1px solid #3BC8E7;
 
 }
-.view-more{
+
+.view-more {
   margin-top: 1rem;
 }
-.trending-albums{
+
+.trending-albums {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: nowrap;
   gap: 1.8rem;
 }
-.Artists-albums{
+
+.Artists-albums {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: nowrap;
   gap: 1.8rem;
 }
-.Trending-item{
+
+.Trending-item {
   margin-top: 2rem;
 }
-.Artists-item{
+
+.Artists-item {
   margin-top: 2rem;
 }
+
 .text-trending {
-  color:#3BC8E7;
+  color: #3BC8E7;
   font-size: 20px;
   border-bottom: 1px solid #3BC8E7;
 }
-.text-Artists{
-  color:#3BC8E7;
+
+.text-Artists {
+  color: #3BC8E7;
   font-size: 20px;
   border-bottom: 1px solid #3BC8E7;
 }
+
 .small-img {
-  
+
   width: 50px;
   height: 50px;
-  object-fit: cover; /* giúp ảnh không bị méo */
+  object-fit: cover;
+  /* giúp ảnh không bị méo */
 }
-.text-top15{
-  color:#3BC8E7;
+
+.text-top15 {
+  color: #3BC8E7;
   font-size: 20px;
   border-bottom: 1px solid #3BC8E7;
 }
-.text-top{
+
+.text-top {
   font-size: 20px;
-  
+
 }
-.text-top2{
+
+.text-top2 {
   font-size: 15px;
-  
+
 }
-.divimg{
-  gap : 1rem;
+
+.divimg {
+  gap: 1rem;
   margin: 5px;
 }
 
-.trendingRow{
+.trendingRow {
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 3rem;
 }
-.trendingItem{
-display: flex;
-gap: 0.5rem;
-margin-bottom: 2rem;
+
+.trendingItem {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
 }
+
 /* Music Player */
 .music-player {
-position: fixed;
-bottom: 0;
-left: 0;
-width: 100%;
-background-color: #777777e4;
-padding: 10px 0;
-border-top: 1px solid #ccc; /* border-color */
-z-index: 1000;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #777777e4;
+  padding: 10px 0;
+  border-top: 1px solid #ccc;
+  /* border-color */
+  z-index: 1000;
 }
 
 .player-album-img {
-width: 50px;
-height: 50px;
-border-radius: 5px;
-overflow: hidden;
+  width: 50px;
+  height: 50px;
+  border-radius: 5px;
+  overflow: hidden;
 }
 
 .player-song-info h6 {
-color: #ffffff; /* light-color */
-margin-bottom: 0;
-font-size: 14px;
+  color: #ffffff;
+  /* light-color */
+  margin-bottom: 0;
+  font-size: 14px;
 }
 
 .player-song-info p {
-color: #cccccc; /* muted-color */
-margin-bottom: 0;
-font-size: 12px;
+  color: #cccccc;
+  /* muted-color */
+  margin-bottom: 0;
+  font-size: 12px;
 }
 
 .player-btn {
-background-color: transparent;
-border: none;
-color: #222222; /* text-color */
-font-size: 20px;
-cursor: pointer;
+  background-color: transparent;
+  border: none;
+  color: #222222;
+  /* text-color */
+  font-size: 20px;
+  cursor: pointer;
 }
 
 .play-btn {
-width: 40px;
-height: 40px;
-background-color: #007bff; /* primary-color */
-border-radius: 50%;
-display: flex;
-align-items: center;
-justify-content: center;
-color: #ffffff; /* light-color */
+  width: 40px;
+  height: 40px;
+  background-color: #007bff;
+  /* primary-color */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  /* light-color */
 }
 
 .progress-container {
-width: 100%;
+  width: 100%;
 }
 
 .current-time,
 .total-time {
-font-size: 12px;
-color: #cccccc; /* muted-color */
+  font-size: 12px;
+  color: #cccccc;
+  /* muted-color */
 }
 
 .progress {
-height: 5px;
-background-color: rgba(255, 255, 255, 0.1);
+  height: 5px;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .progress-bar {
-background-color: #007bff; /* primary-color */
+  background-color: #007bff;
+  /* primary-color */
 }
 
 .player-option-btn {
-background-color: transparent;
-border: none;
-color: #222222; /* text-color */
-font-size: 16px;
-cursor: pointer;
+  background-color: transparent;
+  border: none;
+  color: #222222;
+  /* text-color */
+  font-size: 16px;
+  cursor: pointer;
 }
+
 /*footer*/
 .footer {
-background-color: #1a252f;
-padding: 0 20px 40px; /* Remove top padding to connect with section above */
-border-top: 1px solid #2e3b4e;
-padding-top: 40px;
-background-image: url(/assets/Gradient+Overlay.png);
-background-size: 100% 100%; /* hoặc cover, contain, hoặc kích thước cụ thể */
-background-repeat: no-repeat;
-background-position: center;
+  background-color: #1a252f;
+  padding: 0 20px 40px;
+  /* Remove top padding to connect with section above */
+  border-top: 1px solid #2e3b4e;
+  padding-top: 40px;
+  background-image: url(/assets/Gradient+Overlay.png);
+  background-size: 100% 100%;
+  /* hoặc cover, contain, hoặc kích thước cụ thể */
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .footer-container {
-display: flex;
-justify-content: space-between;
-max-width: 1200px;
-margin: 0 auto;
-flex-wrap: wrap;
-gap: 20px;
+  display: flex;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 .footer-logo {
-text-align: center;
-margin-bottom: 40px;
+  text-align: center;
+  margin-bottom: 40px;
 }
 
 .footer-logo .logo {
-width: 50px;
-height: 50px;
-background-color: #00c4ff;
-border-radius: 50%;
-display: flex;
-justify-content: center;
-align-items: center;
-color: white;
-font-size: 28px;
-font-weight: bold;
-margin: 0 auto 10px;
+  width: 50px;
+  height: 50px;
+  background-color: #00c4ff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 28px;
+  font-weight: bold;
+  margin: 0 auto 10px;
 }
 
 .footer-logo h1 {
-font-size: 24px;
-color: #ffffff;
+  font-size: 24px;
+  color: #ffffff;
 }
 
 .footer-column {
-flex: 1;
-min-width: 200px;
-margin-bottom: 20px;
+  flex: 1;
+  min-width: 200px;
+  margin-bottom: 20px;
 }
 
 .footer-column h3 {
-font-size: 18px;
-color: #00c4ff;
-margin-bottom: 15px;
-text-transform: uppercase;
+  font-size: 18px;
+  color: #00c4ff;
+  margin-bottom: 15px;
+  text-transform: uppercase;
 }
 
 .footer-column p {
-font-size: 14px;
-line-height: 1.6;
-color: #cccccc;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #cccccc;
 }
 
 .footer-column a {
-color: #00c4ff;
-text-decoration: none;
-font-size: 14px;
+  color: #00c4ff;
+  text-decoration: none;
+  font-size: 14px;
 }
 
 .footer-column a:hover {
-text-decoration: underline;
+  text-decoration: underline;
 }
 
 .footer-column .app-links {
-display: flex;
-flex-direction: column;
-gap: 10px;
-margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
 }
 
 .footer-column .app-links img {
-width: 120px;
-height: auto;
+  width: 120px;
+  height: auto;
 }
 
 .footer-column .subscribe-form {
-display: flex;
-flex-direction: column;
-gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .footer-column .subscribe-form input {
-padding: 10px;
-border: 1px solid #2e3b4e;
-border-radius: 5px;
-background-color: #2e3b4e;
-color: #ffffff;
-font-size: 14px;
+  padding: 10px;
+  border: 1px solid #2e3b4e;
+  border-radius: 5px;
+  background-color: #2e3b4e;
+  color: #ffffff;
+  font-size: 14px;
 }
 
 .footer-column .subscribe-form button {
-padding: 10px;
-background-color: #00c4ff;
-border: none;
-border-radius: 20px;
-color: #ffffff;
-font-size: 14px;
-cursor: pointer;
-transition: background-color 0.3s;
+  padding: 10px;
+  background-color: #00c4ff;
+  border: none;
+  border-radius: 20px;
+  color: #ffffff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .footer-column .subscribe-form button:hover {
-background-color: #00aaff;
+  background-color: #00aaff;
 }
 
 
 
 .footer-column .contact-info i {
-color: #ffffff;
+  color: #ffffff;
 }
 
 .footer-column .social-links {
-display: flex;
-gap: 15px;
-margin-top: 15px;
+  display: flex;
+  gap: 15px;
+  margin-top: 15px;
 }
 
 .footer-column .social-links a {
-color: white;
-font-size: 18px;
-margin: 3px;
-padding: 5px;
+  color: white;
+  font-size: 18px;
+  margin: 3px;
+  padding: 5px;
 }
-.icon-social{
-border-radius: 5px;
-display: flex;
-justify-content: center;
-align-items: center;
-color: #ffffff;
-background-color: #3BC8E7;
-width: 40px;
-height: 40px;
+
+.icon-social {
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+  background-color: #3BC8E7;
+  width: 40px;
+  height: 40px;
 }
 
 .footer-bottom {
-text-align: center;
-margin-top: 20px;
-padding-top: 20px;
-border-top: 1px solid #2e3b4e;
-font-size: 12px;
-color: #cccccc;
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #2e3b4e;
+  font-size: 12px;
+  color: #cccccc;
 }
-.text-Releases{
-  color:#3BC8E7;
+
+.text-Releases {
+  color: #3BC8E7;
   font-size: 20px;
   border-bottom: 1px solid #3BC8E7;
   margin-top: 3rem;
   margin-bottom: 2rem;
 }
-.top15_albums > div {
+
+.top15_albums>div {
   margin-right: 20px;
 }
-.top15_albums > div:last-child {
+
+.top15_albums>div:last-child {
   margin-right: 0;
 }
+
 .modalLogin {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  display: none; /* bật lên bằng .show */
+  display: none;
+  /* bật lên bằng .show */
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.5); /* nền tối mờ */
+  background-color: rgba(0, 0, 0, 0.5);
+  /* nền tối mờ */
   z-index: 999;
   opacity: 0;
   pointer-events: none;
@@ -556,7 +619,7 @@ color: #cccccc;
   display: flex;
 }
 
-.modalLogin > div {
+.modalLogin>div {
   width: 1280px;
   height: 608px;
   background-color: #39C6E5;
@@ -571,7 +634,8 @@ color: #cccccc;
   opacity: 0;
   transition: transform 0.4s ease, opacity 0.4s ease;
 }
-.modalLogin.show > div {
+
+.modalLogin.show>div {
   transform: translateY(0);
   opacity: 1;
 }
@@ -583,39 +647,51 @@ color: #cccccc;
   height: 318px;
 
 }
-.formLogin input{
-padding: 8px ;
+
+.formLogin input {
+  padding: 8px;
 }
+
 .modalLogin div img {
   width: 446px;
   height: 446px;
 }
+
 .formLogin h3 {
   text-align: center;
   font-size: 40px !important;
 }
-#email, #password {
+
+#email,
+#password {
   width: 602px;
   height: 40px;
   border-radius: 10px;
 }
-#email::placeholder, #password::placeholder {
+
+#email::placeholder,
+#password::placeholder {
   padding: 8px;
 }
+
 #email {
   margin-top: 24px;
   margin-bottom: 20px;
 }
+
 #password {
   margin-bottom: 8px;
 }
+
 .checkbox-forgot {
   display: flex;
   justify-content: space-between;
 }
+
 .button {
   text-align: center;
 }
+
 .button button {
   width: 148px;
   height: 48px;
@@ -626,9 +702,11 @@ padding: 8px ;
   margin-top: 19px;
   margin-bottom: 19px;
 }
+
 .formLogin p {
   text-align: center;
 }
+
 .formLogin p a {
   text-decoration: none;
   color: white;
@@ -654,7 +732,7 @@ padding: 8px ;
   display: flex;
 }
 
-.modalRegister > div {
+.modalRegister>div {
   width: 1280px;
   height: 608px;
   background-color: #39C6E5;
@@ -708,6 +786,7 @@ padding: 8px ;
   color: white;
   font-weight: bold;
 }
+
 .logout-btn {
   background-color: #dc3545;
   color: white;
@@ -716,6 +795,7 @@ padding: 8px ;
   border-radius: 4px;
   cursor: pointer;
 }
+
 .logout-btn:hover {
   background-color: #e60000;
 }

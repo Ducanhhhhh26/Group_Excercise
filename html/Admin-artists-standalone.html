@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Nghệ sĩ</title>
+    <link rel="stylesheet" href="../CSS/Admin-artists.css">
+    <link rel="icon" href="../assets/favicon.ico" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        /* Fallback styles cho hình ảnh */
+        .artist-table-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #2A3A3B;
+            background: linear-gradient(45deg, #4CAF50, #2196F3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="sidebar-container">
+            <div class="logo">
+                <a href="index.html"><img src="../assets/open_logo.png.png" alt="Miraculous"
+                        onerror="this.style.display='none'"></a>
+            </div>
+            <div class="sidebar-menu">
+                <a href="Admin-page.html" class="sidebar-item">
+                    <i class="bi bi-person-fill"></i> Users
+                </a>
+                <a href="Admin-albums.html" class="sidebar-item">
+                    <i class="bi bi-music-note-list"></i> Albums
+                </a>
+                <a href="Admin-artists.html" class="sidebar-item active">
+                    <i class="bi bi-mic"></i> Artists
+                </a>
+                <a href="Admin-homepage.html" class="sidebar-item">
+                    <i class="bi bi-house"></i> Homepage
+                </a>
+                <a href="Admin-top.html" class="sidebar-item">
+                    <i class="bi bi-gem"></i> Top tracks
+                </a>
+                <div class="d-flex align-items-center">
+                    <button class="btn btn-danger logout-btn" style="margin-top: 280px;margin-left: 10px;">Đăng
+                        xuất</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0">Danh sách nghệ sĩ</h2>
+            <div class="d-flex">
+                <button class="btn btn-primary">
+                    <i class="bi bi-plus-lg me-1"></i> Thêm nghệ sĩ
+                </button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th width="40">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="selectAll">
+                                </div>
+                            </th>
+                            <th>Hình ảnh</th>
+                            <th>Mã nghệ sĩ</th>
+                            <th>Tên</th>
+                            <th>Email</th>
+                            <th>Số bài hát</th>
+                            <th width="80"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="artists-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Simple inline script để test
+        const artists = [
+            { artistId: "NG000001", fullName: "Claire Hudson", email: "claire@example.com", songCount: 15 },
+            { artistId: "NG000002", fullName: "Carl Brown", email: "carl@example.com", songCount: 23 },
+            { artistId: "NG000003", fullName: "Virginia Harris", email: "virginia@example.com", songCount: 18 },
+            { artistId: "NG000004", fullName: "Max Glover", email: "max@example.com", songCount: 12 },
+            { artistId: "NG000005", fullName: "Jennifer Kelly", email: "jennifer@example.com", songCount: 27 }
+        ];
+
+        function loadArtists() {
+            const tbody = document.getElementById('artists-tbody');
+            tbody.innerHTML = artists.map((artist, index) => `
+                <tr>
+                    <td><div class="form-check"><input class="form-check-input" type="checkbox"></div></td>
+                    <td>
+                        <div class="artist-table-image">${artist.fullName.charAt(0)}</div>
+                    </td>
+                    <td>${artist.artistId}</td>
+                    <td>${artist.fullName}</td>
+                    <td>${artist.email}</td>
+                    <td>${artist.songCount}</td>
+                    <td>
+                        <div class="d-flex">
+                            <button class="btn btn-sm btn-link text-danger p-0 me-2"><i class="bi bi-trash"></i></button>
+                            <button class="btn btn-sm btn-link text-primary p-0"><i class="bi bi-pencil"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Load artists when page loads
+        document.addEventListener('DOMContentLoaded', loadArtists);
+    </script>
+</body>
+
+</html>

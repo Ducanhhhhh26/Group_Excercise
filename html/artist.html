@@ -1,218 +1,232 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <link rel="icon" href="../assets/favicon.ico" type="image/x-icon">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artists</title>
     <link rel="stylesheet" href="../CSS/artist.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
+
 <body>
-  <div class="huge">
-    <header class="d-flex justify-content-between align-items-center py-3 px-4">
-        <div class="d-flex align-items-center">
-            <div class="search-container">
-                <input type="text" class="form-control search-input" placeholder="Search Music Here...">
-                <button class="btn search-btn">
-                    <i class="bi bi-search"></i>
-                </button>
+    <div class="huge">
+        <header class="d-flex justify-content-between align-items-center py-3 px-4">
+            <div class="d-flex align-items-center">
+                <div class="search-container">
+                    <input type="text" class="form-control search-input" placeholder="Search Music Here...">
+                    <button class="btn search-btn">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+                <div class="trending-songs me-4">
+                    <span>Trending Songs:</span>
+                    <span class="trending-title">Dream your moments, Until I Met You, Gimme</span>
+                </div>
             </div>
-            <div class="trending-songs me-4">
-                <span>Trending Songs:</span>
-                <span class="trending-title">Dream your moments, Until I Met You, Gimme</span>
+            <div class="d-flex align-items-center">
+                <div class="language-selector me-4">
+                    <span>Languages</span>
+                    <i class="bi bi-globe ms-1"></i>
+                </div>
+                <div>
+                    <button class="register-btn me-2">Register</button>
+                    <button class="login-btn" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+                </div>
             </div>
+        </header>
+        <div class="sidebar">
+            <div class="logo"><img src="../assets/images/logo.png.png" alt=""></div>
+            <a href="index.html"><img src="../assets/Image (2).png" alt=""><span class="sidebar-label">Home</span></a>
+            <a href="album.html"><img src="../assets/Image (3).png" alt=""><span class="sidebar-label">Albums</span></a>
+            <a href="artist.html"><img src="../assets/icon.svg fill.png" alt=""><span
+                    class="sidebar-label">Artists</span></a>
+            <a href="geres.viewmore.html"><img src="../assets/Image (4).png" alt=""><span
+                    class="sidebar-label">Genres</span></a>
+            <a href="top.html"><img src="../assets/Image (5).png" alt=""><span class="sidebar-label">Top
+                    Tracks</span></a>
+            <br>
+
+            <a href="download.html"><img src="../assets/Image (6).png" alt=""><span
+                    class="sidebar-label">Downloads</span></a>
+            <a href="Favourite.html"><img src="../assets/Image (7).png" alt=""><span
+                    class="sidebar-label">Favourites</span></a>
+            <a href="History.html"><img src="../assets/Image (8).png" alt=""><span
+                    class="sidebar-label">History</span></a>
+            <div class="sidebar-chevorn"><a href="#"><i class="fas fa-chevron-right"></i></a></div>
         </div>
-        <div class="d-flex align-items-center">
-            <div class="language-selector me-4">
-                <span>Languages</span>
-                <i class="bi bi-globe ms-1"></i>
+
+        <main>
+            <div class="artists-section">
+                <p class="text">Featured Artists</p>
+
+                <!-- Wrapper để ẩn phần tràn -->
+                <div class="carousel-wrapper">
+                    <!-- Track để slide -->
+                    <div class="artists-grid">
+                        <!-- JS render các .artist-card tại đây -->
+                    </div>
+                </div>
             </div>
-            <div>
-                <button class="register-btn me-2">Register</button>
-                <button class="login-btn" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+
+            <div class="artists-section2">
+                <p class="text">Featured Artists</p>
+                <div class="artists-grid2">
+                    /*Nội dung render ở đây*/
+                </div>
             </div>
-        </div>
-    </header>
-    <div class="sidebar">
-        <div class="logo"><img src="../assets/images/logo.png.png" alt=""></div>
-        <a href="index.html"><img src="../assets/Image (2).png" alt=""><span class="sidebar-label">Home</span></a>
-        <a href="album.html"><img src="../assets/Image (3).png" alt=""><span class="sidebar-label">Albums</span></a>
-        <a href="artist.html"><img src="../assets/icon.svg fill.png" alt=""><span class="sidebar-label">Artists</span></a>
-            <a href="geres.viewmore.html"><img src="../assets/Image (4).png" alt=""><span class="sidebar-label">Genres</span></a>
-        <a href="top.html"><img src="../assets/Image (5).png" alt=""><span class="sidebar-label">Top Tracks</span></a>
-        <br>
-        
-        <a href="download.html"><img src="../assets/Image (6).png" alt=""><span class="sidebar-label">Downloads</span></a>
-        <a href="Favourite.html"><img src="../assets/Image (7).png" alt=""><span class="sidebar-label">Favourites</span></a>
-        <a href="History.html"><img src="../assets/Image (8).png" alt=""><span class="sidebar-label">History</span></a>
-        <div class="sidebar-chevorn"><a href="#"><i class="fas fa-chevron-right"></i></a></div>
+        </main>
     </div>
-
-<main>
-    <div class="artists-section">
-        <p class="text">Featured Artists</p>
-      
-        <!-- Wrapper để ẩn phần tràn -->
-        <div class="carousel-wrapper">
-          <!-- Track để slide -->
-          <div class="artists-grid">
-            <!-- JS render các .artist-card tại đây -->
-          </div>
-        </div>
-      </div>
-
-    <div class="artists-section2">
-        <p class="text">Featured Artists</p>
-        <div class="artists-grid2">
-            /*Nội dung render ở đây*/
-        </div>
-    </div>
-</main>
-</div>
-   <!-- Footer -->
-   <footer class="footer">
-    <!-- Logo -->
-    <div class="footer-logo">
-     <a href="#"><img src="/assets/open_logo.png.png" alt=""></a>   
-    </div>
-
-    <!-- Footer Columns -->
-    <div class="footer-container">
-        <!-- Column 1: Miraculous Music Station -->
-        <div class="footer-column">
-            <h3>Miraculous Music Station</h3>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                laboris nisi ut aliquip ex ea commodo consequat Duis aute irure dolor.
-            </p>
+    <!-- Footer -->
+    <footer class="footer">
+        <!-- Logo -->
+        <div class="footer-logo">
+            <a href="#"><img src="/assets/open_logo.png.png" alt=""></a>
         </div>
 
-        <!-- Column 2: Download Our App -->
-        <div class="footer-column">
-            <h3>Download Our App</h3>
-            <p>Go Mobile with our app. Listen to your favourite songs at just one click. Download Now!</p>
-            <div class="app-links">
-                <a href="#"><img src="/assets/google_play.jpg.png" alt=""></a>
-                <a href="#"><img src="/assets/app_store.jpg.png" alt=""></a>
-                <a href="#"><img src="/assets/windows.jpg.png" alt=""></a>
+        <!-- Footer Columns -->
+        <div class="footer-container">
+            <!-- Column 1: Miraculous Music Station -->
+            <div class="footer-column">
+                <h3>Miraculous Music Station</h3>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                    laboris nisi ut aliquip ex ea commodo consequat Duis aute irure dolor.
+                </p>
+            </div>
+
+            <!-- Column 2: Download Our App -->
+            <div class="footer-column">
+                <h3>Download Our App</h3>
+                <p>Go Mobile with our app. Listen to your favourite songs at just one click. Download Now!</p>
+                <div class="app-links">
+                    <a href="#"><img src="/assets/google_play.jpg.png" alt=""></a>
+                    <a href="#"><img src="/assets/app_store.jpg.png" alt=""></a>
+                    <a href="#"><img src="/assets/windows.jpg.png" alt=""></a>
+                </div>
+            </div>
+
+            <!-- Column 3: Subscribe -->
+            <div class="footer-column">
+                <h3>Subscribe</h3>
+                <p>Subscribe to the newsletter and get the latest updates and offers.</p>
+                <form class="subscribe-form">
+                    <input type="text" placeholder="Enter Your Name">
+                    <input type="email" placeholder="Enter Your Email">
+                    <button type="submit">Sign Me Up</button>
+                </form>
+            </div>
+
+            <!-- Column 4: Contact Us -->
+            <div class="footer-column">
+                <h3>Contact Us</h3>
+                <div class="contact-info ">
+                    <div class="d-flex">
+                        <div class="icon-social me-3 w-25">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <p>Call Us:
+                            (+84) 393-189-244, (+84) 373-249-177</p>
+                    </div>
+                    <div class="d-flex">
+                        <div class="icon-social me-3 w-25"><i class="fas fa-envelope"></i></div>
+                        <p>Email Us:
+                            ducanhcualo2403@gmail.com, ducanhcl739@gmail.com</p>
+                    </div>
+                    <div class="d-flex">
+                        <div class="icon-social  me-3 "><i class="fas fa-map-marker-alt"></i></div>
+                        <p>Walk In:
+                            F8 Thực tiễn PTIT Ngọc Trục Hà Đông Hà Nội</p>
+                    </div>
+                </div>
+                <div class="social-links">
+                    <h3>Follow Us</h3>
+                    <div class="d-flex ">
+                        <div class="icon-social me-3">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        </div>
+                        <div class="icon-social me-3">
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                        <div class="icon-social me-3">
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                        </div>
+                        <div class="icon-social me-3">
+                            <a href="#"><i class="fab fa-google-plus-g"></i></a>
+                        </div>
+
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Column 3: Subscribe -->
-        <div class="footer-column">
-            <h3>Subscribe</h3>
-            <p>Subscribe to the newsletter and get the latest updates and offers.</p>
-            <form class="subscribe-form">
-                <input type="text" placeholder="Enter Your Name">
-                <input type="email" placeholder="Enter Your Email">
-                <button type="submit">Sign Me Up</button>
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+            <p>Copyright © 2022 The Miraculous Music Template. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <section class="modalLogin">
+        <div>
+            <img src="../assets/headphones 1.png" alt="Headphones" style="width:446px; height:446px;">
+            <form action="" class="formLogin">
+                <h3>Login / Sign In</h3>
+                <input type="text" id="email" name="email" placeholder="Enter Your Email">
+                <input type="password" id="password" name="password" placeholder="Enter Your Password">
+                <div class="checkbox-forgot">
+                    <aside>
+                        <input type="checkbox" name="checkbox" id="checkbox">
+                        <label for="checkbox">Keep Me Sign In</label>
+                    </aside>
+                    <aside>
+                        <p>Forgot password?</p>
+                    </aside>
+                </div>
+                <div class="button">
+                    <button type="submit">Login</button>
+                </div>
+                <p>Don't Have An Account? <a href="">Register Here</a></p>
             </form>
         </div>
+    </section>
 
-        <!-- Column 4: Contact Us -->
-        <div class="footer-column">
-            <h3>Contact Us</h3>
-            <div class="contact-info ">
-                <div class="d-flex">
-                    <div class="icon-social me-3 w-25">
-                        <i class="fas fa-phone"></i>
-                    </div>
-                    <p>Call Us:
-                         (+84) 393-189-244, (+84) 373-249-177</p>
-                </div>
-                <div class="d-flex">
-                    <div class="icon-social me-3 w-25"><i class="fas fa-envelope"></i></div> 
-                    <p>Email Us:
-                        ducanhcualo2403@gmail.com, ducanhcl739@gmail.com</p>
-                </div>
-                <div class="d-flex">
-                    <div class="icon-social  me-3 "><i class="fas fa-map-marker-alt"></i></div>
-                    <p>Walk In: 
-                        F8 Thực tiễn PTIT Ngọc Trục Hà Đông Hà Nội</p> 
-                </div>
-            </div>
-            <div class="social-links">
-                <h3>Follow Us</h3>
-                <div class="d-flex ">
-                    <div class="icon-social me-3">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    </div>
-                    <div class="icon-social me-3">
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                    <div class="icon-social me-3">
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                    </div>
-                    <div class="icon-social me-3">
-                        <a href="#"><i class="fab fa-google-plus-g"></i></a>
-                    </div>
 
+    <!-- Nút mở modal Register -->
+
+
+    <!-- Modal Register -->
+    <section class="modalRegister">
+        <div>
+            <img src="../assets/headphones 1.png" alt="Headphones" style="width:446px; height:446px;">
+            <form action="" class="formRegister">
+                <h3>Register</h3>
+                <input type="text" id="name" name="name" placeholder="Enter Your Name">
+                <input type="text" id="email1" name="email" placeholder="Enter Your Email">
+                <input type="password" id="password1" name="password1" placeholder="Enter Your Password">
+                <input type="password" id="password2" name="password2" placeholder="Confirm Your Password">
+                <div class="button">
+                    <button type="submit">Register</button>
                 </div>
-            </div>
+                <p>Already Have An Account? <a href="">Login Here</a></p>
+            </form>
         </div>
-    </div>
-
-    <!-- Footer Bottom -->
-    <div class="footer-bottom">
-        <p>Copyright © 2022 The Miraculous Music Template. All Rights Reserved.</p>
-    </div>
-</footer>
-
-<section class="modalLogin">
-    <div>
-      <img src="../assets/headphones 1.png" alt="Headphones" style="width:446px; height:446px;">
-      <form action="" class="formLogin">
-        <h3>Login / Sign In</h3>
-        <input type="text" id="email" name="email" placeholder="Enter Your Email">
-        <input type="password" id="password" name="password" placeholder="Enter Your Password">
-        <div class="checkbox-forgot">
-          <aside>
-            <input type="checkbox" name="checkbox" id="checkbox">
-            <label for="checkbox">Keep Me Sign In</label>
-          </aside>
-          <aside>
-            <p>Forgot password?</p>
-          </aside>
-        </div>
-        <div class="button">
-          <button type="submit">Login</button>
-        </div>
-        <p>Don't Have An Account? <a href="">Register Here</a></p>
-      </form>
-    </div>
-  </section>
-
-
- <!-- Nút mở modal Register -->
-
-
-<!-- Modal Register -->
-<section class="modalRegister">
-  <div>
-    <img src="../assets/headphones 1.png" alt="Headphones" style="width:446px; height:446px;">
-    <form action="" class="formRegister">
-      <h3>Register</h3>
-      <input type="text" id="name" name="name" placeholder="Enter Your Name">
-      <input type="text" id="email1" name="email" placeholder="Enter Your Email">
-      <input type="password" id="password1" name="password1" placeholder="Enter Your Password">
-      <input type="password" id="password2" name="password2" placeholder="Confirm Your Password">
-      <div class="button">
-        <button type="submit">Register</button>
-      </div>
-      <p>Already Have An Account? <a href="">Login Here</a></p>
-    </form>
-  </div>
-</section>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../js/auth.js"></script>
     <script src="../js/artists.js"></script>
 </body>
+
 </html>

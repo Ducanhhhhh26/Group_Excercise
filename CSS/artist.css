@@ -280,7 +280,9 @@ img {
       transform: translateX(-50%); /* Nếu nhân đôi danh sách trong JS */
         }
   }  
-  
+  .artists-grid:hover {
+  animation-play-state: paused;
+}
 
 
 

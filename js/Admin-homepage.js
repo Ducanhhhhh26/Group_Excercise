@@ -71,52 +71,36 @@ let currentPage = 1;
 const itemsPerPage = 8;
 let searchQuery = "";
 
-document.addEventListener("DOMContentLoaded", () => {
-    // Kiểm tra xác thực người dùng
-    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    if (!currentUser || currentUser.role !== "Admin") {
-        Swal.fire({
-            title: "Access Denied",
-            text: "You do not have permission to access this page.",
-            icon: "error",
-            confirmButtonText: "OK"
-        }).then(() => {
-            window.location.href = "index.html";
-        });
-        return;
-    }
-
-    // Load data from home.js
-    try {
-        // Get data from home.js
-        if (typeof musicData !== 'undefined') {
-            // Add IDs to releases if they don't exist
-            const releasesWithIds = musicData.releases.map((item, index) => ({
-                ...item,
-                id: (index + 1).toString()
-            }));
-
-            data = {
-                played: musicData.played || [],
-                top15: musicData.top15 || [],
-                artist: musicData.artist || [],
-                releases: releasesWithIds,
-                albums: musicData.albums || []
-            };
-            console.log("Loaded data from home.js:", data);
-        } else {
-            console.error("musicData is not defined. Make sure home.js is loaded before Admin-homepage.js");
+// Kiểm tra xác thực người dùng
+if (!currentUser || currentUser.role !== "Admin") {
+    Swal.fire({
+        title: "Access Denied",
+        text: "You do not have permission to access this page.",
+        icon: "error",
+        confirmButtonText: "OK"
+    }).then(() => {
+        window.location.href = "index.html";
+    });
+} else {
+    // Load data from localStorage or use default
+    let data = (() => {
+        try {
+            const stored = localStorage.getItem("homepage");
+            if (stored) {
+                return JSON.parse(stored);
+            }
+            return defaultData;
+        } catch (e) {
+            return defaultData;
         }
-    } catch (e) {
-        console.error("Error loading data from home.js:", e);
-    }
+    })();
 
     // Save data to localStorage
     function saveHomepage() {
         try {
             localStorage.setItem("homepage", JSON.stringify(data));
         } catch (e) {
-            console.error("Error saving to localStorage:", e);
+            // Handle error silently
         }
     }
 
@@ -136,12 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Load and render items
     function loadItems(filter = currentFilter, page = currentPage, query = searchQuery) {
-        console.log("Loading items with filter:", filter, "page:", page, "query:", query);
-        let filteredItems = flattenItems();
-        
-        if (filter !== "all") {
-            filteredItems = filteredItems.filter(item => item.type === filter);
-        }
+        let filteredItems = filter === "all" ? flattenItems() : flattenItems().filter((item) => item.type === filter);
 
         if (query) {
             filteredItems = filteredItems.filter(
@@ -152,10 +131,11 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        updateFilterCounts(filteredItems);
+        updateFilterCounts(flattenItems());
         const totalItems = filteredItems.length;
         const totalPages = Math.max(1, Math.ceil(totalItems / itemsPerPage));
         
+        // Reset to page 1 if current page is greater than total pages
         if (page > totalPages) {
             page = 1;
             currentPage = 1;
@@ -166,7 +146,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const tbody = document.querySelector("table tbody");
         if (!tbody) {
-            console.error("Table body not found!");
             return;
         }
 
@@ -219,7 +198,6 @@ document.addEventListener("DOMContentLoaded", () => {
     function updatePagination(totalPages, currentPage) {
         const paginationContainer = document.querySelector(".pagination");
         if (!paginationContainer) {
-            console.error("Pagination container not found!");
             return;
         }
         paginationContainer.innerHTML = "";
@@ -697,4 +675,4 @@ document.addEventListener("DOMContentLoaded", () => {
     // Initial load
     loadItems();
     saveHomepage();
-});
+}
